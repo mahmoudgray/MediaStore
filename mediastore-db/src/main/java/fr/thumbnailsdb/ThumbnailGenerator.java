@@ -1,6 +1,7 @@
 package fr.thumbnailsdb;
 
 import fr.thumbnailsdb.hash.ImageHash;
+import fr.thumbnailsdb.treewalker.TreeWalker;
 import fr.thumbnailsdb.utils.Logger;
 import org.apache.commons.codec.digest.DigestUtils;
 
@@ -283,7 +284,7 @@ public class ThumbnailGenerator {
 
     public void processMT(File fd) throws IOException {
         if (isValideFile(fd)) {
-            executorService.submit(new RunnableProcess(fd));
+            asyncProcessing(fd);
         } else {
             if (fd.isDirectory()) {
                 String entries[] = fd.list();
@@ -291,7 +292,7 @@ public class ThumbnailGenerator {
                     for (int i = 0; i < entries.length; i++) {
                         File f = new File(fd.getCanonicalPath() + "/" + entries[i]);
                         if (isValideFile(fd)) {
-                            executorService.submit(new RunnableProcess(f));
+                            asyncProcessing(f);
                         } else {
                             this.processMT(f);
                         }
@@ -301,15 +302,16 @@ public class ThumbnailGenerator {
         }
     }
 
-    protected void submit(RunnableProcess rp) {
-//		try {
-        //	semaphore.acquire();
-        executorService.submit(rp);
-        //	semaphore.release();
-//		} catch (InterruptedException e) {
-//			e.printStackTrace();
-//		}
+
+
+
+    public void asyncProcessing(File f) {
+        executorService.submit(new RunnableProcess(f));
     }
+
+
+
+
 
     protected class RunnableProcess implements Runnable {
         protected File fd;

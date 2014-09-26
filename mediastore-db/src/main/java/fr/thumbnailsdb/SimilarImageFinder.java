@@ -214,8 +214,10 @@ public class SimilarImageFinder {
              Candidate c= it2.next();
              MediaFileDescriptor md = thumbstore.getMediaFileDescriptor(c.getIndex());
            // System.out.println("fr.thumbnailsdb.SimilarImageFinder.findSimilarImageUsingLSH " +md );
+            if (md!=null) {
              md.setDistance(it2.distance());
              finalArray.add(md);
+            }
           //  System.out.println("fr.thumbnailsdb.SimilarImageFinder.findSimilarImageUsingLSH adding " + md);
         }
 

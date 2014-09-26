@@ -17,6 +17,7 @@ import java.util.concurrent.TimeUnit;
 import javax.imageio.ImageIO;
 
 import fr.thumbnailsdb.hash.ImageHash;
+import fr.thumbnailsdb.treewalker.TreeWalker;
 import fr.thumbnailsdb.utils.Configuration;
 import fr.thumbnailsdb.utils.Logger;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -329,7 +330,7 @@ public class MediaIndexer {
         Date date = new Date();
         try {
             ts.addIndexPath(new File(path).getCanonicalPath());
-            System.out.println("MediaIndexer.processMTRoot() " + path);
+            System.out.println("MediaIndexer.processMTRoot()" + path);
             System.out.println("MediaIndexer.processMTRoot() started at time " + dateFormat.format(date));
             System.out.println("MediaIndexer.processMTRoot() computing number of files...");
             totalNumberOfFiles = this.countFiles(path);
@@ -340,7 +341,10 @@ public class MediaIndexer {
                         new LimitedQueue<Runnable>(50));
             }
 
-            this.processMT(new File(path));
+            this.processedFiles=0;
+           // this.processMT(new File(path));
+            TreeWalker t = new TreeWalker(this);
+             t.walk(path);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -358,6 +362,19 @@ public class MediaIndexer {
         System.out.println("MediaIndexer.processMTRoot() total " + ts.size() + " files");
         System.out.println("MediaIndexer.processMTRoot took " + (t1-t0)/1000 + " s");
     }
+
+
+//    public void processMTV2(String path) {
+//        TreeWalker t = new TreeWalker(this);
+//        t.walk(path);
+//        executorService.shutdown();
+//        try {
+//            executorService.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
+//    }
+
 
     public int countFiles(String root) {
         CountFile fileProcessor = new CountFile();
@@ -399,7 +416,7 @@ public class MediaIndexer {
                     for (int i = 0; i < entries.length; i++) {
                         File f = new File(fd.getCanonicalPath() + "/" + entries[i]);
                         if (isValideFile(f)) {
-                            executorService.submit(new RunnableProcess(f));
+                           asyncProcessing(f);
                         } else {
                             this.processMT(f);
                         }
@@ -408,6 +425,15 @@ public class MediaIndexer {
             }
         }
     }
+
+
+
+
+
+    public void asyncProcessing(File f) {
+        executorService.submit(new RunnableProcess(f));
+    }
+
 
 
     public void updateDB() {
@@ -472,10 +498,7 @@ public class MediaIndexer {
         ThumbStore ts = new ThumbStore(pathToDB);
         MediaIndexer tb = new MediaIndexer(ts);
         File fs = new File(source);
-        try {
-            tb.processMT(fs);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+            tb.processMTRoot(source);
+
     }
 }
