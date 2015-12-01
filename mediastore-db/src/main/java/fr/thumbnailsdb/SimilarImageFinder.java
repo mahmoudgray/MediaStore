@@ -2,6 +2,7 @@ package fr.thumbnailsdb;
 
 import fr.thumbnailsdb.bktree.BKTree;
 import fr.thumbnailsdb.bktree.RMSEDistance;
+import fr.thumbnailsdb.dbservices.DBManager;
 import fr.thumbnailsdb.dcandidate.CandidateIterator;
 import fr.thumbnailsdb.dcandidate.CandidatePriorityQueue;
 import fr.thumbnailsdb.utils.Configuration;
@@ -26,7 +27,7 @@ public class SimilarImageFinder {
     public static boolean USE_FULL_PATH = false;
 
 
-    protected ThumbStore thumbstore;
+    protected DBManager thumbstore;
 
 
     protected BKTree<MediaFileDescriptor> bkTree;// = new BKTree<String>(new RMSEDistance());
@@ -37,7 +38,7 @@ public class SimilarImageFinder {
     private ExecutorService executorService = Executors.newFixedThreadPool(10);
 
 
-    public SimilarImageFinder(ThumbStore c) {
+    public SimilarImageFinder(DBManager c) {
         this.thumbstore = c;
     }
 
@@ -289,10 +290,10 @@ public class SimilarImageFinder {
     }
 
 
-    public void testFindSimilarImages(ThumbStore tb, String path) {
-        System.out.println("ThumbStore.test() reading descriptor from disk ");
+    public void testFindSimilarImages(DBManager tb, String path) {
+        System.out.println("DBManager.test() reading descriptor from disk ");
         //String s = "/user/fhuet/desktop/home/workspaces/rechercheefficaceimagessimilaires/images/original.jpg";
-        System.out.println("ThumbStore.testFindSimilarImages() Reference Image " + path);
+        System.out.println("DBManager.testFindSimilarImages() Reference Image " + path);
 
         MediaIndexer tg = new MediaIndexer(tb);
         MediaFileDescriptor id = tg.buildMediaDescriptor(new File(path)); // ImageDescriptor.readFromDisk(s);
@@ -302,7 +303,7 @@ public class SimilarImageFinder {
     }
 
     public static void main(String[] args) {
-        ThumbStore tb = new ThumbStore();
+        DBManager tb = new DBManager();
         SimilarImageFinder si = new SimilarImageFinder(tb);
         si.testFindSimilarImages(tb, args[0]);
     }

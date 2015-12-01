@@ -1,5 +1,7 @@
 package fr.thumbnailsdb;
 
+import fr.thumbnailsdb.dbservices.DBManager;
+
 import java.util.ArrayList;
 
 public class Main {
@@ -9,7 +11,7 @@ public class Main {
         for (int i = 0; i < args.length; i++) {
             System.err.println("    " + args[i]);
         }
-        ThumbStore tb = new ThumbStore(dbPath);
+        DBManager tb = new DBManager(dbPath);
 
         if ("similar".equals(args[0])) {
             SimilarImageFinder si = new SimilarImageFinder(tb);
@@ -30,7 +32,7 @@ public class Main {
         for (int i = 0; i < args.length; i++) {
             System.err.println("    " + args[i]);
         }
-        ThumbStore tb = new ThumbStore(dbPath);
+        DBManager tb = new DBManager(dbPath);
         MediaIndexer tg = new MediaIndexer(tb);
         if ("index".equals(args[0])) {
             String source = args[1];

@@ -1,5 +1,6 @@
 package fr.thumbnailsdb;
 
+import fr.thumbnailsdb.dbservices.DBManager;
 import org.apache.commons.io.FileUtils;
 import org.testng.Assert;
 import org.testng.annotations.*;
@@ -8,10 +9,10 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 
-public class ThumbStoreTest {
+public class DBManagerTest {
 
     File tmpDir = null;
-    ThumbStore tb = null;
+    DBManager tb = null;
     File folder1 = null;
     MediaIndexer tg = null;
 
@@ -22,13 +23,13 @@ public class ThumbStoreTest {
         tmpDir.delete();
         tmpDir.mkdir();
         folder1 = new File(getClass().getResource("folder1").toURI());
-        System.out.println("ThumbStoreTest.createTempDir Temp Dir " + tmpDir);
-        System.out.println("ThumbStoreTest.createTempDir Folder1  " + folder1);
-        tb = new ThumbStore(tmpDir.getCanonicalPath() + "/testDB");
+        System.out.println("DBManagerTest.createTempDir Temp Dir " + tmpDir);
+        System.out.println("DBManagerTest.createTempDir Folder1  " + folder1);
+        tb = new DBManager(tmpDir.getCanonicalPath() + "/testDB");
         tg = new MediaIndexer(tb);
 
-//        System.out.println("ThumbStoreTest.createTempDir "));
-        //System.out.println("ThumbStoreTest.createTempDir " + getClass().getResource("folder1"));
+//        System.out.println("DBManagerTest.createTempDir "));
+        //System.out.println("DBManagerTest.createTempDir " + getClass().getResource("folder1"));
 
 
     }

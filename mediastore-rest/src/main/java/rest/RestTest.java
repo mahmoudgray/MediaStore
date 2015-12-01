@@ -4,7 +4,7 @@ import com.sun.jersey.multipart.BodyPartEntity;
 import com.sun.jersey.multipart.FormDataMultiPart;
 import com.sun.jersey.spi.resource.Singleton;
 import fr.thumbnailsdb.*;
-import fr.thumbnailsdb.ThumbStore;
+import fr.thumbnailsdb.dbservices.DBManager;
 import fr.thumbnailsdb.diskmonitor.DiskListener;
 import fr.thumbnailsdb.diskmonitor.DiskWatcher;
 import fr.thumbnailsdb.duplicate.DuplicateFolderGroup;
@@ -39,7 +39,7 @@ public class RestTest {
     private final String dbFileName = "db.txt";
 
     String bdName;
-    protected ThumbStore tb;
+    protected DBManager tb;
     protected SimilarImageFinder si;
     protected DuplicateMediaFinder df;
     protected DiskWatcher dw;
@@ -54,7 +54,7 @@ public class RestTest {
                 BufferedReader fr = new BufferedReader(new FileReader(f));
                 while ((bdName = fr.readLine()) != null) {
                     if (tb == null) {
-                        tb = new ThumbStore(bdName);
+                        tb = new DBManager(bdName);
                     } else {
                         tb.addDB(bdName);
                     }
@@ -65,7 +65,7 @@ public class RestTest {
                 e.printStackTrace();
             }
         } else {
-            tb = new ThumbStore();
+            tb = new DBManager();
         }
 
         si = new SimilarImageFinder(tb);

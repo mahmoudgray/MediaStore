@@ -1,5 +1,6 @@
 package fr.thumbnailsdb;
 
+import fr.thumbnailsdb.dbservices.DBManager;
 import fr.thumbnailsdb.hash.ImageHash;
 import fr.thumbnailsdb.utils.Logger;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -19,7 +20,7 @@ public class ThumbnailGenerator {
     public static final int HEIGHT = 10;
     protected boolean debug;
     protected boolean software = true;
-    protected ThumbStore ts;
+    protected DBManager ts;
 
     protected Logger log = Logger.getLogger();
 
@@ -27,7 +28,7 @@ public class ThumbnailGenerator {
     ThreadPoolExecutor executorService = new ThreadPoolExecutor(4, 4, 0L, TimeUnit.MILLISECONDS,
             new LimitedQueue<Runnable>(50));
 
-    public ThumbnailGenerator(ThumbStore t) {
+    public ThumbnailGenerator(DBManager t) {
         this.ts = t;
     }
 

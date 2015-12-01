@@ -1,7 +1,7 @@
 package fr.thumbnailsdb.vptree;
 
 import fr.thumbnailsdb.MediaFileDescriptor;
-import fr.thumbnailsdb.ThumbStore;
+import fr.thumbnailsdb.dbservices.DBManager;
 import fr.thumbnailsdb.vptree.distances.Distance;
 import fr.thumbnailsdb.vptree.distances.VPRMSEDistance;
 
@@ -193,7 +193,7 @@ public class VPTreeBuilder {
     }
 
     protected VPTree getPreloadedDescriptorsVPTree() {
-        ThumbStore thumbstore = new ThumbStore();
+        DBManager thumbstore = new DBManager();
         int size = thumbstore.size();
         VPTree vpTree = new VPTree();
         ArrayList<MediaFileDescriptor> al = new ArrayList<MediaFileDescriptor>(size);

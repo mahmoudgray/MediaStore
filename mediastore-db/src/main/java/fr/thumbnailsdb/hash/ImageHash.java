@@ -2,7 +2,7 @@ package fr.thumbnailsdb.hash;
 
 import fr.thumbnailsdb.MediaFileDescriptor;
 import fr.thumbnailsdb.PreloadedDescriptors;
-import fr.thumbnailsdb.ThumbStore;
+import fr.thumbnailsdb.dbservices.DBManager;
 import fr.thumbnailsdb.utils.Logger;
 
 import javax.imageio.ImageIO;
@@ -127,7 +127,7 @@ public class ImageHash {
 
     public static void testDB() {
         ImageHash imh = new ImageHash();
-        ThumbStore tb = new ThumbStore();
+        DBManager tb = new DBManager();
         System.out.println(" Size of DB :  " + tb.size());
         PreloadedDescriptors pl = tb.getPreloadedDescriptors();
         Iterator it = pl.iterator();

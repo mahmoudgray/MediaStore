@@ -1,7 +1,7 @@
 package fr.thumbnailsdb.lsh;
 
 
-import fr.thumbnailsdb.ThumbStore;
+import fr.thumbnailsdb.dbservices.DBManager;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -96,7 +96,7 @@ public class LSH {
     public static void testThumbstore() {
         System.out.println("LSH building reference set");
 
-        ThumbStore thumbstore = new ThumbStore();
+        DBManager thumbstore = new DBManager();
         int size = thumbstore.size();
         //   VPTree vpTree = new VPTree();
         LSH lsh = new LSH(10, 30, 100);

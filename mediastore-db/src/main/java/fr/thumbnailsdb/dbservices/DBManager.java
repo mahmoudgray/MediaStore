@@ -1,5 +1,6 @@
-package fr.thumbnailsdb;
+package fr.thumbnailsdb.dbservices;
 
+import fr.thumbnailsdb.*;
 import fr.thumbnailsdb.persistentLSH.PersistentLSH;
 import fr.thumbnailsdb.utils.Logger;
 import fr.thumbnailsdb.utils.ProgressBar;
@@ -16,7 +17,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
-public class ThumbStore {
+public class DBManager {
 
     protected static String DEFAULT_DB = "localDB";
     protected static int CURRENT_VERSION = 5;
@@ -27,15 +28,15 @@ public class ThumbStore {
     protected PersistentLSH lsh;
     protected Connection connection;
 
-    public ThumbStore() {
+    public DBManager() {
         this(DEFAULT_DB);
 
     }
-    public ThumbStore(String path) {
+    public DBManager(String path) {
         if (path == null) {
             path = DEFAULT_DB;
         }
-        System.err.println("ThumbStore.ThumbStore() using " + path + " as DB");
+        System.err.println("DBManager.DBManager() using " + path + " as DB");
         this.addDB(path);
     }
     public void addDB(String path) {
@@ -44,11 +45,11 @@ public class ThumbStore {
             checkAndCreateTables();
             ArrayList<String> paths = getIndexedPaths();
             if (paths.size() == 0) {
-                System.err.println("ThumbStore.addDB found empty db");
+                System.err.println("DBManager.addDB found empty db");
 
             } else {
                 for (String s : paths) {
-                    System.err.println("ThumbStore.addDB path : " + s + " with db : " + this.connection);
+                    System.err.println("DBManager.addDB path : " + s + " with db : " + this.connection);
 
                 }
             }
@@ -77,19 +78,19 @@ public class ThumbStore {
         DatabaseMetaData dbm = this.connection.getMetaData();
         ResultSet tables = dbm.getTables(null, null, "IMAGES", null);
         if (tables.next()) {
-            Logger.getLogger().log("ThumbStore.checkAndCreateTables() table IMAGES exists!");
+            Logger.getLogger().log("DBManager.checkAndCreateTables() table IMAGES exists!");
             checkOrAddColumns(dbm);
             // Table exists
         } else {
-            Logger.getLogger().log("ThumbStore.checkAndCreateTables() table IMAGES does not exist, should create it");
+            Logger.getLogger().log("DBManager.checkAndCreateTables() table IMAGES does not exist, should create it");
             String table = "CREATE TABLE IMAGES(id  bigint identity(1,1),path varchar(256), path_id int, size long, mtime long, md5 varchar(256), hash varchar(100),  lat double, lon double);";
             //"CREATE TABLE IMAGES(id  bigint identity(1,1),path varchar(256), size long, mtime long, md5 varchar(256), hash varchar(100),  lat double, lon double)";
             Statement st = this.connection.createStatement();
             st.execute(table);
-            Logger.getLogger().log("ThumbStore.checkAndCreateTables() table created!");
+            Logger.getLogger().log("DBManager.checkAndCreateTables() table created!");
             st = this.connection.createStatement();
 
-            Logger.getLogger().log("ThumbStore.checkAndCreateTables() creating Index on path and path_id");
+            Logger.getLogger().log("DBManager.checkAndCreateTables() creating Index on path and path_id");
             String action = "CREATE UNIQUE INDEX path_index ON IMAGES(path)";
             st.execute(action);
             action = "CREATE INDEX PATH_ID_INDEX ON IMAGES(path_id)";
@@ -97,36 +98,36 @@ public class ThumbStore {
 
             st = this.connection.createStatement();
             action = "CREATE  INDEX md5_index ON IMAGES(md5)";
-            Logger.getLogger().log("ThumbStore.checkAndCreateTables() creating Index on md5");
+            Logger.getLogger().log("DBManager.checkAndCreateTables() creating Index on md5");
             st.execute(action);
         }
         //now we look for the path table
         tables = dbm.getTables(null, null, "PATHS", null);
         if (tables.next()) {
-            Logger.getLogger().log("ThumbStore.checkAndCreateTables() table PATHS exists!");
+            Logger.getLogger().log("DBManager.checkAndCreateTables() table PATHS exists!");
             // Table exists
         } else {
-            Logger.getLogger().log("ThumbStore.checkAndCreateTables() table PATHS does not exist, should create it");
+            Logger.getLogger().log("DBManager.checkAndCreateTables() table PATHS does not exist, should create it");
             // Table does not exist
             String table = "CREATE TABLE PATHS(path varchar(256),  path_id int AUTO_INCREMENT, PRIMARY KEY ( path ));";
             Statement st = this.connection.createStatement();
             st.execute(table);
-            Logger.getLogger().log("ThumbStore.checkAndCreateTables() table created!");
+            Logger.getLogger().log("DBManager.checkAndCreateTables() table created!");
         }
         //and  the version table
         tables = dbm.getTables(null, null, "VERSION", null);
         if (tables.next()) {
-            Logger.getLogger().log("ThumbStore.checkAndCreateTables() table VERSION exists!");
+            Logger.getLogger().log("DBManager.checkAndCreateTables() table VERSION exists!");
             // Table exists
         } else {
-            Logger.getLogger().log("ThumbStore.checkAndCreateTables() table VERSION does not exist, should create it");
+            Logger.getLogger().log("DBManager.checkAndCreateTables() table VERSION does not exist, should create it");
             // Table does not exist
             String table = "CREATE TABLE VERSION(version int)";
             Statement st = this.connection.createStatement();
             st.execute(table);
             table = "INSERT into VERSION VALUES(" + CURRENT_VERSION + ")";
             st.execute(table);
-            Logger.getLogger().log("ThumbStore.checkAndCreateTables() table created with version 0");
+            Logger.getLogger().log("DBManager.checkAndCreateTables() table created with version 0");
         }
 
 
@@ -166,7 +167,7 @@ public class ThumbStore {
         }
     }
     private void upgradeDatabase(int dbVersion) throws SQLException {
-        Logger.getLogger().log("ThumbStore.upgradeDatabase started");
+        Logger.getLogger().log("DBManager.upgradeDatabase started");
 
         if (dbVersion < CURRENT_VERSION) {
             if (dbVersion == 0) {
@@ -191,7 +192,7 @@ public class ThumbStore {
             Statement st = connection.createStatement();
             String action = "Shutdown compact";
             st.execute(action);
-            Logger.getLogger().log("ThumbStore.upgradeDatabase upgrade done please restart");
+            Logger.getLogger().log("DBManager.upgradeDatabase upgrade done please restart");
             System.exit(0);
         }
     }
@@ -207,9 +208,9 @@ public class ThumbStore {
         action = "CREATE TABLE IMAGES_tmp(id  bigint identity(1,1), path varchar(256), size long, mtime long, md5 varchar(256), data blob,  lat double, lon double)";
         st.execute(action);
         action = "INSERT INTO  IMAGES_TMP  (path,id, size,mtime,md5,data, lat, lon)  SELECT * from IMAGES";
-        Logger.getLogger().log("ThumbStore.upgradeToV1 moving data to new table");
+        Logger.getLogger().log("DBManager.upgradeToV1 moving data to new table");
         st.execute(action);
-        Logger.getLogger().log("ThumbStore.upgradeToV1 droping old table");
+        Logger.getLogger().log("DBManager.upgradeToV1 droping old table");
 
         action = "DROP table IMAGES";
         st.execute(action);
@@ -226,7 +227,7 @@ public class ThumbStore {
         // ON table_name (column_name)
         Statement st = connection.createStatement();
         String action = "CREATE UNIQUE INDEX path_index ON IMAGES(path)";
-        Logger.getLogger().log("ThumbStore.upgradeToV2 creating Index");
+        Logger.getLogger().log("DBManager.upgradeToV2 creating Index");
         st.execute(action);
         action = "UPDATE VERSION SET version=2 WHERE version=1";
         st.execute(action);
@@ -238,7 +239,7 @@ public class ThumbStore {
         // ON table_name (column_name)
         Statement st = connection.createStatement();
         String action = "CREATE  INDEX md5_index ON IMAGES(md5)";
-        Logger.getLogger().log("ThumbStore.upgradeToV3 creating Index for MD5");
+        Logger.getLogger().log("DBManager.upgradeToV3 creating Index for MD5");
         st.execute(action);
         action = "UPDATE VERSION SET version=3 WHERE version=2";
         st.execute(action);
@@ -246,8 +247,8 @@ public class ThumbStore {
     private void upgradeToV4() throws SQLException {
         Statement st = connection.createStatement();
         String action = "ALTER TABLE IMAGES ADD hash varchar(100)";
-        Logger.getLogger().log("ThumbStore.upgradeToV4 creating column for hash");
-        Logger.getLogger().log("ThumbStore.upgradeToV4 dropping column data");
+        Logger.getLogger().log("DBManager.upgradeToV4 creating column for hash");
+        Logger.getLogger().log("DBManager.upgradeToV4 dropping column data");
         st.execute(action);
         action = " ALTER TABLE IMAGES DROP COLUMN data";
         st.execute(action);
@@ -257,7 +258,7 @@ public class ThumbStore {
     private void upgradeToV5() throws SQLException {
         //There are 3 tables : VERSION, PATHS and IMAGES
         Statement st = connection.createStatement();
-        Logger.getLogger().log("ThumbStore.upgradeToV5 creating column for path id in IMAGES");
+        Logger.getLogger().log("DBManager.upgradeToV5 creating column for path id in IMAGES");
         //create a temporary table
         String action = "CREATE TABLE IMAGES_TMP(id  bigint identity(1,1),path varchar(256), path_id int, size long, mtime long, md5 varchar(256), hash varchar(100),  lat double, lon double);";
         st.execute(action);
@@ -272,17 +273,17 @@ public class ThumbStore {
         System.out.println("current dir = " + dir);
         while (res.next()) {
             String s = res.getString("path");
-            System.out.println("ThumbStore.upgradeToV5 found path " + s);
+            System.out.println("DBManager.upgradeToV5 found path " + s);
             currentPaths.add(s);
 
         }
-        System.out.println("ThumbStore.upgradeToV5 got " + currentPaths.size() + " indexed paths");
+        System.out.println("DBManager.upgradeToV5 got " + currentPaths.size() + " indexed paths");
         int index = 0;
 
         for (String p : currentPaths) {
             String u_p = p.replaceAll("\\\\", "\\\\\\\\");
             //get all paths matching the root path
-            System.out.println("ThumbStore.upgradeToV5 performning query  " + "SELECT * FROM IMAGES WHERE images.path LIKE \'" + u_p + "%\'");
+            System.out.println("DBManager.upgradeToV5 performning query  " + "SELECT * FROM IMAGES WHERE images.path LIKE \'" + u_p + "%\'");
             ResultSet allResults = st.executeQuery("SELECT * FROM IMAGES WHERE images.path LIKE \'" + u_p + "%\'");
             index++;
             while (allResults.next()) {
@@ -313,7 +314,7 @@ public class ThumbStore {
         st.execute(action);
     }
     public void compact() {
-            System.out.println("ThumbStore.compact " + connection);
+            System.out.println("DBManager.compact " + connection);
             try {
                 Statement st = this.connection.createStatement();
                 st.executeUpdate("SHUTDOWN COMPACT");
@@ -334,7 +335,7 @@ public class ThumbStore {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-        System.err.println("ThumbStore.addIndexPath no information for path " + path + "  found");
+        System.err.println("DBManager.addIndexPath no information for path " + path + "  found");
         try {
             statement = this.connection.prepareStatement("insert into PATHS(path)" + "values(?)");
             statement.setString(1, path);
@@ -476,7 +477,7 @@ public class ThumbStore {
     }
     // some difficult dependence problem i deleteFromdatabase
     public void deleteFromDatabase(String path) {
-        Logger.getLogger().log("ThumbStore.deleteFromDatabase " + path);
+        Logger.getLogger().log("DBManager.deleteFromDatabase " + path);
         MediaFileDescriptor mf = this.getMediaFileDescriptor(path);
         ResultSet res = this.getFromDatabase(path);
         try {
@@ -511,7 +512,7 @@ public class ThumbStore {
     public ResultSet getFromDatabase(String path) {
         ResultSet res = null;
         try {
-            Logger.getLogger().log("ThumbStore.getFromDatabase   ---- " + path);
+            Logger.getLogger().log("DBManager.getFromDatabase   ---- " + path);
             PreparedStatement psmnt = null;
             String[] decomposedPath = this.decomposePath(path);
             if (decomposedPath == null) {
@@ -593,7 +594,7 @@ public class ThumbStore {
             e.printStackTrace();
         } finally {
             long t1 = System.currentTimeMillis();
-            System.err.println("ThumbStore.getAllInDataBase took " + (t1 - t0) + " ms");
+            System.err.println("DBManager.getAllInDataBase took " + (t1 - t0) + " ms");
         }
         return null;
     }
@@ -649,7 +650,7 @@ public class ThumbStore {
         ResultSet res = null;
         String p = null;
         if (this.connection == null) {
-            Logger.getLogger().err("ThumbStore : Connection is NULL ");
+            Logger.getLogger().err("DBManager : Connection is NULL ");
             return null;
         }
         try {
@@ -690,19 +691,19 @@ public class ThumbStore {
     public void fix() {
         ResultSet all = this.getAllInDataBase();
         MediaFileDescriptor id = null;
-        System.err.println("ThumbStore.fix() BD has " + this.size() + " entries");
+        System.err.println("DBManager.fix() BD has " + this.size() + " entries");
             try {
                 while (all.next()) {
                     id = getCurrentMediaFileDescriptor(all);
                     if (Utils.isValideImageName(id.getPath())) {
                         if (id.getHash() == null || id.getMD5() == null) {
-                            System.err.println("ThumbStore.fix() " + id.getPath() + " has null data ord md5");
+                            System.err.println("DBManager.fix() " + id.getPath() + " has null data ord md5");
                             all.deleteRow();
                         }
                     }
                     if (Utils.isValideVideoName(id.getPath())) {
                         if (id.getMD5() == null) {
-                            System.err.println("ThumbStore.fix() " + id.getPath() + " has null md5");
+                            System.err.println("DBManager.fix() " + id.getPath() + " has null md5");
                             all.deleteRow();
                         }
                     }
@@ -720,17 +721,17 @@ public class ThumbStore {
     }
     public void shrink(List<String> paths) {
         if (Logger.getLogger().isEnabled()) {
-            Logger.getLogger().log("ThumbStore.shrink() BD has " + this.size() + " entries");
+            Logger.getLogger().log("DBManager.shrink() BD has " + this.size() + " entries");
         }
         for (String path : paths) {
-            Logger.getLogger().log("ThumbStore.shrink() processing path " + path);
+            Logger.getLogger().log("DBManager.shrink() processing path " + path);
             ResultSet all = this.getAllInDataBase();
             MediaFileDescriptor id = null;
             try {
                 int i = 0;
                 while (all.next()) {
                     id = getCurrentMediaFileDescriptor(all);
-                    Logger.getLogger().log("ThumbStore.shrink() processing  " + id);
+                    Logger.getLogger().log("DBManager.shrink() processing  " + id);
                     File tmp = new File(id.getPath());
                     if (!tmp.exists()) {
                         i++;
@@ -738,7 +739,7 @@ public class ThumbStore {
                         this.deleteFromDatabase(id.getPath());
                     }
                 }
-                System.err.println("ThumbStore.shrink() has deleted  " + i + " records");
+                System.err.println("DBManager.shrink() has deleted  " + i + " records");
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -799,13 +800,13 @@ public class ThumbStore {
     }
     // todo move this method from here to tests
     public void test() {
-        System.err.println("ThumbStore.test() reading descriptor from disk ");
+        System.err.println("DBManager.test() reading descriptor from disk ");
         MediaIndexer tg = new MediaIndexer(this);
         String s = "/user/fhuet/desktop/home/workspaces/rechercheefficaceimagessimilaires/images/test.jpg";
         MediaFileDescriptor id = tg.buildMediaDescriptor(new File(s));
-        System.err.println("ThumbStore.test() writting to database");
+        System.err.println("DBManager.test() writting to database");
         saveToDB(id);
-        System.err.println("ThumbStore.test() dumping entries");
+        System.err.println("DBManager.test() dumping entries");
         String select = "SELECT * FROM IMAGES, PATHS";
         Statement st;
             try {
@@ -822,7 +823,7 @@ public class ThumbStore {
         System.err.println("Testing update ");
         id.setMtime(0);
         updateToDB(id);
-        System.err.println("ThumbStore.test() dumping entries");
+        System.err.println("DBManager.test() dumping entries");
     }
     public void dump(boolean p) {
         String select = "SELECT paths.path||images.path AS path,id,hash FROM IMAGES, PATHS";
@@ -903,13 +904,13 @@ public class ThumbStore {
                     e.printStackTrace();
                 }
 
-            System.err.println("ThumbStore.getPreloadedDescriptors sorting  " + preloadedDescriptors.size() + " data");
+            System.err.println("DBManager.getPreloadedDescriptors sorting  " + preloadedDescriptors.size() + " data");
             long t0 = System.currentTimeMillis();
             preloadedDescriptors.sort();
             long t1 = System.currentTimeMillis();
-            System.err.println("ThumbStore.getPreloadedDescriptors sorting data .... done after " + (t1 - t0));
+            System.err.println("DBManager.getPreloadedDescriptors sorting data .... done after " + (t1 - t0));
             Status.getStatus().setStringStatus(Status.IDLE);
-            System.err.println("ThumbStore.getPreloadedDescriptors all done  " + (t1 - ti));
+            System.err.println("DBManager.getPreloadedDescriptors all done  " + (t1 - ti));
         }
         return preloadedDescriptors;
     }
@@ -942,7 +943,7 @@ public class ThumbStore {
         lsh = new PersistentLSH(5, 15, 100);
         if ((force)  || lsh.size() == 0) {
             Status.getStatus().setStringStatus("Teaching LSH");
-            System.out.println("ThumbStore.buildLSH forced build or empty lsh size : " + lsh.size());
+            System.out.println("DBManager.buildLSH forced build or empty lsh size : " + lsh.size());
             lsh.clear();
             int total = this.size();
             int processed = 0;
@@ -951,7 +952,7 @@ public class ThumbStore {
                     while (res.next()) {
                         processed++;
                         if (processed>10000) {
-                            System.out.println("ThumbStore.buildLSH processed 10 000");
+                            System.out.println("DBManager.buildLSH processed 10 000");
                             processed=0;
                         }
                         int index = res.getInt("ID");

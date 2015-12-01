@@ -15,6 +15,7 @@ import java.util.concurrent.TimeUnit;
 
 import javax.imageio.ImageIO;
 
+import fr.thumbnailsdb.dbservices.DBManager;
 import fr.thumbnailsdb.hash.ImageHash;
 import fr.thumbnailsdb.treewalker.TreeWalker;
 import fr.thumbnailsdb.utils.Configuration;
@@ -26,7 +27,7 @@ public class MediaIndexer {
 
     protected boolean debug;
     protected boolean software = true;
-    protected ThumbStore ts;
+    protected DBManager ts;
 
     protected boolean forceGPSUpdate = Configuration.forceGPS();
     protected boolean forceHashUpdate = Configuration.forceUpdate();
@@ -52,7 +53,7 @@ public class MediaIndexer {
     private boolean dryRun = Configuration.dryRun();
 
 
-    public MediaIndexer(ThumbStore t) {
+    public MediaIndexer(DBManager t) {
 
         maxThreads = Configuration.getMaxIndexerThreads();
         System.out.println("MediaIndexer.MediaIndexer Max Threads = " + maxThreads);
@@ -494,7 +495,7 @@ public class MediaIndexer {
                     + "[-db path_to_db] -source folder_or_file_to_process");
             System.exit(0);
         }
-        ThumbStore ts = new ThumbStore(pathToDB);
+        DBManager ts = new DBManager(pathToDB);
         MediaIndexer tb = new MediaIndexer(ts);
         File fs = new File(source);
             tb.processMTRoot(source);

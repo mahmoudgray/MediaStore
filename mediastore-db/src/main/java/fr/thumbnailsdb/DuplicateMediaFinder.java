@@ -1,5 +1,6 @@
 package fr.thumbnailsdb;
 
+import fr.thumbnailsdb.dbservices.DBManager;
 import fr.thumbnailsdb.duplicate.DuplicateFileGroup;
 import fr.thumbnailsdb.duplicate.DuplicateFileList;
 import fr.thumbnailsdb.duplicate.DuplicateFolderList;
@@ -10,11 +11,11 @@ import java.util.List;
 
 public class DuplicateMediaFinder {
 
-    protected ThumbStore thumbstore;
+    protected DBManager thumbstore;
 
     protected DuplicateFileList duplicateFileList;
 
-    public DuplicateMediaFinder(ThumbStore c) {
+    public DuplicateMediaFinder(DBManager c) {
         this.thumbstore = c;
     }
 
