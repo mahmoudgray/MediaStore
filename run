@@ -1,0 +1,5 @@
+mvn clean install
+java -jar mediastore-db/target/dbStore.jar db index testImages/
+java -jar mediastore-db/target/dbStore.jar
+java -jar mediastore-db/target/dbStore.jar db lsh
+mvn tomcat7:run
