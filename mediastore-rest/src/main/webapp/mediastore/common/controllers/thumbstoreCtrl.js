@@ -4,12 +4,6 @@
 'use strict';
 (function(){
     var app = angular.module('thumbstore.ctrl', []);
-    /*
-    app.run(function ($rootScope, $templateCache) {
-        $rootScope.$on('$viewContentLoaded', function () {
-            $templateCache.removeAll();
-        });
-    });*/
 
     app.controller('ThumbstoreCtrl', ['$scope', '$http', function($scope, $http){
         var app = this;
@@ -68,7 +62,7 @@
 
         $scope.updateChart();
         //window.onload($scope.updateChart());
-        setInterval($scope.updateChart, 1500);
+        setInterval($scope.updateChart, 1000);
 
     }]);
 })();

@@ -6,12 +6,6 @@
 (function(){
     var app = angular.module('thumbnail.ctrl', []);
 
-    app.run(function ($rootScope, $templateCache) {
-        $rootScope.$on('$viewContentLoaded', function () {
-            $templateCache.removeAll();
-        });
-    });
-
     app.controller('ThumbnailCtrl',  ['$scope', '$http', function($scope, $http){
         var app = this;
         $scope.input = "";

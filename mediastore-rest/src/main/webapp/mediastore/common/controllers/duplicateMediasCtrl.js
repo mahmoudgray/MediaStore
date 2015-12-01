@@ -12,7 +12,7 @@
 
 		var app = this;
 
-		$scope.input = "";
+		$scope.input = "5";
 
 		$scope.getDuplicateMedias = function(){
 			//var folders = getSelectedFolders();
