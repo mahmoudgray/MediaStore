@@ -47,23 +47,12 @@ public class CandidatePriorityQueue {
             if (df.getDistance() > distance) {
               //  queue.remove(df);
                 queue.remove();
-//                MediaFileDescriptor imd = new MediaFileDescriptor();
-//                imd.setPath(current.getPath());
-//                imd.setDistance(distance);
-//                imd.setHash(current.getHash());
-//                imd.setConnection(current.getConnection());
-//                imd.setId(current.getId());
                 return queue.add(new DCandidate(new Candidate(o.getIndex(),o.getHash()), distance));
             } else {
                 return false;
             }
         }
-            return queue.add(new DCandidate(new Candidate(o.getIndex(),o.getHash()), distance));//            imd.setPath(current.getPath());
-//            imd.setDistance(distance);
-//            imd.setHash(current.getHash());
-//            imd.setConnection(current.getConnection());
-//            imd.setId(current.getId());
-//            queue.add(imd);
+            return queue.add(new DCandidate(new Candidate(o.getIndex(),o.getHash()), distance));
     }
 
 

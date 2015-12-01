@@ -102,8 +102,7 @@ public class LSH {
         LSH lsh = new LSH(10, 30, 100);
         //   ArrayList<MediaFileDescriptor> al = new ArrayList<MediaFileDescriptor>(size);
 
-        ArrayList<ResultSet> ares = thumbstore.getAllInDataBases().getResultSets();
-        for (ResultSet res : ares) {
+        ResultSet res = thumbstore.getAllInDataBase();
             try {
                 while (res.next()) {
                     // String path = res.getString("path");
@@ -120,7 +119,6 @@ public class LSH {
             } catch (SQLException e) {
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             }
-        }
         System.out.println(" ... done");
     }
 

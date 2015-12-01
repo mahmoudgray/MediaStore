@@ -1,7 +1,6 @@
 package fr.thumbnailsdb;
 
 import fr.thumbnailsdb.hash.ImageHash;
-import fr.thumbnailsdb.treewalker.TreeWalker;
 import fr.thumbnailsdb.utils.Logger;
 import org.apache.commons.codec.digest.DigestUtils;
 

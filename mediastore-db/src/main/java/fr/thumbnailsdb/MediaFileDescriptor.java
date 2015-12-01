@@ -60,6 +60,7 @@ public class MediaFileDescriptor implements Serializable, Comparable<MediaFileDe
 
     }
 
+
     public void setId(int id) {
         this.id = id;
     }
@@ -163,19 +164,11 @@ public class MediaFileDescriptor implements Serializable, Comparable<MediaFileDe
         this.md5Digest = md5Digest;
     }
 
-//    public void setData(int[] data) {
-//        this.data = data; // this.convertToARGB(data);
-//    }
-
-    //
-    // public void setData(byte[] data) {
-    // this.data = data;
-    // }
 
     public String getPath() {
-        if (path==null) {
-            return     ThumbStore.getPath(this.connection, this.id);
-        }
+        //if (path==null) {
+         //   return     ThumbStore.getPath(this.id);
+       // }
         return path;
     }
 
@@ -278,7 +271,6 @@ public class MediaFileDescriptor implements Serializable, Comparable<MediaFileDe
             //we don't have the path, just the index in the DB
              return (this.id == target.getId());
         }  else {
-           // System.out.println("fr.thumbnailsdb.MediaFileDescriptor.equals " + this.path + " =?= " + target.getPath());
              return this.path==target.getPath();
         }
         //return (this.)

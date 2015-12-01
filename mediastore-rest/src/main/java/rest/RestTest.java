@@ -4,6 +4,7 @@ import com.sun.jersey.multipart.BodyPartEntity;
 import com.sun.jersey.multipart.FormDataMultiPart;
 import com.sun.jersey.spi.resource.Singleton;
 import fr.thumbnailsdb.*;
+import fr.thumbnailsdb.ThumbStore;
 import fr.thumbnailsdb.diskmonitor.DiskListener;
 import fr.thumbnailsdb.diskmonitor.DiskWatcher;
 import fr.thumbnailsdb.duplicate.DuplicateFolderGroup;
@@ -24,13 +25,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Path("/hello")
@@ -92,7 +91,7 @@ public class RestTest {
             return Response.status(200).entity(tb.size() + "").build();
         }
         if ("path".equals(info)) {
-            return Response.status(200).entity(tb.getPath() + "").build();
+            return Response.status(200).entity(tb.getIndexedPaths() + "").build();
         }
         if ("status".equals(info)) {
             return Response.status(200).entity("idle").build();

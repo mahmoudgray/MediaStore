@@ -2,7 +2,6 @@ package fr.thumbnailsdb.vptree;
 
 import fr.thumbnailsdb.MediaFileDescriptor;
 import fr.thumbnailsdb.ThumbStore;
-import fr.thumbnailsdb.Utils;
 import fr.thumbnailsdb.vptree.distances.Distance;
 import fr.thumbnailsdb.vptree.distances.VPRMSEDistance;
 
@@ -199,8 +198,7 @@ public class VPTreeBuilder {
         VPTree vpTree = new VPTree();
         ArrayList<MediaFileDescriptor> al = new ArrayList<MediaFileDescriptor>(size);
 
-        ArrayList<ResultSet> ares = thumbstore.getAllInDataBases().getResultSets();
-        for (ResultSet res : ares) {
+        ResultSet res = thumbstore.getAllInDataBase();
             try {
                 while (res.next()) {
                     String path = res.getString("path");
@@ -221,7 +219,6 @@ public class VPTreeBuilder {
             } catch (SQLException e) {
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             }
-        }
         System.out.println("SimilarImageFinder.getPreloadedDescriptors array list built , creating tree");
         vpTree = this.buildVPTree(al);
 

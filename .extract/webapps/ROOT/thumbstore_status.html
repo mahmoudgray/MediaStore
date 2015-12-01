@@ -1,0 +1,36 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+<script src="js/jquery-1.8.2.js"></script>
+<script src="js/jquery-ui.js"></script>
+<script src="js/jquery.form.js"></script>
+<script src="js/thumbstore.js"></script>
+
+
+<script>
+    function doPoll(){
+        getStatus();
+          setTimeout(doPoll,2000);
+    }
+    doPoll();
+</script>
+
+<style>
+    /*.frame {*/
+        /*position: relative ;*/
+        /*max-width: 100%; max-height: 30%; overflow: hidden;*/
+    /*}*/
+
+
+</style>
+
+    <div id="db_status" class="frame" style="font-style:italic"> XXXXXXXXXXXXXXXX </div>
+
+
+
+</body>
+</html>

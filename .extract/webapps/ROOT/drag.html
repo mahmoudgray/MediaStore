@@ -1,0 +1,57 @@
+
+<style>
+
+    #filedrag {
+        display: block;
+        font-weight: bold;
+        text-align: center;
+        padding: 1em 0;
+        margin: 1em 0;
+        color: #555;
+        border: 2px dashed #555;
+        border-radius: 7px;
+        cursor: default;
+    }
+
+    #filedrag:hover {
+        color: #f00;
+        border-color: #f00;
+        border-style: solid;
+        box-shadow: inset 0 3px 4px #888;
+    }
+
+
+</style>
+<link rel="stylesheet" href="css/bootstrap.min.css"/>
+
+<script src="js/jquery.fileupload.js"></script>
+<script src="js/jquery.fileupload-fp.js"></script>
+<link href="js/fileuploader/fileuploader.css" rel="stylesheet" type="text/css">
+<script src="js/fileuploader/fileuploader.js" type="text/javascript"></script>
+
+
+<script src="js/drag.js"> </script>
+<script src="js/jquery-1.8.2.js"></script>
+<script src="js/customCanvas.js"></script>
+<script src="js/mustache.js"></script>
+<script src="js/thumbstore.js"></script>
+<script src="js/nailthumb/jquery.nailthumb.1.1.js"></script>
+<script src="js/jquery.ay-table-sort.js"></script>
+
+<form id="formUpload" name="formUpload" method="post" enctype="multipart/form-data">
+    <input type="hidden" id="namesAllFiles" name="namesAllFiles"/>
+
+    <div id="filedrag"
+         ondragover="return false;"
+         ondrop="dropHandler(event)">
+        <div id="dropText"> Drop files here</div>
+        <ol id="droppedFiles"></ol>
+    </div>
+</form>
+
+
+<div id="duplicate_upload_source" style="margin:10px 10px"></div>
+<div id="lshStatus"></div>
+<div id="duplicate_upload_result"
+     style="margin-left:auto; margin-right:auto ; clear:both; height:80%; width:95%; overflow-x:hidden; overflow-y:auto"></div>
+

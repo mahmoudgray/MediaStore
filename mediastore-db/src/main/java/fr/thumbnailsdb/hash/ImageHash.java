@@ -6,8 +6,6 @@ import fr.thumbnailsdb.ThumbStore;
 import fr.thumbnailsdb.utils.Logger;
 
 import javax.imageio.ImageIO;
-import javax.media.jai.widget.ScrollingImagePanel;
-import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -135,7 +133,7 @@ public class ImageHash {
         Iterator it = pl.iterator();
         while (it.hasNext()) {
             MediaFileDescriptor mf = (MediaFileDescriptor) it.next();
-            String path = ThumbStore.getPath(mf.getConnection(), mf.getId());
+            String path = tb.getPath(mf.getId());
             mf.setPath(path);
             try {
                 System.out.println("-- Image " + mf.getPath());
@@ -149,7 +147,6 @@ public class ImageHash {
         }
 
     }
-
     public static void testHash(String[] args){
         ImageHash imh = new ImageHash();
         if (args.length < 1) {
