@@ -684,6 +684,8 @@ public class RestTest {
     }
 
 
+
+
     @XmlRootElement
     public class SimilarImage {
         @XmlElement

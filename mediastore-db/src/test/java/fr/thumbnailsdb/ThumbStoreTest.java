@@ -32,7 +32,7 @@ public class ThumbStoreTest {
 
 
     }
-
+        /*
     @AfterClass
     public void deleteDir() throws IOException {
         FileUtils.deleteDirectory(tmpDir);
@@ -43,7 +43,7 @@ public class ThumbStoreTest {
         } catch (Exception e) {
 
         }
-    }
+    }*/
 
 
 
