@@ -6,16 +6,11 @@ import fr.thumbnailsdb.utils.Logger;
 import fr.thumbnailsdb.utils.ProgressBar;
 import org.perf4j.LoggingStopWatch;
 
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.sql.*;
-import java.util.*;
-
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 
 public class DBManager {
 
@@ -130,18 +125,6 @@ public class DBManager {
             Logger.getLogger().log("DBManager.checkAndCreateTables() table created with version 0");
         }
 
-
-        // now we check for version number and decides if an upgrade is required
-        String version = "SELECT * FROM VERSION";
-        Statement st = this.connection.createStatement();
-        ResultSet res = st.executeQuery(version);
-        int v = -1;
-        while (res.next()) {
-            v = res.getInt("version");
-        }
-
-        Logger.getLogger().log("Database version is " + v);
-        upgradeDatabase(v);
     }
     private void checkOrAddColumns(DatabaseMetaData dbm) throws SQLException {
         //ALTER TABLE IMAGES DROP PRIMARY KEY ;
@@ -166,161 +149,14 @@ public class DBManager {
             st.executeUpdate("ALTER TABLE IMAGES ADD lon double");
         }
     }
-    private void upgradeDatabase(int dbVersion) throws SQLException {
-        Logger.getLogger().log("DBManager.upgradeDatabase started");
-
-        if (dbVersion < CURRENT_VERSION) {
-            if (dbVersion == 0) {
-                upgradeToV1();
-                upgradeToV2();
-            }
-            if (dbVersion == 1) {
-                upgradeToV2();
-            }
-
-            if (dbVersion == 2) {
-                upgradeToV3();
-            }
-            if (dbVersion == 3) {
-                upgradeToV4();
-            }
-
-            if (dbVersion == 4) {
-                upgradeToV5();
-            }
-
-            Statement st = connection.createStatement();
-            String action = "Shutdown compact";
-            st.execute(action);
-            Logger.getLogger().log("DBManager.upgradeDatabase upgrade done please restart");
-            System.exit(0);
-        }
-    }
-    private void upgradeToV1() throws SQLException {
-        //ok we need to upgrade the DB to the next version
-        //CREATE TABLE IMAGES_tmp(path varchar(256), size long, mtime long, md5 varchar(256), data blob,  lat double, lon double,  id  bigint identity(1,1))
-        //INSERT INTO  IMAGES_TMP  (path,size,mtime,md5,data, lat, lon)  SELECT * from IMAGES
-        //DROP table IMAGES
-        //ALTER table images_tmp rename to IMAGES
-        Statement st = connection.createStatement();
-        String action = "ALTER TABLE IMAGES DROP PRIMARY KEY ";
-        st.execute(action);
-        action = "CREATE TABLE IMAGES_tmp(id  bigint identity(1,1), path varchar(256), size long, mtime long, md5 varchar(256), data blob,  lat double, lon double)";
-        st.execute(action);
-        action = "INSERT INTO  IMAGES_TMP  (path,id, size,mtime,md5,data, lat, lon)  SELECT * from IMAGES";
-        Logger.getLogger().log("DBManager.upgradeToV1 moving data to new table");
-        st.execute(action);
-        Logger.getLogger().log("DBManager.upgradeToV1 droping old table");
-
-        action = "DROP table IMAGES";
-        st.execute(action);
-        action = "ALTER table images_tmp rename to IMAGES";
-        st.execute(action);
-
-        action = "UPDATE VERSION SET version=1 WHERE version=0";
-        st.execute(action);
-    }
-    private void upgradeToV2() throws SQLException {
-        //ok we need to upgrade the DB to the next version
-        //This one includes an index for the path
-        //CREATE INDEX index_name
-        // ON table_name (column_name)
-        Statement st = connection.createStatement();
-        String action = "CREATE UNIQUE INDEX path_index ON IMAGES(path)";
-        Logger.getLogger().log("DBManager.upgradeToV2 creating Index");
-        st.execute(action);
-        action = "UPDATE VERSION SET version=2 WHERE version=1";
-        st.execute(action);
-    }
-    private void upgradeToV3() throws SQLException {
-        //ok we need to upgrade the DB to the next version
-        //This one includes an index for the path
-        //CREATE INDEX md5_index
-        // ON table_name (column_name)
-        Statement st = connection.createStatement();
-        String action = "CREATE  INDEX md5_index ON IMAGES(md5)";
-        Logger.getLogger().log("DBManager.upgradeToV3 creating Index for MD5");
-        st.execute(action);
-        action = "UPDATE VERSION SET version=3 WHERE version=2";
-        st.execute(action);
-    }
-    private void upgradeToV4() throws SQLException {
-        Statement st = connection.createStatement();
-        String action = "ALTER TABLE IMAGES ADD hash varchar(100)";
-        Logger.getLogger().log("DBManager.upgradeToV4 creating column for hash");
-        Logger.getLogger().log("DBManager.upgradeToV4 dropping column data");
-        st.execute(action);
-        action = " ALTER TABLE IMAGES DROP COLUMN data";
-        st.execute(action);
-        action = "UPDATE VERSION SET version=4 WHERE version=3";
-        st.execute(action);
-    }
-    private void upgradeToV5() throws SQLException {
-        //There are 3 tables : VERSION, PATHS and IMAGES
-        Statement st = connection.createStatement();
-        Logger.getLogger().log("DBManager.upgradeToV5 creating column for path id in IMAGES");
-        //create a temporary table
-        String action = "CREATE TABLE IMAGES_TMP(id  bigint identity(1,1),path varchar(256), path_id int, size long, mtime long, md5 varchar(256), hash varchar(100),  lat double, lon double);";
-        st.execute(action);
-        //add the path_id to the PATHS table
-        action = "ALTER TABLE PATHS ADD path_id  int AUTO_INCREMENT";
-        st.execute(action);
-        //now get the current list of paths
-        // and turn it into a HashMap for fast lookup
-        ArrayList<String> currentPaths = new ArrayList<String>();
-        ResultSet res = st.executeQuery("SELECT path FROM PATHS ORDER BY path_id");
-        final String dir = System.getProperty("user.dir");
-        System.out.println("current dir = " + dir);
-        while (res.next()) {
-            String s = res.getString("path");
-            System.out.println("DBManager.upgradeToV5 found path " + s);
-            currentPaths.add(s);
-
-        }
-        System.out.println("DBManager.upgradeToV5 got " + currentPaths.size() + " indexed paths");
-        int index = 0;
-
-        for (String p : currentPaths) {
-            String u_p = p.replaceAll("\\\\", "\\\\\\\\");
-            //get all paths matching the root path
-            System.out.println("DBManager.upgradeToV5 performning query  " + "SELECT * FROM IMAGES WHERE images.path LIKE \'" + u_p + "%\'");
-            ResultSet allResults = st.executeQuery("SELECT * FROM IMAGES WHERE images.path LIKE \'" + u_p + "%\'");
-            index++;
-            while (allResults.next()) {
-                PreparedStatement psmnt;
-                psmnt = connection.prepareStatement("insert into IMAGES_TMP(path, path_id, size, mtime, md5, hash, lat, lon) "
-                        + "values(?,?,?,?,?,?,?,?)");
-                psmnt.setString(1, allResults.getString("path").replace(p, ""));
-                psmnt.setInt(2, index);
-                psmnt.setLong(3, allResults.getLong("size"));
-                psmnt.setLong(4, allResults.getLong("mtime"));
-                psmnt.setString(5, allResults.getString("md5"));
-                psmnt.setString(6, allResults.getString("hash"));
-                psmnt.setDouble(7, allResults.getDouble("lat"));
-                psmnt.setDouble(8, allResults.getDouble("lon"));
-                psmnt.execute();
-            }
-        }
-
-        action = "DROP table IMAGES";
-        st.execute(action);
-        action = "ALTER table images_tmp rename to IMAGES";
-        st.execute(action);
-        action = "CREATE INDEX PATH_ID_INDEX ON IMAGES(path_id)";
-        st.execute(action);
-        action = "CREATE INDEX PATH_INDEX ON IMAGES(path)";
-        st.execute(action);
-        action = "UPDATE VERSION SET version=5 WHERE version=4";
-        st.execute(action);
-    }
     public void compact() {
-            System.out.println("DBManager.compact " + connection);
-            try {
-                Statement st = this.connection.createStatement();
-                st.executeUpdate("SHUTDOWN COMPACT");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        System.out.println("DBManager.compact " + connection);
+        try {
+            Statement st = this.connection.createStatement();
+            st.executeUpdate("SHUTDOWN COMPACT");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     public void addIndexPath(String path) {
         PreparedStatement statement;
@@ -332,9 +168,9 @@ public class DBManager {
             if(re.next()){
                 return;
             }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         System.err.println("DBManager.addIndexPath no information for path " + path + "  found");
         try {
             statement = this.connection.prepareStatement("insert into PATHS(path)" + "values(?)");
@@ -348,29 +184,29 @@ public class DBManager {
         Statement sta;
         ResultSet res = null;
         ArrayList<String> paths = new ArrayList<String>();
-            try {
-                sta = this.connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-                res = sta.executeQuery("SELECT path,path_id AS path FROM PATHS ORDER BY path_id");
-                while (res.next()) {
-                    String s = res.getString("path");
-                    paths.add(s);
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
+        try {
+            sta = this.connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            res = sta.executeQuery("SELECT path,path_id AS path FROM PATHS ORDER BY path_id");
+            while (res.next()) {
+                String s = res.getString("path");
+                paths.add(s);
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return paths;
     }
     public void updateIndexedPath(String current, String newP) {
         PreparedStatement psmnt;
-            try {
-                Statement st;
-                psmnt = this.connection.prepareStatement("UPDATE PATHS SET path=? WHERE path=? ");
-                psmnt.setString(1, newP);
-                psmnt.setString(2, current);
-                psmnt.execute();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+        try {
+            Statement st;
+            psmnt = this.connection.prepareStatement("UPDATE PATHS SET path=? WHERE path=? ");
+            psmnt.setString(1, newP);
+            psmnt.setString(2, current);
+            psmnt.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
     /**
      * return s as root path and relative path
@@ -450,17 +286,17 @@ public class DBManager {
     }
     public int size() {
         int count = 0;
-            String select = "SELECT COUNT(*) FROM IMAGES";
-            Statement st;
-            try {
-                st = this.connection.createStatement();
-                ResultSet res = st.executeQuery(select);
-                if (res.next()) {
-                    count += res.getInt(1);
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
+        String select = "SELECT COUNT(*) FROM IMAGES";
+        Statement st;
+        try {
+            st = this.connection.createStatement();
+            ResultSet res = st.executeQuery(select);
+            if (res.next()) {
+                count += res.getInt(1);
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return count;
     }
     public boolean isInDataBaseBasedOnName(String path) {
@@ -569,16 +405,16 @@ public class DBManager {
         Statement sta;
         ResultSet res = null;
         ArrayList<String> al = new ArrayList<String>();
-            try {
-                sta = this.connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-                res = sta.executeQuery("SELECT * FROM IMAGES WHERE lat <> 0 OR lon <>0");
-                while (res.next()) {
-                    // System.err.println("getAllWithGPS adding  " + res.getString("path"));
-                    al.add(res.getString("path").replaceAll("\\\\", "\\\\\\\\"));
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
+        try {
+            sta = this.connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            res = sta.executeQuery("SELECT * FROM IMAGES WHERE lat <> 0 OR lon <>0");
+            while (res.next()) {
+                // System.err.println("getAllWithGPS adding  " + res.getString("path"));
+                al.add(res.getString("path").replaceAll("\\\\", "\\\\\\\\"));
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
         return al;
     }
@@ -611,18 +447,18 @@ public class DBManager {
                     " paths.path_id=images.path_id AND (LCASE(paths.path||images.path)) LIKE LCASE(\'%" + filter + "%\') " +
                     "AND  (lat <> 0 OR lon <>0))";
         }
-            Statement sta;
-            try {
-                sta = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-                ResultSet res = sta.executeQuery(query);
-                // mrs.add(connection,r);
-                while (res.next()) {
-                    list.add(getCurrentMediaFileDescriptor(res));
-                }
-
-            } catch (SQLException e) {
-                e.printStackTrace();
+        Statement sta;
+        try {
+            sta = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            ResultSet res = sta.executeQuery(query);
+            // mrs.add(connection,r);
+            while (res.next()) {
+                list.add(getCurrentMediaFileDescriptor(res));
             }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return list;
     }
     // I think it is a dead method
@@ -630,20 +466,20 @@ public class DBManager {
         Statement sta;
         ResultSet res = null;
         String p = null;
-            try {
-                sta = this.connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-                PreparedStatement psmnt;
-                psmnt = this.connection.prepareStatement("SELECT paths.path||images.path AS path FROM IMAGES, PATHS WHERE data=(?)");
-                psmnt.setBytes(1, Utils.toByteArray(data));
-                psmnt.execute();
-                res = psmnt.getResultSet();
+        try {
+            sta = this.connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            PreparedStatement psmnt;
+            psmnt = this.connection.prepareStatement("SELECT paths.path||images.path AS path FROM IMAGES, PATHS WHERE data=(?)");
+            psmnt.setBytes(1, Utils.toByteArray(data));
+            psmnt.execute();
+            res = psmnt.getResultSet();
 
-                while (res.next()) {
-                    p = res.getString("path");
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
+            while (res.next()) {
+                p = res.getString("path");
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return p;
     }
     public  String getPath(int index) {
@@ -673,16 +509,16 @@ public class DBManager {
         Statement sta;
         ResultSet res = null;
         ArrayList<MediaFileDescriptor> results = new ArrayList<MediaFileDescriptor>();
-            try {
-                sta = this.connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-                res = sta
-                        .executeQuery("SELECT paths.path||images.path as path, md5, size FROM IMAGES, PATHS WHERE md5=\'" + mfd.getMD5() + "\'");
-                while (res.next()) {
-                    results.add(getCurrentMediaFileDescriptor(res));
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
+        try {
+            sta = this.connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            res = sta
+                    .executeQuery("SELECT paths.path||images.path as path, md5, size FROM IMAGES, PATHS WHERE md5=\'" + mfd.getMD5() + "\'");
+            while (res.next()) {
+                results.add(getCurrentMediaFileDescriptor(res));
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return results;
     }
     /**
@@ -692,25 +528,25 @@ public class DBManager {
         ResultSet all = this.getAllInDataBase();
         MediaFileDescriptor id = null;
         System.err.println("DBManager.fix() BD has " + this.size() + " entries");
-            try {
-                while (all.next()) {
-                    id = getCurrentMediaFileDescriptor(all);
-                    if (Utils.isValideImageName(id.getPath())) {
-                        if (id.getHash() == null || id.getMD5() == null) {
-                            System.err.println("DBManager.fix() " + id.getPath() + " has null data ord md5");
-                            all.deleteRow();
-                        }
-                    }
-                    if (Utils.isValideVideoName(id.getPath())) {
-                        if (id.getMD5() == null) {
-                            System.err.println("DBManager.fix() " + id.getPath() + " has null md5");
-                            all.deleteRow();
-                        }
+        try {
+            while (all.next()) {
+                id = getCurrentMediaFileDescriptor(all);
+                if (Utils.isValideImageName(id.getPath())) {
+                    if (id.getHash() == null || id.getMD5() == null) {
+                        System.err.println("DBManager.fix() " + id.getPath() + " has null data ord md5");
+                        all.deleteRow();
                     }
                 }
-            } catch (SQLException e) {
-                e.printStackTrace();
+                if (Utils.isValideVideoName(id.getPath())) {
+                    if (id.getMD5() == null) {
+                        System.err.println("DBManager.fix() " + id.getPath() + " has null md5");
+                        all.deleteRow();
+                    }
+                }
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
     /**
      * remove outdated records from the DB An outdated record is one which has
@@ -781,23 +617,6 @@ public class DBManager {
         }
         return null;
     }
-    // todo move this method from here to some where else
-    public void displayImage(BufferedImage bf) {
-        Graphics2D gg = bf.createGraphics();
-        gg.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-
-        gg.drawImage(bf, 0, 0, null);
-        // drawFeatures(gg, surf, id);
-        JFrame frame = null;
-        // display results
-        if (frame == null) {
-            frame = new JFrame();
-            final JLabel label = new JLabel(new ImageIcon(bf));
-            frame.add(label);
-        }
-        frame.pack();
-        frame.setVisible(true);
-    }
     // todo move this method from here to tests
     public void test() {
         System.err.println("DBManager.test() reading descriptor from disk ");
@@ -809,17 +628,17 @@ public class DBManager {
         System.err.println("DBManager.test() dumping entries");
         String select = "SELECT * FROM IMAGES, PATHS";
         Statement st;
-            try {
-                st = this.connection.createStatement();
-                ResultSet res = st.executeQuery(select);
-                while (res.next()) {
-                    String i = res.getString("path");
-                    //  byte[] d = res.getBytes("data");
-                    System.err.println(i + " has mtime " + res.getLong("mtime"));
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
+        try {
+            st = this.connection.createStatement();
+            ResultSet res = st.executeQuery(select);
+            while (res.next()) {
+                String i = res.getString("path");
+                //  byte[] d = res.getBytes("data");
+                System.err.println(i + " has mtime " + res.getLong("mtime"));
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         System.err.println("Testing update ");
         id.setMtime(0);
         updateToDB(id);
@@ -828,33 +647,26 @@ public class DBManager {
     public void dump(boolean p) {
         String select = "SELECT paths.path||images.path AS path,id,hash FROM IMAGES, PATHS";
         Statement st;
-            try {
-                st = this.connection.createStatement();
-                ResultSet res = st.executeQuery(select);
-                while (res.next()) {
-                    String path = res.getString("path");
-                    int i = res.getInt("id");
-                    String s = res.getString("hash");
-                    if (s != null) {
-                        if (p) {
-                            System.out.println(path + "," + s);
-                        } else {
-                            System.out.println(i + "," + s);
-                        }
+        try {
+            st = this.connection.createStatement();
+            ResultSet res = st.executeQuery(select);
+            while (res.next()) {
+                String path = res.getString("path");
+                int i = res.getInt("id");
+                String s = res.getString("hash");
+                if (s != null) {
+                    if (p) {
+                        System.out.println(path + "," + s);
+                    } else {
+                        System.out.println(i + "," + s);
                     }
                 }
-            } catch (SQLException e) {
-                e.printStackTrace();
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
     }
-
-    /*
-    public ArrayList<String> getPath() {
-        return this.pathsOfDBOnDisk;
-    }
-    */
-
     public PreloadedDescriptors getPreloadedDescriptors() {
         if (preloadedDescriptors == null) {
             long ti = System.currentTimeMillis();
@@ -870,39 +682,39 @@ public class DBManager {
             int processed = 0;
             int processedSinceLastTick = 0;
             ResultSet res = getAllInDataBase();
-                try {
-                    while (res.next()) {
-                        processed++;
-                        processedSinceLastTick++;
-                        if (processedSinceLastTick >= increment) {
-                            pb.tick(processed);
-                            Status.getStatus().setStringStatus("Building descriptors list  " + pb.getPercent() + "%");
-                            processedSinceLastTick = 0;
-                        }
-                        String path = null;
-                        path = res.getString("path");
-                        int id = res.getInt("id");
-                        String md5 = res.getString("md5");
-                        long size = res.getLong("size");
-                        String hash = res.getString("hash");
-                        if (path != null && md5 != null) {
-                            MediaFileDescriptor imd = new MediaFileDescriptor();
-                            if (SimilarImageFinder.USE_FULL_PATH) {
-                                imd.setPath(path);
-                            }
-                            imd.setId(id);
-                            imd.setHash(hash);
-                            imd.setSize(size);
-                            imd.setMd5Digest(md5);
-                            imd.setConnection(this.connection);
-                            preloadedDescriptors.add(imd);
-                        } else {
-                            //TODO : we should clean the data here
-                        }
+            try {
+                while (res.next()) {
+                    processed++;
+                    processedSinceLastTick++;
+                    if (processedSinceLastTick >= increment) {
+                        pb.tick(processed);
+                        Status.getStatus().setStringStatus("Building descriptors list  " + pb.getPercent() + "%");
+                        processedSinceLastTick = 0;
                     }
-                } catch (SQLException e) {
-                    e.printStackTrace();
+                    String path = null;
+                    path = res.getString("path");
+                    int id = res.getInt("id");
+                    String md5 = res.getString("md5");
+                    long size = res.getLong("size");
+                    String hash = res.getString("hash");
+                    if (path != null && md5 != null) {
+                        MediaFileDescriptor imd = new MediaFileDescriptor();
+                        if (SimilarImageFinder.USE_FULL_PATH) {
+                            imd.setPath(path);
+                        }
+                        imd.setId(id);
+                        imd.setHash(hash);
+                        imd.setSize(size);
+                        imd.setMd5Digest(md5);
+                        imd.setConnection(this.connection);
+                        preloadedDescriptors.add(imd);
+                    } else {
+                        //TODO : we should clean the data here
+                    }
                 }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
 
             System.err.println("DBManager.getPreloadedDescriptors sorting  " + preloadedDescriptors.size() + " data");
             long t0 = System.currentTimeMillis();
@@ -948,22 +760,22 @@ public class DBManager {
             int total = this.size();
             int processed = 0;
             ResultSet res = this.getAllInDataBase();
-                try {
-                    while (res.next()) {
-                        processed++;
-                        if (processed>10000) {
-                            System.out.println("DBManager.buildLSH processed 10 000");
-                            processed=0;
-                        }
-                        int index = res.getInt("ID");
-                        String s = res.getString("hash");
-                        if (s != null) {
-                            lsh.add(s, index);
-                        }
+            try {
+                while (res.next()) {
+                    processed++;
+                    if (processed>10000) {
+                        System.out.println("DBManager.buildLSH processed 10 000");
+                        processed=0;
                     }
-                } catch (SQLException e) {
-                    e.printStackTrace();
+                    int index = res.getInt("ID");
+                    String s = res.getString("hash");
+                    if (s != null) {
+                        lsh.add(s, index);
+                    }
                 }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
             lsh.commit();
             Status.getStatus().setStringStatus(Status.IDLE);
         }

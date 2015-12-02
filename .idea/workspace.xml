@@ -5,33 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3e64b3f9-5bcb-408a-be93-7d45372080e5" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/localDB.h2.db" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/localDB.trace.db" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/mediastore-db/lsh" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/mediastore-db/lsh.p" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/mediastore-db/lsh.t" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/ThumbStore.java" afterPath="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/dbservices/DBManager.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/mediastore-db/src/test/java/fr/thumbnailsdb/ThumbStoreTest.java" afterPath="$PROJECT_DIR$/mediastore-db/src/test/java/fr/thumbnailsdb/DBManagerTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.extract/webapps/ROOT.war" afterPath="$PROJECT_DIR$/.extract/webapps/ROOT.war" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.extract/webapps/ROOT/WEB-INF/classes/rest/RestTest$DBDiskUpdater.class" afterPath="$PROJECT_DIR$/.extract/webapps/ROOT/WEB-INF/classes/rest/RestTest$DBDiskUpdater.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.extract/webapps/ROOT/WEB-INF/classes/rest/RestTest.class" afterPath="$PROJECT_DIR$/.extract/webapps/ROOT/WEB-INF/classes/rest/RestTest.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.extract/webapps/ROOT/WEB-INF/lib/mediastore-db-1.0.jar" afterPath="$PROJECT_DIR$/.extract/webapps/ROOT/WEB-INF/lib/mediastore-db-1.0.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.extract/.tomcat_executable_archive.timestamp" afterPath="$PROJECT_DIR$/.extract/.tomcat_executable_archive.timestamp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.extract/logs/access_log.2015-12-01" afterPath="$PROJECT_DIR$/.extract/logs/access_log.2015-12-01" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.extract/webapps/ROOT/META-INF/maven/com.mediastore/mediastore-rest/pom.properties" afterPath="$PROJECT_DIR$/.extract/webapps/ROOT/META-INF/maven/com.mediastore/mediastore-rest/pom.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.extract/webapps/ROOT/index.html" afterPath="$PROJECT_DIR$/.extract/webapps/ROOT/index.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/DuplicateMediaFinder.java" afterPath="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/DuplicateMediaFinder.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/Main.java" afterPath="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/Main.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/MediaFileDescriptor.java" afterPath="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/MediaFileDescriptor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/MediaIndexer.java" afterPath="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/MediaIndexer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/SimilarImageFinder.java" afterPath="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/SimilarImageFinder.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/ThumbnailGenerator.java" afterPath="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/ThumbnailGenerator.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/hash/ImageHash.java" afterPath="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/hash/ImageHash.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/lsh/LSH.java" afterPath="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/lsh/LSH.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/vptree/VPTreeBuilder.java" afterPath="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/vptree/VPTreeBuilder.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mediastore-rest/src/main/java/rest/RestTest.java" afterPath="$PROJECT_DIR$/mediastore-rest/src/main/java/rest/RestTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mediastore-rest/src/main/webapp/index.html" afterPath="$PROJECT_DIR$/mediastore-rest/src/main/webapp/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/dbservices/DBManager.java" afterPath="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/dbservices/DBManager.java" />
     </list>
     <ignored path="MediaStore.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -60,7 +35,7 @@
     <favorites_list name="MediaStore" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file leaf-file-name="Main.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/Main.java">
           <provider selected="true" editor-type-id="text-editor">
@@ -106,7 +81,9 @@
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
               <caret line="27" column="0" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
-              <folding />
+              <folding>
+                <element signature="imports" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -114,17 +91,15 @@
       <file leaf-file-name="DBManager.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/dbservices/DBManager.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="0" column="8" selection-start-line="0" selection-start-column="8" selection-end-line="0" selection-end-column="34" />
+            <state vertical-scroll-proportion="-0.4625">
+              <caret line="70" column="59" selection-start-line="70" selection-start-column="59" selection-end-line="70" selection-end-column="59" />
               <folding>
                 <element signature="method#DBManager#0;class#DBManager#0" expanded="false" />
+                <element signature="method#DBManager#1;class#DBManager#0" expanded="false" />
+                <element signature="method#addDB#0;class#DBManager#0" expanded="false" />
                 <element signature="method#connectToDB#0;class#DBManager#0" expanded="false" />
+                <element signature="method#checkAndCreateTables#0;class#DBManager#0" expanded="false" />
                 <element signature="method#checkOrAddColumns#0;class#DBManager#0" expanded="false" />
-                <element signature="method#upgradeDatabase#0;class#DBManager#0" expanded="false" />
-                <element signature="method#upgradeToV1#0;class#DBManager#0" expanded="false" />
-                <element signature="method#upgradeToV2#0;class#DBManager#0" expanded="false" />
-                <element signature="method#upgradeToV3#0;class#DBManager#0" expanded="false" />
-                <element signature="method#upgradeToV4#0;class#DBManager#0" expanded="false" />
                 <element signature="method#compact#0;class#DBManager#0" expanded="false" />
                 <element signature="method#addIndexPath#0;class#DBManager#0" expanded="false" />
                 <element signature="method#getIndexedPaths#0;class#DBManager#0" expanded="false" />
@@ -154,7 +129,6 @@
                 <element signature="method#getCurrentMediaFileDescriptor#0;class#DBManager#0" expanded="false" />
                 <element signature="method#getMediaFileDescriptor#0;class#DBManager#0" expanded="false" />
                 <element signature="method#getMediaFileDescriptor#1;class#DBManager#0" expanded="false" />
-                <element signature="method#displayImage#0;class#DBManager#0" expanded="false" />
                 <element signature="method#test#0;class#DBManager#0" expanded="false" />
                 <element signature="method#dump#0;class#DBManager#0" expanded="false" />
                 <element signature="method#getPreloadedDescriptors#0;class#DBManager#0" expanded="false" />
@@ -163,51 +137,30 @@
                 <element signature="method#findCandidatesUsingLSH#0;class#DBManager#0" expanded="false" />
                 <element signature="method#buildLSH#0;class#DBManager#0" expanded="false" />
                 <element signature="method#flushPreloadedDescriptors#0;class#DBManager#0" expanded="false" />
-                <marker date="1449002457654" expanded="true" signature="2917:3078" placeholder="CREATE TABLE..IMAGES..." />
-                <marker date="1449002457654" expanded="true" signature="4499:4587" placeholder="CREATE TABLE..PATHS..." />
-                <marker date="1449002457654" expanded="true" signature="5226:5259" placeholder="CREATE TABLE..VERSION..." />
-                <marker date="1449002457654" expanded="true" signature="5376:5427" placeholder="INSERT into VERSION..." />
-                <marker date="1449002457654" expanded="true" signature="5681:5702" placeholder="SELECT * FRO..VERSION..." />
-                <marker date="1449002457654" expanded="true" signature="6813:6846" placeholder="ALTER TABLE IMAGES..." />
-                <marker date="1449002457654" expanded="true" signature="7110:7143" placeholder="ALTER TABLE IMAGES..." />
-                <marker date="1449002457654" expanded="true" signature="8568:8603" placeholder="ALTER TABLE IMAGES..." />
-                <marker date="1449002457654" expanded="true" signature="8653:8798" placeholder="CREATE TABLE..IMAGES_tmp..." />
-                <marker date="1449002457654" expanded="true" signature="8847:8934" placeholder="INSERT INTO ..IMAGES_TMP..." />
-                <marker date="1449002457654" expanded="true" signature="8914:8934" placeholder="SELECT * fro..IMAGES..." />
-                <marker date="1449002457654" expanded="true" signature="9141:9158" placeholder="DROP table I..." />
-                <marker date="1449002457654" expanded="true" signature="9207:9246" placeholder="ALTER table images_tmp..." />
-                <marker date="1449002457654" expanded="true" signature="9296:9340" placeholder="UPDATE VERSI..." />
-                <marker date="1449002457654" expanded="true" signature="9857:9901" placeholder="UPDATE VERSI..." />
-                <marker date="1449002457654" expanded="true" signature="10417:10461" placeholder="UPDATE VERSI..." />
-                <marker date="1449002457654" expanded="true" signature="10629:10669" placeholder="ALTER TABLE IMAGES..." />
-                <marker date="1449002457654" expanded="true" signature="10879:10914" placeholder="ALTER TABLE IMAGES..." />
-                <marker date="1449002457654" expanded="true" signature="10963:11007" placeholder="UPDATE VERSI..." />
-                <marker date="1449002457654" expanded="true" signature="11362:11527" placeholder="CREATE TABLE..IMAGES_TMP..." />
-                <marker date="1449002457654" expanded="true" signature="11622:11671" placeholder="ALTER TABLE PATHS..." />
-                <marker date="1449002457654" expanded="true" signature="11907:11946" placeholder="SELECT path ..PATHS..." />
-                <marker date="1449002457654" expanded="true" signature="12720:12780" placeholder="SELECT * FRO..IMAGES..." />
-                <marker date="1449002457654" expanded="true" signature="12939:13063" placeholder="insert into IMAGES_TMP..." />
-                <marker date="1449002457654" expanded="true" signature="13650:13667" placeholder="DROP table I..." />
-                <marker date="1449002457654" expanded="true" signature="13716:13755" placeholder="ALTER table images_tmp..." />
-                <marker date="1449002457654" expanded="true" signature="13986:14030" placeholder="UPDATE VERSI..." />
-                <marker date="1449002457654" expanded="true" signature="14546:14577" placeholder="SELECT * WHE..." />
-                <marker date="1449002457654" expanded="true" signature="14546:14578" placeholder="SELECT * FRO..PATHS..." />
-                <marker date="1449002457654" expanded="true" signature="14559:14577" placeholder="UPDATE PATHS..." />
-                <marker date="1449002457654" expanded="true" signature="15034:15071" placeholder="insert into PATHS..." />
-                <marker date="1449002457654" expanded="true" signature="15569:15624" placeholder="SELECT path,..PATHS..." />
-                <marker date="1449002457654" expanded="true" signature="16093:16129" placeholder="UPDATE PATHS..." />
-                <marker date="1449002457654" expanded="true" signature="17043:17159" placeholder="insert into IMAGES..." />
-                <marker date="1449002457654" expanded="true" signature="18530:18670" placeholder="UPDATE IMAGE..." />
-                <marker date="1449002457654" expanded="true" signature="19962:19989" placeholder="SELECT COUNT..IMAGES..." />
-                <marker date="1449002457654" expanded="true" signature="22968:23001" placeholder="SELECT * FRO..IMAGES..." />
-                <marker date="1449002457654" expanded="true" signature="23606:23728" placeholder="SELECT paths..." />
-                <marker date="1449002457654" expanded="true" signature="24181:24214" placeholder="SELECT * FRO..IMAGES..." />
-                <marker date="1449002457654" expanded="true" signature="24873:24919" placeholder="SELECT * FRO..IMAGES..." />
-                <marker date="1449002457654" expanded="true" signature="27688:27760" placeholder="SELECT paths..IMAGES..." />
-                <marker date="1449002457654" expanded="true" signature="28463:28533" placeholder="SELECT paths..IMAGES..." />
-                <marker date="1449002457654" expanded="true" signature="29401:29504" placeholder="SELECT paths..." />
-                <marker date="1449002457654" expanded="true" signature="34561:34588" placeholder="SELECT * FRO..IMAGES..." />
-                <marker date="1449002457654" expanded="true" signature="35306:35371" placeholder="SELECT paths..IMAGES..." />
+                <marker date="1449043314113" expanded="true" signature="2795:2956" placeholder="CREATE TABLE..IMAGES..." />
+                <marker date="1449043314113" expanded="true" signature="4377:4465" placeholder="CREATE TABLE..PATHS..." />
+                <marker date="1449043314113" expanded="true" signature="5104:5137" placeholder="CREATE TABLE..VERSION..." />
+                <marker date="1449043314113" expanded="true" signature="5254:5305" placeholder="INSERT into VERSION..." />
+                <marker date="1449043314113" expanded="true" signature="6264:6297" placeholder="ALTER TABLE IMAGES..." />
+                <marker date="1449043314113" expanded="true" signature="6561:6594" placeholder="ALTER TABLE IMAGES..." />
+                <marker date="1449043314113" expanded="true" signature="7065:7096" placeholder="SELECT * WHE..." />
+                <marker date="1449043314113" expanded="true" signature="7065:7097" placeholder="SELECT * FRO..PATHS..." />
+                <marker date="1449043314113" expanded="true" signature="7078:7096" placeholder="UPDATE PATHS..." />
+                <marker date="1449043314113" expanded="true" signature="7541:7578" placeholder="insert into PATHS..." />
+                <marker date="1449043314113" expanded="true" signature="8064:8119" placeholder="SELECT path,..PATHS..." />
+                <marker date="1449043314113" expanded="true" signature="8548:8584" placeholder="UPDATE PATHS..." />
+                <marker date="1449043314113" expanded="true" signature="9474:9590" placeholder="insert into IMAGES..." />
+                <marker date="1449043314113" expanded="true" signature="10961:11101" placeholder="UPDATE IMAGE..." />
+                <marker date="1449043314113" expanded="true" signature="12389:12416" placeholder="SELECT COUNT..IMAGES..." />
+                <marker date="1449043314113" expanded="true" signature="15355:15388" placeholder="SELECT * FRO..IMAGES..." />
+                <marker date="1449043314113" expanded="true" signature="15993:16115" placeholder="SELECT paths..." />
+                <marker date="1449043314113" expanded="true" signature="16568:16601" placeholder="SELECT * FRO..IMAGES..." />
+                <marker date="1449043314113" expanded="true" signature="17248:17294" placeholder="SELECT * FRO..IMAGES..." />
+                <marker date="1449043314113" expanded="true" signature="19975:20047" placeholder="SELECT paths..IMAGES..." />
+                <marker date="1449043314113" expanded="true" signature="20714:20784" placeholder="SELECT paths..IMAGES..." />
+                <marker date="1449043314113" expanded="true" signature="21636:21739" placeholder="SELECT paths..." />
+                <marker date="1449043314113" expanded="true" signature="26086:26113" placeholder="SELECT * FRO..IMAGES..." />
+                <marker date="1449043314113" expanded="true" signature="26787:26852" placeholder="SELECT paths..IMAGES..." />
               </folding>
             </state>
           </provider>
@@ -295,6 +248,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -433,8 +388,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
-      <pane id="PackagesPane" />
       <pane id="Scratches" />
     </panes>
   </component>
@@ -918,6 +871,11 @@
       <method />
     </configuration>
     <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
+      <node-options />
+      <gulpfile />
+      <tasks />
+      <arguments />
+      <envs />
       <method />
     </configuration>
     <configuration default="true" type="js.build_tools.npm" factoryName="npm">
@@ -946,13 +904,17 @@
     </recent_temporary>
   </component>
   <component name="ShelveChangesManager" show_recycled="false" />
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="3e64b3f9-5bcb-408a-be93-7d45372080e5" name="Default" comment="" />
       <created>1448983844386</created>
       <option name="number" value="Default" />
       <updated>1448983844386</updated>
-      <workItem from="1448983847143" duration="17137000" />
+      <workItem from="1448983847143" duration="17338000" />
+      <workItem from="1449042608103" duration="761000" />
     </task>
     <servers />
   </component>
@@ -968,40 +930,48 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="17137000" />
+    <option name="totallyTimeSpent" value="18099000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="65" y="24" width="1301" height="744" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3283582" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Java Enterprise" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Java Enterprise" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3283582" sideWeight="0.50269026" order="-1" side_tool="true" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3283582" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3289777" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
-      <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3283582" sideWeight="0.50269026" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32985073" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.41199076" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24135281" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3283582" sideWeight="0.49730977" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3289777" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3283582" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32985073" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
+  </component>
+  <component name="Vcs.Log.UiProperties">
+    <option name="RECENTLY_FILTERED_USER_GROUPS">
+      <collection />
+    </option>
+    <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
+      <collection />
+    </option>
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
@@ -1017,6 +987,124 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="34" column="0" selection-start-line="34" selection-start-column="0" selection-end-line="34" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mediastore-rest/src/main/java/rest/RestTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="93" column="65" selection-start-line="93" selection-start-column="65" selection-end-line="93" selection-end-column="65" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/histogram/HistogramBuilder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="9" column="29" selection-start-line="9" selection-start-column="29" selection-end-line="9" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/ImageDescriptor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="41" column="18" selection-start-line="41" selection-start-column="18" selection-end-line="41" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mediastore-db/src/test/java/fr/thumbnailsdb/DBManagerTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="27" column="0" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/dbservices/DBManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="method#DBManager#0;class#DBManager#0" expanded="false" />
+            <element signature="method#DBManager#1;class#DBManager#0" expanded="false" />
+            <element signature="method#addDB#0;class#DBManager#0" expanded="false" />
+            <element signature="method#connectToDB#0;class#DBManager#0" expanded="false" />
+            <element signature="method#checkAndCreateTables#0;class#DBManager#0" expanded="false" />
+            <element signature="method#checkOrAddColumns#0;class#DBManager#0" expanded="false" />
+            <element signature="method#compact#0;class#DBManager#0" expanded="false" />
+            <element signature="method#addIndexPath#0;class#DBManager#0" expanded="false" />
+            <element signature="method#getIndexedPaths#0;class#DBManager#0" expanded="false" />
+            <element signature="method#updateIndexedPath#0;class#DBManager#0" expanded="false" />
+            <element signature="docComment;method#decomposePath#0;class#DBManager#0" expanded="false" />
+            <element signature="method#decomposePath#0;class#DBManager#0" expanded="false" />
+            <element signature="docComment;method#saveToDB#0;class#DBManager#0" expanded="false" />
+            <element signature="method#saveToDB#0;class#DBManager#0" expanded="false" />
+            <element signature="method#updateToDB#0;class#DBManager#0" expanded="false" />
+            <element signature="method#size#0;class#DBManager#0" expanded="false" />
+            <element signature="method#isInDataBaseBasedOnName#0;class#DBManager#0" expanded="false" />
+            <element signature="method#deleteFromDatabase#0;class#DBManager#0" expanded="false" />
+            <element signature="method#getIndex#0;class#DBManager#0" expanded="false" />
+            <element signature="method#getFromDatabase#0;class#DBManager#0" expanded="false" />
+            <element signature="method#getFromDatabase#1;class#DBManager#0" expanded="false" />
+            <element signature="method#getMTime#0;class#DBManager#0" expanded="false" />
+            <element signature="method#getAllWithGPS#0;class#DBManager#0" expanded="false" />
+            <element signature="method#getAllInDataBase#0;class#DBManager#0" expanded="false" />
+            <element signature="method#getFromDB#0;class#DBManager#0" expanded="false" />
+            <element signature="method#getPath#0;class#DBManager#0" expanded="false" />
+            <element signature="method#getPath#1;class#DBManager#0" expanded="false" />
+            <element signature="method#getDuplicatesMD5#0;class#DBManager#0" expanded="false" />
+            <element signature="docComment;method#fix#0;class#DBManager#0" expanded="false" />
+            <element signature="method#fix#0;class#DBManager#0" expanded="false" />
+            <element signature="docComment;method#shrink#0;class#DBManager#0" expanded="false" />
+            <element signature="method#shrink#1;class#DBManager#0" expanded="false" />
+            <element signature="method#getCurrentMediaFileDescriptor#0;class#DBManager#0" expanded="false" />
+            <element signature="method#getMediaFileDescriptor#0;class#DBManager#0" expanded="false" />
+            <element signature="method#getMediaFileDescriptor#1;class#DBManager#0" expanded="false" />
+            <element signature="method#test#0;class#DBManager#0" expanded="false" />
+            <element signature="method#dump#0;class#DBManager#0" expanded="false" />
+            <element signature="method#getPreloadedDescriptors#0;class#DBManager#0" expanded="false" />
+            <element signature="docComment;method#getLSHStatus#0;class#DBManager#0" expanded="false" />
+            <element signature="method#getLSHStatus#0;class#DBManager#0" expanded="false" />
+            <element signature="method#findCandidatesUsingLSH#0;class#DBManager#0" expanded="false" />
+            <element signature="method#buildLSH#0;class#DBManager#0" expanded="false" />
+            <element signature="method#flushPreloadedDescriptors#0;class#DBManager#0" expanded="false" />
+            <marker date="1449043314113" expanded="true" signature="2795:2956" placeholder="CREATE TABLE..IMAGES..." />
+            <marker date="1449043314113" expanded="true" signature="4377:4465" placeholder="CREATE TABLE..PATHS..." />
+            <marker date="1449043314113" expanded="true" signature="5104:5137" placeholder="CREATE TABLE..VERSION..." />
+            <marker date="1449043314113" expanded="true" signature="5254:5305" placeholder="INSERT into VERSION..." />
+            <marker date="1449043314113" expanded="true" signature="6264:6297" placeholder="ALTER TABLE IMAGES..." />
+            <marker date="1449043314113" expanded="true" signature="6561:6594" placeholder="ALTER TABLE IMAGES..." />
+            <marker date="1449043314113" expanded="true" signature="7065:7096" placeholder="SELECT * WHE..." />
+            <marker date="1449043314113" expanded="true" signature="7065:7097" placeholder="SELECT * FRO..PATHS..." />
+            <marker date="1449043314113" expanded="true" signature="7078:7096" placeholder="UPDATE PATHS..." />
+            <marker date="1449043314113" expanded="true" signature="7541:7578" placeholder="insert into PATHS..." />
+            <marker date="1449043314113" expanded="true" signature="8064:8119" placeholder="SELECT path,..PATHS..." />
+            <marker date="1449043314113" expanded="true" signature="8548:8584" placeholder="UPDATE PATHS..." />
+            <marker date="1449043314113" expanded="true" signature="9474:9590" placeholder="insert into IMAGES..." />
+            <marker date="1449043314113" expanded="true" signature="10961:11101" placeholder="UPDATE IMAGE..." />
+            <marker date="1449043314113" expanded="true" signature="12389:12416" placeholder="SELECT COUNT..IMAGES..." />
+            <marker date="1449043314113" expanded="true" signature="15355:15388" placeholder="SELECT * FRO..IMAGES..." />
+            <marker date="1449043314113" expanded="true" signature="15993:16115" placeholder="SELECT paths..." />
+            <marker date="1449043314113" expanded="true" signature="16568:16601" placeholder="SELECT * FRO..IMAGES..." />
+            <marker date="1449043314113" expanded="true" signature="17248:17294" placeholder="SELECT * FRO..IMAGES..." />
+            <marker date="1449043314113" expanded="true" signature="19975:20047" placeholder="SELECT paths..IMAGES..." />
+            <marker date="1449043314113" expanded="true" signature="20714:20784" placeholder="SELECT paths..IMAGES..." />
+            <marker date="1449043314113" expanded="true" signature="21636:21739" placeholder="SELECT paths..." />
+            <marker date="1449043314113" expanded="true" signature="26086:26113" placeholder="SELECT * FRO..IMAGES..." />
+            <marker date="1449043314113" expanded="true" signature="26787:26852" placeholder="SELECT paths..IMAGES..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/PreloadedDescriptors.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.421875">
@@ -1031,7 +1119,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-0.30952382">
           <caret line="200" column="17" selection-start-line="200" selection-start-column="17" selection-end-line="200" selection-end-column="17" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1039,7 +1126,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.21875">
           <caret line="104" column="54" selection-start-line="104" selection-start-column="54" selection-end-line="104" selection-end-column="54" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1055,7 +1141,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.49375">
           <caret line="54" column="96" selection-start-line="54" selection-start-column="96" selection-end-line="54" selection-end-column="96" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1071,7 +1156,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="40" column="40" selection-start-line="40" selection-start-column="40" selection-end-line="40" selection-end-column="40" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1079,7 +1163,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="2.525">
           <caret line="148" column="5" selection-start-line="148" selection-start-column="5" selection-end-line="148" selection-end-column="5" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1119,23 +1202,23 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="27" column="0" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/dbservices/DBManager.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="8" selection-start-line="0" selection-start-column="8" selection-end-line="0" selection-end-column="34" />
+        <state vertical-scroll-proportion="-0.4625">
+          <caret line="70" column="59" selection-start-line="70" selection-start-column="59" selection-end-line="70" selection-end-column="59" />
           <folding>
             <element signature="method#DBManager#0;class#DBManager#0" expanded="false" />
+            <element signature="method#DBManager#1;class#DBManager#0" expanded="false" />
+            <element signature="method#addDB#0;class#DBManager#0" expanded="false" />
             <element signature="method#connectToDB#0;class#DBManager#0" expanded="false" />
+            <element signature="method#checkAndCreateTables#0;class#DBManager#0" expanded="false" />
             <element signature="method#checkOrAddColumns#0;class#DBManager#0" expanded="false" />
-            <element signature="method#upgradeDatabase#0;class#DBManager#0" expanded="false" />
-            <element signature="method#upgradeToV1#0;class#DBManager#0" expanded="false" />
-            <element signature="method#upgradeToV2#0;class#DBManager#0" expanded="false" />
-            <element signature="method#upgradeToV3#0;class#DBManager#0" expanded="false" />
-            <element signature="method#upgradeToV4#0;class#DBManager#0" expanded="false" />
             <element signature="method#compact#0;class#DBManager#0" expanded="false" />
             <element signature="method#addIndexPath#0;class#DBManager#0" expanded="false" />
             <element signature="method#getIndexedPaths#0;class#DBManager#0" expanded="false" />
@@ -1165,7 +1248,6 @@
             <element signature="method#getCurrentMediaFileDescriptor#0;class#DBManager#0" expanded="false" />
             <element signature="method#getMediaFileDescriptor#0;class#DBManager#0" expanded="false" />
             <element signature="method#getMediaFileDescriptor#1;class#DBManager#0" expanded="false" />
-            <element signature="method#displayImage#0;class#DBManager#0" expanded="false" />
             <element signature="method#test#0;class#DBManager#0" expanded="false" />
             <element signature="method#dump#0;class#DBManager#0" expanded="false" />
             <element signature="method#getPreloadedDescriptors#0;class#DBManager#0" expanded="false" />
@@ -1174,51 +1256,30 @@
             <element signature="method#findCandidatesUsingLSH#0;class#DBManager#0" expanded="false" />
             <element signature="method#buildLSH#0;class#DBManager#0" expanded="false" />
             <element signature="method#flushPreloadedDescriptors#0;class#DBManager#0" expanded="false" />
-            <marker date="1449002457654" expanded="true" signature="2917:3078" placeholder="CREATE TABLE..IMAGES..." />
-            <marker date="1449002457654" expanded="true" signature="4499:4587" placeholder="CREATE TABLE..PATHS..." />
-            <marker date="1449002457654" expanded="true" signature="5226:5259" placeholder="CREATE TABLE..VERSION..." />
-            <marker date="1449002457654" expanded="true" signature="5376:5427" placeholder="INSERT into VERSION..." />
-            <marker date="1449002457654" expanded="true" signature="5681:5702" placeholder="SELECT * FRO..VERSION..." />
-            <marker date="1449002457654" expanded="true" signature="6813:6846" placeholder="ALTER TABLE IMAGES..." />
-            <marker date="1449002457654" expanded="true" signature="7110:7143" placeholder="ALTER TABLE IMAGES..." />
-            <marker date="1449002457654" expanded="true" signature="8568:8603" placeholder="ALTER TABLE IMAGES..." />
-            <marker date="1449002457654" expanded="true" signature="8653:8798" placeholder="CREATE TABLE..IMAGES_tmp..." />
-            <marker date="1449002457654" expanded="true" signature="8847:8934" placeholder="INSERT INTO ..IMAGES_TMP..." />
-            <marker date="1449002457654" expanded="true" signature="8914:8934" placeholder="SELECT * fro..IMAGES..." />
-            <marker date="1449002457654" expanded="true" signature="9141:9158" placeholder="DROP table I..." />
-            <marker date="1449002457654" expanded="true" signature="9207:9246" placeholder="ALTER table images_tmp..." />
-            <marker date="1449002457654" expanded="true" signature="9296:9340" placeholder="UPDATE VERSI..." />
-            <marker date="1449002457654" expanded="true" signature="9857:9901" placeholder="UPDATE VERSI..." />
-            <marker date="1449002457654" expanded="true" signature="10417:10461" placeholder="UPDATE VERSI..." />
-            <marker date="1449002457654" expanded="true" signature="10629:10669" placeholder="ALTER TABLE IMAGES..." />
-            <marker date="1449002457654" expanded="true" signature="10879:10914" placeholder="ALTER TABLE IMAGES..." />
-            <marker date="1449002457654" expanded="true" signature="10963:11007" placeholder="UPDATE VERSI..." />
-            <marker date="1449002457654" expanded="true" signature="11362:11527" placeholder="CREATE TABLE..IMAGES_TMP..." />
-            <marker date="1449002457654" expanded="true" signature="11622:11671" placeholder="ALTER TABLE PATHS..." />
-            <marker date="1449002457654" expanded="true" signature="11907:11946" placeholder="SELECT path ..PATHS..." />
-            <marker date="1449002457654" expanded="true" signature="12720:12780" placeholder="SELECT * FRO..IMAGES..." />
-            <marker date="1449002457654" expanded="true" signature="12939:13063" placeholder="insert into IMAGES_TMP..." />
-            <marker date="1449002457654" expanded="true" signature="13650:13667" placeholder="DROP table I..." />
-            <marker date="1449002457654" expanded="true" signature="13716:13755" placeholder="ALTER table images_tmp..." />
-            <marker date="1449002457654" expanded="true" signature="13986:14030" placeholder="UPDATE VERSI..." />
-            <marker date="1449002457654" expanded="true" signature="14546:14577" placeholder="SELECT * WHE..." />
-            <marker date="1449002457654" expanded="true" signature="14546:14578" placeholder="SELECT * FRO..PATHS..." />
-            <marker date="1449002457654" expanded="true" signature="14559:14577" placeholder="UPDATE PATHS..." />
-            <marker date="1449002457654" expanded="true" signature="15034:15071" placeholder="insert into PATHS..." />
-            <marker date="1449002457654" expanded="true" signature="15569:15624" placeholder="SELECT path,..PATHS..." />
-            <marker date="1449002457654" expanded="true" signature="16093:16129" placeholder="UPDATE PATHS..." />
-            <marker date="1449002457654" expanded="true" signature="17043:17159" placeholder="insert into IMAGES..." />
-            <marker date="1449002457654" expanded="true" signature="18530:18670" placeholder="UPDATE IMAGE..." />
-            <marker date="1449002457654" expanded="true" signature="19962:19989" placeholder="SELECT COUNT..IMAGES..." />
-            <marker date="1449002457654" expanded="true" signature="22968:23001" placeholder="SELECT * FRO..IMAGES..." />
-            <marker date="1449002457654" expanded="true" signature="23606:23728" placeholder="SELECT paths..." />
-            <marker date="1449002457654" expanded="true" signature="24181:24214" placeholder="SELECT * FRO..IMAGES..." />
-            <marker date="1449002457654" expanded="true" signature="24873:24919" placeholder="SELECT * FRO..IMAGES..." />
-            <marker date="1449002457654" expanded="true" signature="27688:27760" placeholder="SELECT paths..IMAGES..." />
-            <marker date="1449002457654" expanded="true" signature="28463:28533" placeholder="SELECT paths..IMAGES..." />
-            <marker date="1449002457654" expanded="true" signature="29401:29504" placeholder="SELECT paths..." />
-            <marker date="1449002457654" expanded="true" signature="34561:34588" placeholder="SELECT * FRO..IMAGES..." />
-            <marker date="1449002457654" expanded="true" signature="35306:35371" placeholder="SELECT paths..IMAGES..." />
+            <marker date="1449043314113" expanded="true" signature="2795:2956" placeholder="CREATE TABLE..IMAGES..." />
+            <marker date="1449043314113" expanded="true" signature="4377:4465" placeholder="CREATE TABLE..PATHS..." />
+            <marker date="1449043314113" expanded="true" signature="5104:5137" placeholder="CREATE TABLE..VERSION..." />
+            <marker date="1449043314113" expanded="true" signature="5254:5305" placeholder="INSERT into VERSION..." />
+            <marker date="1449043314113" expanded="true" signature="6264:6297" placeholder="ALTER TABLE IMAGES..." />
+            <marker date="1449043314113" expanded="true" signature="6561:6594" placeholder="ALTER TABLE IMAGES..." />
+            <marker date="1449043314113" expanded="true" signature="7065:7096" placeholder="SELECT * WHE..." />
+            <marker date="1449043314113" expanded="true" signature="7065:7097" placeholder="SELECT * FRO..PATHS..." />
+            <marker date="1449043314113" expanded="true" signature="7078:7096" placeholder="UPDATE PATHS..." />
+            <marker date="1449043314113" expanded="true" signature="7541:7578" placeholder="insert into PATHS..." />
+            <marker date="1449043314113" expanded="true" signature="8064:8119" placeholder="SELECT path,..PATHS..." />
+            <marker date="1449043314113" expanded="true" signature="8548:8584" placeholder="UPDATE PATHS..." />
+            <marker date="1449043314113" expanded="true" signature="9474:9590" placeholder="insert into IMAGES..." />
+            <marker date="1449043314113" expanded="true" signature="10961:11101" placeholder="UPDATE IMAGE..." />
+            <marker date="1449043314113" expanded="true" signature="12389:12416" placeholder="SELECT COUNT..IMAGES..." />
+            <marker date="1449043314113" expanded="true" signature="15355:15388" placeholder="SELECT * FRO..IMAGES..." />
+            <marker date="1449043314113" expanded="true" signature="15993:16115" placeholder="SELECT paths..." />
+            <marker date="1449043314113" expanded="true" signature="16568:16601" placeholder="SELECT * FRO..IMAGES..." />
+            <marker date="1449043314113" expanded="true" signature="17248:17294" placeholder="SELECT * FRO..IMAGES..." />
+            <marker date="1449043314113" expanded="true" signature="19975:20047" placeholder="SELECT paths..IMAGES..." />
+            <marker date="1449043314113" expanded="true" signature="20714:20784" placeholder="SELECT paths..IMAGES..." />
+            <marker date="1449043314113" expanded="true" signature="21636:21739" placeholder="SELECT paths..." />
+            <marker date="1449043314113" expanded="true" signature="26086:26113" placeholder="SELECT * FRO..IMAGES..." />
+            <marker date="1449043314113" expanded="true" signature="26787:26852" placeholder="SELECT paths..IMAGES..." />
           </folding>
         </state>
       </provider>
