@@ -190,8 +190,6 @@ public class ThumbnailGenerator {
             id.setSize(f.length());
             // generate thumbnails only for images, not video
             if (Utils.isValideImageName(f.getName())) {
-              //  data = generateThumbnail(f);
-//                id.setData(data);
                 String sig = ImageHash.generateSignature(f.getCanonicalPath());
                 id.setHash(sig);
             }

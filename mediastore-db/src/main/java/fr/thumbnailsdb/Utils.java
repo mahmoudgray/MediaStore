@@ -1,10 +1,14 @@
 package fr.thumbnailsdb;
 
+import fr.thumbnailsdb.utils.FileCounter;
 import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.io.FileUtils;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -29,11 +33,34 @@ public class Utils {
         return imageMatcher.matches();
     }
 
+
+    public static int countFilesInFolder(String root) {
+        FileCounter fileProcessor = new FileCounter();
+        try {
+            Files.walkFileTree(Paths.get(root), fileProcessor);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return fileProcessor.getTotal();
+    }
+
+    public static boolean isValideFile(File fd) {
+        return fd.isFile();
+    }
+
     public static boolean isValideVideoName(final String video) {
         videoMatcher = videoPattern.matcher(video);
         return videoMatcher.matches();
     }
 
+    public static ByteArrayInputStream readFileToMemory(File f) {
+        try {
+            return new ByteArrayInputStream(FileUtils.readFileToByteArray(f));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     public static String fileToDirectory(String n) {
         if (n == null) return null;

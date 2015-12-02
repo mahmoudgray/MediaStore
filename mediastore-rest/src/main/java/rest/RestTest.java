@@ -334,7 +334,7 @@ public class RestTest {
     public Response update(@QueryParam("folder") String obj) {
         String[] folders = this.parseFolders(obj);
         tb.flushPreloadedDescriptors();
-        new MediaIndexer(tb,this.mediaFileDescriptorBuilder ).updateDB(folders);
+        new MediaIndexer(tb,this.mediaFileDescriptorBuilder ).refreshIndexedPaths(folders);
         return Response.status(200).entity("Update done").build();
     }
 
@@ -347,7 +347,7 @@ public class RestTest {
         tb.flushPreloadedDescriptors();
         tb.shrink();
         MediaIndexer mdi = new MediaIndexer(tb,this.mediaFileDescriptorBuilder );
-        mdi.updateDB(folders);
+        mdi.refreshIndexedPaths(folders);
         return Response.status(200).entity("Update done").build();
     }
 
@@ -724,8 +724,6 @@ public class RestTest {
 
         public synchronized void fileDeleted(java.nio.file.Path p) {
             Logger.getLogger().log("RestTest$DBDiskUpdater.fileDeleted " + p);
-
-            // MediaFileDescriptor mf = new MediaIndexer(tb).buildMediaDescriptor(new File(p.toString()));
             tb.deleteFromDatabase(p.toString());
         }
 

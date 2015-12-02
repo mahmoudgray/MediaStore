@@ -150,11 +150,6 @@ public class MetaDataFinder {
     public static void main(String[] args) {
         File f = new File("/user/fhuet/desktop/home/workspaces/rechercheefficaceimagessimilaires/surfjavacl/RESTfulSimilar/gps/30-05-2011_0573.jpg");
         MetaDataFinder mdf = new MetaDataFinder(f);
-//        if (args.length > 0) {
-//            mdf.processMT(new File(args[0]));
-//        } else {
-
-        //  Logger.getLogger().log(mdf.hasGPSData().toString());
         mdf.printTags();
         Logger.getLogger().log(mdf.getDate());
         Logger.getLogger().log(mdf.getGPS());

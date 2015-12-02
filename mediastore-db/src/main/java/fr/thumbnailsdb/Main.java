@@ -66,7 +66,7 @@ public class Main {
             System.out.println("DB has size " + tb.size());
         }
         if ("update".equals(args[0])) {
-            tg.updateDB();
+            tg.refreshIndexedPaths();
         }
         if ("duplicate".equals(args[0])) {
             DuplicateMediaFinder df = new DuplicateMediaFinder(tb);

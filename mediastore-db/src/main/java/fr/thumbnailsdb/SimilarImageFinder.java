@@ -51,7 +51,7 @@ public class SimilarImageFinder {
 
     public Collection<MediaFileDescriptor> findSimilarMedia(String source, int max) {
         MediaIndexer tg = new MediaIndexer(this.thumbstore , this.mediaFileDescriptorBuilder);
-        MediaFileDescriptor id = tg.buildMediaDescriptor(new File(source));
+        MediaFileDescriptor id = mediaFileDescriptorBuilder.buildMediaDescriptor(new File(source));
        // Collection<MediaFileDescriptor> result = this.findSimilarImage(id, max);
         if (id==null) {
             System.err.println("Error cannot load image "  + source);
@@ -268,7 +268,7 @@ public class SimilarImageFinder {
     public ArrayList<MediaFileDescriptor> findIdenticalMedia(String source) {
 
         MediaIndexer tg = new MediaIndexer(null, this.mediaFileDescriptorBuilder);
-        MediaFileDescriptor id = tg.buildMediaDescriptor(new File(source)); // ImageDescriptor.readFromDisk(s);
+        MediaFileDescriptor id = mediaFileDescriptorBuilder.buildMediaDescriptor(new File(source)); // ImageDescriptor.readFromDisk(s);
 //        System.out.println(id.md5Digest);
         ArrayList<MediaFileDescriptor> al = new ArrayList<MediaFileDescriptor>();
         return thumbstore.getDuplicatesMD5(id);
@@ -303,7 +303,7 @@ public class SimilarImageFinder {
         System.out.println("DBManager.testFindSimilarImages() Reference Image " + path);
 
         MediaIndexer tg = new MediaIndexer(tb, this.mediaFileDescriptorBuilder);
-        MediaFileDescriptor id = tg.buildMediaDescriptor(new File(path));
+        MediaFileDescriptor id = mediaFileDescriptorBuilder.buildMediaDescriptor(new File(path));
         MediaFileDescriptorBuilder mediaFileDescriptorBuilder = new MediaFileDescriptorBuilder();
         LSHManager lshManager = new LSHManager(tb);
         SimilarImageFinder sif = new SimilarImageFinder(tb,mediaFileDescriptorBuilder,lshManager );

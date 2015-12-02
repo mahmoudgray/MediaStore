@@ -1,6 +1,7 @@
 package fr.thumbnailsdb.treewalker;
 
 import fr.thumbnailsdb.MediaIndexer;
+import fr.thumbnailsdb.Utils;
 
 import java.io.File;
 import java.io.IOException;
@@ -36,7 +37,7 @@ public class FileProcessor  extends SimpleFileVisitor<Path> {
 //        }
 //        System.out.println("(" + attr.size() + "bytes)");
         File f = file.toFile();
-        if (tg.isValideFile(f)) {
+        if (Utils.isValideFile(f)) {
       //      System.out.println("FileProcessor.visitFile found useful file! " + f);
             tg.asyncProcessing(f);
         }

@@ -73,7 +73,7 @@ public class DBManagerTest {
     @Test(dependsOnMethods={"testAddIndexedPath"})
     public void testSaveToDB() throws IOException{
         File file = folder1.listFiles()[0];
-            MediaFileDescriptor mediaFileDescriptor1 = mediaIndexer.buildMediaDescriptor(file);
+            MediaFileDescriptor mediaFileDescriptor1 = mediaFileDescriptorBuilder.buildMediaDescriptor(file);
             dbManager.saveToDB(mediaFileDescriptor1);
             MediaFileDescriptor mediaFileDescriptor2 = mediaFileDescriptorBuilder.getMediaFileDescriptorFromDB(file.getCanonicalPath());
             Assert.assertTrue(mediaFileDescriptor1.getMD5() == mediaFileDescriptor2.getMD5());

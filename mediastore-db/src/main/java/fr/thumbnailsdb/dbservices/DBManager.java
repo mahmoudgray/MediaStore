@@ -3,6 +3,7 @@ package fr.thumbnailsdb.dbservices;
 import fr.thumbnailsdb.*;
 import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptorBuilder;
 import fr.thumbnailsdb.persistentLSH.PersistentLSH;
+import fr.thumbnailsdb.utils.Configuration;
 import fr.thumbnailsdb.utils.Logger;
 import fr.thumbnailsdb.utils.ProgressBar;
 
@@ -16,6 +17,7 @@ public class DBManager {
 
     protected static String DEFAULT_DB = "localDB";
     protected static int CURRENT_VERSION = 5;
+    private boolean dryRun = Configuration.dryRun();
     // it is better to revert dependency
     //This is used as a cache of preloaded descriptors
     protected PreloadedDescriptors preloadedDescriptors;
@@ -240,60 +242,63 @@ public class DBManager {
      * @param mediaFileDescriptor
      */
     public void saveToDB(MediaFileDescriptor mediaFileDescriptor) {
-        PreparedStatement psmnt;
-        try {
-            psmnt = this.connection.prepareStatement("insert into IMAGES(path, path_id, size, mtime, md5, hash, lat, lon) "
-                    + "values(?,?,?,?,?,?,?,?)");
-            //we need to change the path to remove the root directory
-            String[] decomposedPath = this.decomposePath(mediaFileDescriptor.getPath());
-            psmnt.setString(1, decomposedPath[1]);
-            psmnt.setInt(2, this.getIndexedPaths().indexOf(decomposedPath[0]) + 1);
-            psmnt.setLong(3, mediaFileDescriptor.getSize());
-            psmnt.setLong(4, mediaFileDescriptor.getMtime());
-            psmnt.setString(5, mediaFileDescriptor.getMD5());
-            psmnt.setString(6, mediaFileDescriptor.getHash());
-            psmnt.setDouble(7, mediaFileDescriptor.getLat());
-            psmnt.setDouble(8, mediaFileDescriptor.getLon());
-            psmnt.execute();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        if (preloadedDescriptorsExists()) {
-            Logger.getLogger().log("MediaIndexer.generateAndSave Adding to preloaded descriptors " + mediaFileDescriptor);
-            mediaFileDescriptor.setConnection(connection);
-            mediaFileDescriptor.setId(getIndex(mediaFileDescriptor.getPath()));
-            this.getPreloadedDescriptors().add(mediaFileDescriptor);
+        if (!dryRun) {
+            PreparedStatement psmnt;
+            try {
+                psmnt = this.connection.prepareStatement("insert into IMAGES(path, path_id, size, mtime, md5, hash, lat, lon) "
+                        + "values(?,?,?,?,?,?,?,?)");
+                //we need to change the path to remove the root directory
+                String[] decomposedPath = this.decomposePath(mediaFileDescriptor.getPath());
+                psmnt.setString(1, decomposedPath[1]);
+                psmnt.setInt(2, this.getIndexedPaths().indexOf(decomposedPath[0]) + 1);
+                psmnt.setLong(3, mediaFileDescriptor.getSize());
+                psmnt.setLong(4, mediaFileDescriptor.getMtime());
+                psmnt.setString(5, mediaFileDescriptor.getMD5());
+                psmnt.setString(6, mediaFileDescriptor.getHash());
+                psmnt.setDouble(7, mediaFileDescriptor.getLat());
+                psmnt.setDouble(8, mediaFileDescriptor.getLon());
+                psmnt.execute();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            if (preloadedDescriptorsExists()) {
+                Logger.getLogger().log("MediaIndexer.generateAndSave Adding to preloaded descriptors " + mediaFileDescriptor);
+                mediaFileDescriptor.setConnection(connection);
+                mediaFileDescriptor.setId(getIndex(mediaFileDescriptor.getPath()));
+                this.getPreloadedDescriptors().add(mediaFileDescriptor);
+            }
         }
     }
     public void updateToDB(MediaFileDescriptor mediaFileDescriptor) {
-        PreparedStatement psmnt = null;
-        try {
-            Statement st;
-            psmnt =this.connection.prepareStatement("UPDATE IMAGES SET path=?, path_id=?, size=?, mtime=?, hash=?, md5=? , lat=?, lon=? WHERE path=? AND (FROM PATHS SELECT path_id WHERE path=?)");
-            //we need to change the path to remove the root directory
-            String[] decomposedPath = this.decomposePath(mediaFileDescriptor.getPath());
-            psmnt.setString(1, decomposedPath[1]);
-            psmnt.setInt(2, this.getIndexedPaths().indexOf(decomposedPath[0]) + 1);
-            psmnt.setLong(3, mediaFileDescriptor.getSize());
-            psmnt.setLong(4, mediaFileDescriptor.getMtime());
-            psmnt.setString(5, mediaFileDescriptor.getHash());
-            psmnt.setString(6, mediaFileDescriptor.getMD5());
-            psmnt.setDouble(7, mediaFileDescriptor.getLat());
-            psmnt.setDouble(8, mediaFileDescriptor.getLon());
-            psmnt.setString(9, decomposedPath[1]);
-            psmnt.setString(10, decomposedPath[0]);
-            psmnt.execute();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        if (preloadedDescriptorsExists()) {
-            mediaFileDescriptor.setConnection(this.connection);
-            mediaFileDescriptor.setId(getIndex(mediaFileDescriptor.getPath()));
-            getPreloadedDescriptors().remove(mediaFileDescriptor);
-            getPreloadedDescriptors().add(mediaFileDescriptor);
-        }
-
-    }
+        if (!dryRun) {
+            PreparedStatement psmnt = null;
+            try {
+                Statement st;
+                psmnt = this.connection.prepareStatement("UPDATE IMAGES SET path=?, path_id=?, size=?, mtime=?, hash=?, md5=? , lat=?, lon=? WHERE path=? AND (FROM PATHS SELECT path_id WHERE path=?)");
+                //we need to change the path to remove the root directory
+                String[] decomposedPath = this.decomposePath(mediaFileDescriptor.getPath());
+                psmnt.setString(1, decomposedPath[1]);
+                psmnt.setInt(2, this.getIndexedPaths().indexOf(decomposedPath[0]) + 1);
+                psmnt.setLong(3, mediaFileDescriptor.getSize());
+                psmnt.setLong(4, mediaFileDescriptor.getMtime());
+                psmnt.setString(5, mediaFileDescriptor.getHash());
+                psmnt.setString(6, mediaFileDescriptor.getMD5());
+                psmnt.setDouble(7, mediaFileDescriptor.getLat());
+                psmnt.setDouble(8, mediaFileDescriptor.getLon());
+                psmnt.setString(9, decomposedPath[1]);
+                psmnt.setString(10, decomposedPath[0]);
+                psmnt.execute();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            if (preloadedDescriptorsExists()) {
+                mediaFileDescriptor.setConnection(this.connection);
+                mediaFileDescriptor.setId(getIndex(mediaFileDescriptor.getPath()));
+                getPreloadedDescriptors().remove(mediaFileDescriptor);
+                getPreloadedDescriptors().add(mediaFileDescriptor);
+            }
+         }
+     }
     public int size() {
         int count = 0;
         String select = "SELECT COUNT(*) FROM IMAGES";
