@@ -2,6 +2,7 @@ package fr.thumbnailsdb;
 
 import fr.thumbnailsdb.dbservices.DBManager;
 import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptorBuilder;
+import fr.thumbnailsdb.lshbuilders.LSHManager;
 import org.apache.commons.io.FileUtils;
 import org.testng.Assert;
 import org.testng.annotations.*;
@@ -17,6 +18,7 @@ public class DBManagerTest {
     File folder1 = null;
     MediaIndexer tg = null;
     MediaFileDescriptorBuilder mediaFileDescriptorBuilder = null;
+    LSHManager lshManager = null;
 
 
     @BeforeClass
@@ -30,6 +32,7 @@ public class DBManagerTest {
         mediaFileDescriptorBuilder=new MediaFileDescriptorBuilder();
         tb = new DBManager(tmpDir.getCanonicalPath() + "/testDB", mediaFileDescriptorBuilder );
         tg = new MediaIndexer(tb, mediaFileDescriptorBuilder);
+        lshManager = new LSHManager(tb);
 
 //        System.out.println("DBManagerTest.createTempDir "));
         //System.out.println("DBManagerTest.createTempDir " + getClass().getResource("folder1"));
@@ -61,7 +64,7 @@ public class DBManagerTest {
     @Test(dependsOnMethods={"testIndexing"})
     public void testIdenticalImage() throws IOException {
         File[] list = folder1.listFiles();
-        SimilarImageFinder si = new SimilarImageFinder(tb,mediaFileDescriptorBuilder );
+        SimilarImageFinder si = new SimilarImageFinder(tb,mediaFileDescriptorBuilder,lshManager );
 
         for(File f : list) {
             Assert.assertEquals(si.findIdenticalMedia(f.getCanonicalPath()).size(), 1);
@@ -72,7 +75,7 @@ public class DBManagerTest {
     @Test(dependsOnMethods={"testIndexing"})
     public void testSimilarImage() throws IOException {
         File[] list = folder1.listFiles();
-        SimilarImageFinder si = new SimilarImageFinder(tb,mediaFileDescriptorBuilder );
+        SimilarImageFinder si = new SimilarImageFinder(tb,mediaFileDescriptorBuilder,lshManager );
 
         for(File f : list) {
             Assert.assertEquals(si.findSimilarMedia(f.getCanonicalPath(),1).size(), 1);

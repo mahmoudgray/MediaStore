@@ -6,6 +6,7 @@ import fr.thumbnailsdb.dbservices.DBManager;
 import fr.thumbnailsdb.dcandidate.CandidateIterator;
 import fr.thumbnailsdb.dcandidate.CandidatePriorityQueue;
 import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptorBuilder;
+import fr.thumbnailsdb.lshbuilders.LSHManager;
 import fr.thumbnailsdb.utils.Configuration;
 import fr.thumbnailsdb.utils.ProgressBar;
 import fr.thumbnailsdb.vptree.VPTree;
@@ -29,6 +30,7 @@ public class SimilarImageFinder {
 
 
     protected DBManager thumbstore;
+    protected LSHManager lshManager;
 
     protected MediaFileDescriptorBuilder mediaFileDescriptorBuilder;
 
@@ -41,9 +43,10 @@ public class SimilarImageFinder {
     private ExecutorService executorService = Executors.newFixedThreadPool(10);
 
 
-    public SimilarImageFinder(DBManager c, MediaFileDescriptorBuilder mediaFileDescriptorBuilder) {
+    public SimilarImageFinder(DBManager c, MediaFileDescriptorBuilder mediaFileDescriptorBuilder , LSHManager lshManager) {
         this.thumbstore = c;
         this.mediaFileDescriptorBuilder = mediaFileDescriptorBuilder;
+        this.lshManager = lshManager;
     }
 
     public Collection<MediaFileDescriptor> findSimilarMedia(String source, int max) {
@@ -128,7 +131,7 @@ public class SimilarImageFinder {
 
     protected Collection<MediaFileDescriptor> findSimilarImageUsingLSH(MediaFileDescriptor id, int max) {
 
-        List<Candidate> al = thumbstore.findCandidatesUsingLSH(id);
+        List<Candidate> al = this.lshManager.findCandidatesUsingLSH(id);
         Iterator<Candidate> it = al.iterator();
         LoggingStopWatch watch = null;
         if (Configuration.timing()) {
@@ -302,7 +305,8 @@ public class SimilarImageFinder {
         MediaIndexer tg = new MediaIndexer(tb, this.mediaFileDescriptorBuilder);
         MediaFileDescriptor id = tg.buildMediaDescriptor(new File(path));
         MediaFileDescriptorBuilder mediaFileDescriptorBuilder = new MediaFileDescriptorBuilder();
-        SimilarImageFinder sif = new SimilarImageFinder(tb,mediaFileDescriptorBuilder );
+        LSHManager lshManager = new LSHManager(tb);
+        SimilarImageFinder sif = new SimilarImageFinder(tb,mediaFileDescriptorBuilder,lshManager );
         sif.findSimilarImageUsingLSH(id,20);
         //this.prettyPrintSimilarResults(this.findSimilarImage(id, 2), 2);
     }
@@ -310,7 +314,8 @@ public class SimilarImageFinder {
     public static void main(String[] args) {
         MediaFileDescriptorBuilder mediaFileDescriptorBuilder = new MediaFileDescriptorBuilder();
         DBManager tb = new DBManager(null,mediaFileDescriptorBuilder);
-        SimilarImageFinder si = new SimilarImageFinder(tb,mediaFileDescriptorBuilder );
+        LSHManager lshManager = new LSHManager(tb);
+        SimilarImageFinder si = new SimilarImageFinder(tb,mediaFileDescriptorBuilder,lshManager );
         si.testFindSimilarImages(tb, args[0]);
     }
 

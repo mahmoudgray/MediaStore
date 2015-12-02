@@ -60,9 +60,7 @@ public class DBManager {
         }
 
     }
-    private Connection getConnection() {
-        return this.connection;
-    }
+
     public Connection connectToDB(String path) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
         Class.forName("org.h2.Driver").newInstance();
         Connection connection = DriverManager.getConnection("jdbc:h2:" + path + "", "sa", "");
@@ -692,60 +690,7 @@ public class DBManager {
         }
         return preloadedDescriptors;
     }
-    /**
-     * return LSH status
-     * [0] = LSH size
-     * [1] = number of candidates for last query
-     *
-     * @return
-     */
-    // TODO: move this method from here to lsh builder
-    public int[] getLSHStatus() {
-        if (lsh == null) {
-            buildLSH(false);
-        }
-        return new int[]{lsh.size(), lsh.lastCandidatesCount()};
-    }
-    // TODO: move this method from here to candidate selector
-    public List<Candidate> findCandidatesUsingLSH(MediaFileDescriptor id) {
-        if (lsh == null) {
-            buildLSH(false);
-        }
-        List<Candidate> result = lsh.lookupCandidatesMT(id.getHash());
-        System.out.println("Found " + result.size() + " candidates out of " + lsh.size());
-        LoggingStopWatch watch = null;
-        return result;
-    }
-    // TODO: move this method from here to lsh builder
-    public void buildLSH(boolean force) {
-        lsh = new PersistentLSH(5, 15, 100);
-        if ((force)  || lsh.size() == 0) {
-            Status.getStatus().setStringStatus("Teaching LSH");
-            System.out.println("DBManager.buildLSH forced build or empty lsh size : " + lsh.size());
-            lsh.clear();
-            int total = this.size();
-            int processed = 0;
-            ResultSet res = this.getAllInDataBase();
-            try {
-                while (res.next()) {
-                    processed++;
-                    if (processed>10000) {
-                        System.out.println("DBManager.buildLSH processed 10 000");
-                        processed=0;
-                    }
-                    int index = res.getInt("ID");
-                    String s = res.getString("hash");
-                    if (s != null) {
-                        lsh.add(s, index);
-                    }
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            lsh.commit();
-            Status.getStatus().setStringStatus(Status.IDLE);
-        }
-    }
+
     public boolean preloadedDescriptorsExists() {
         return (this.preloadedDescriptors != null);
     }
