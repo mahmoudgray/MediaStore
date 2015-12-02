@@ -12,6 +12,7 @@ import java.sql.SQLException;
 public class MediaFileDescriptorBuilder {
 
     protected DBManager dbManager;
+
     public MediaFileDescriptorBuilder() {}
     public MediaFileDescriptorBuilder(DBManager dbManager) {
         this.dbManager = dbManager;
@@ -19,7 +20,7 @@ public class MediaFileDescriptorBuilder {
     public void setDbManager(DBManager dbManager) {
         this.dbManager = dbManager;
     }
-    public MediaFileDescriptor getMediaFileDescriptor(int index) {
+    public MediaFileDescriptor getMediaFileDescriptorFromDB(int index) {
         ResultSet res = dbManager.getFromDatabase(index);
         try {
             res.next();
@@ -29,7 +30,7 @@ public class MediaFileDescriptorBuilder {
         }
         return null;
     }
-    public MediaFileDescriptor getMediaFileDescriptor(String path) {
+    public MediaFileDescriptor getMediaFileDescriptorFromDB(String path) {
         ResultSet res = dbManager.getFromDatabase(path);
         try {
             res.next();

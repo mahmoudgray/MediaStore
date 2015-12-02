@@ -198,7 +198,7 @@ public class MediaIndexer {
         System.out.print(".");
         currentProgressSize+=f.length()/1024;
         try {
-            MediaFileDescriptor mf = mediaFileDescriptorBuilder.getMediaFileDescriptor(f.getCanonicalPath());
+            MediaFileDescriptor mf = mediaFileDescriptorBuilder.getMediaFileDescriptorFromDB(f.getCanonicalPath());
             Logger.getLogger().err("MediaIndexer.generateAndSave " + f + " descriptor: " + mf);
 
             if ((mf != null) && (f.lastModified() == mf.getMtime())) {

@@ -155,7 +155,7 @@ public class SimilarImageFinder {
         ArrayList<MediaFileDescriptor> finalArray = new ArrayList<>() ;
         while (it2.hasNext()) {
              Candidate c= it2.next();
-             MediaFileDescriptor md = mediaFileDescriptorBuilder.getMediaFileDescriptor(c.getIndex());
+             MediaFileDescriptor md = mediaFileDescriptorBuilder.getMediaFileDescriptorFromDB(c.getIndex());
             if (md!=null) {
              md.setDistance(it2.distance());
              finalArray.add(md);

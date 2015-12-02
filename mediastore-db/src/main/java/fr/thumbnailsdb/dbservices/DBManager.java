@@ -5,7 +5,6 @@ import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptorBuilder;
 import fr.thumbnailsdb.persistentLSH.PersistentLSH;
 import fr.thumbnailsdb.utils.Logger;
 import fr.thumbnailsdb.utils.ProgressBar;
-import org.perf4j.LoggingStopWatch;
 
 import java.io.File;
 import java.sql.*;
@@ -325,7 +324,7 @@ public class DBManager {
     // some difficult dependence problem in deleteFromdatabase
     public void deleteFromDatabase(String path) {
         Logger.getLogger().log("DBManager.deleteFromDatabase " + path);
-        MediaFileDescriptor mf = this.mediaFileDescriptorBuilder.getMediaFileDescriptor(path);
+        MediaFileDescriptor mf = this.mediaFileDescriptorBuilder.getMediaFileDescriptorFromDB(path);
         ResultSet res = this.getFromDatabase(path);
         try {
             while (res.next()) {

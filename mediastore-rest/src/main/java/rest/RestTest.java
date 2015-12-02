@@ -277,7 +277,7 @@ public class RestTest {
         System.out.println("Signature : imageID " + imageId);
         BufferedInputStream source = null;
 
-        MediaFileDescriptor mdf = this.mediaFileDescriptorBuilder.getMediaFileDescriptor(imageId);
+        MediaFileDescriptor mdf = this.mediaFileDescriptorBuilder.getMediaFileDescriptorFromDB(imageId);
 
         final InputStream bigInputStream =
                 new ByteArrayInputStream(mdf.getSignatureAsByte());

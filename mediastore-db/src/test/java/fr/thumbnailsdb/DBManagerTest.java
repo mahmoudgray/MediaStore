@@ -11,10 +11,8 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 
 public class DBManagerTest {
 
@@ -77,10 +75,10 @@ public class DBManagerTest {
         File file = folder1.listFiles()[0];
             MediaFileDescriptor mediaFileDescriptor1 = mediaIndexer.buildMediaDescriptor(file);
             dbManager.saveToDB(mediaFileDescriptor1);
-            MediaFileDescriptor mediaFileDescriptor2 = mediaFileDescriptorBuilder.getMediaFileDescriptor(file.getCanonicalPath());
+            MediaFileDescriptor mediaFileDescriptor2 = mediaFileDescriptorBuilder.getMediaFileDescriptorFromDB(file.getCanonicalPath());
             Assert.assertTrue(mediaFileDescriptor1.getMD5() == mediaFileDescriptor2.getMD5());
             dbManager.deleteFromDatabase(file.getCanonicalPath());
-            mediaFileDescriptor2 = mediaFileDescriptorBuilder.getMediaFileDescriptor(file.getCanonicalPath());
+            mediaFileDescriptor2 = mediaFileDescriptorBuilder.getMediaFileDescriptorFromDB(file.getCanonicalPath());
             Assert.assertNull(mediaFileDescriptor2);
         dbManager.deleteIndexedPath(folder1.getCanonicalPath());
 
@@ -98,8 +96,6 @@ public class DBManagerTest {
         }
         Assert.assertTrue(!found);
     }
-
-
 
     @Test(dependsOnMethods={"testDeleteIndexedPath"})
     public void testIndexing() throws IOException, URISyntaxException {
@@ -127,8 +123,6 @@ public class DBManagerTest {
         for(File f : list) {
             Assert.assertEquals(si.findSimilarMedia(f.getCanonicalPath(),1).size(), 1);
         }
-       // Assert.assertTrue(dbManager.size()!=0);
-        //Assert.assertTrue(lshManager.size()!=0);
     }
 
 
