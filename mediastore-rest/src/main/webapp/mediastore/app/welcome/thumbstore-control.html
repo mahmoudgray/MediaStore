@@ -9,9 +9,14 @@
         Size of db : <span id="db_size">{{size}}</span>
     </p>
     <div id="db_paths" style="margin-bottom: 0"  ng-repeat="p in paths"> 
-    <input type="checkbox" ng-model="path" name="folder">
+    <input type="checkbox" ng-model="path" name="folder" checked="true" value="{{p}}">
         <label>{{p}}
     </label><br>
+    </div>
+    <div style="float: left">
+        <form name="input" ng-submit="shrinkUpdate()">
+            <input type="submit" class="btn btn-primary" value="Shrink-Update"/>
+        </form>
     </div>
     <div id="memoryChart" style="height: 300px; width:30%;clear:both;"> </div>
 </div>

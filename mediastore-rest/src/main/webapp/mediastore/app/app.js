@@ -1,6 +1,7 @@
 'use strict';
 
-angular.module('mediastore',  ['ngRoute',
+angular.module('mediastore',  ['ngRoute',,
+    'folders.service',
     'thumbstore.ctrl',
     'thumbnail.ctrl',
     'duplicatefolders.ctrl',

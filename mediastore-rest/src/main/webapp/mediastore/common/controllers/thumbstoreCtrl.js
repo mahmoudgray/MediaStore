@@ -5,7 +5,7 @@
 (function(){
     var app = angular.module('thumbstore.ctrl', []);
 
-    app.controller('ThumbstoreCtrl', ['$scope', '$http', function($scope, $http){
+    app.controller('ThumbstoreCtrl', ['$scope', '$http', 'FoldersFactory', function($scope, $http, FoldersFactory){
         var app = this;
         $scope.free = [];
         $scope.total = [];
@@ -38,6 +38,7 @@
         var yVal = 100;
         var updateInterval = 1000;
         var dataLength = 50; // number
+
 
         $scope.updateChart = function(){
             var response = $http.get('rest/hello/monitor');
@@ -89,7 +90,12 @@
                 });
         };
 
-
+        $scope.shrinkUpdate = function(){
+            var folders = FoldersFactory.getSelectedFolders();
+            $.get('rest/hello/shrinkUpdate',{
+                folder: JSON.stringify(folders)
+            }, function(data){});
+        };
 
         (function(){
             $scope.getSize();
