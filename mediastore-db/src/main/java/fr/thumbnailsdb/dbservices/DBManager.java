@@ -17,7 +17,7 @@ public class DBManager {
 
     protected static String DEFAULT_DB = "localDB";
     protected static int CURRENT_VERSION = 5;
-    // its better to revert dependency
+    // it is better to revert dependency
     //This is used as a cache of preloaded descriptors
     protected PreloadedDescriptors preloadedDescriptors;
     // protected LSH lsh;  // dependency must be reverted
@@ -60,11 +60,13 @@ public class DBManager {
         }
 
     }
-
     public Connection connectToDB(String path) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
         Class.forName("org.h2.Driver").newInstance();
         Connection connection = DriverManager.getConnection("jdbc:h2:" + path + "", "sa", "");
 
+        return connection;
+    }
+    public Connection getconnection() {
         return connection;
     }
     public void checkAndCreateTables() throws SQLException {
@@ -174,6 +176,16 @@ public class DBManager {
         try {
             statement = this.connection.prepareStatement("insert into PATHS(path)" + "values(?)");
             statement.setString(1, path);
+            statement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    public void deleteIndexedPath(String path){
+        PreparedStatement statement;
+        try {
+            statement = this.connection.prepareStatement("DELETE PATHS WHERE path=?");
+            statement.setString(1,path);
             statement.execute();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -310,7 +322,7 @@ public class DBManager {
         }
         return result;
     }
-    // some difficult dependence problem i deleteFromdatabase
+    // some difficult dependence problem in deleteFromdatabase
     public void deleteFromDatabase(String path) {
         Logger.getLogger().log("DBManager.deleteFromDatabase " + path);
         MediaFileDescriptor mf = this.mediaFileDescriptorBuilder.getMediaFileDescriptor(path);
@@ -423,7 +435,7 @@ public class DBManager {
         try {
             sta = this.connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
             return sta.executeQuery("FROM IMAGES, PATHS " +
-                    "SELECT paths.path||images.path as path,id size,mtime,md5,hash,lat,lon WHERE" +
+                    "SELECT PATHS.path||IMAGES.path as path, id, size, mtime, md5, hash, lat,lon WHERE " +
                     " paths.path_id=images.path_id ");
         } catch (SQLException e) {
             e.printStackTrace();
@@ -581,33 +593,6 @@ public class DBManager {
         }
 
     }
-    // todo move this method from here to tests
-    public void test() {
-        System.err.println("DBManager.test() reading descriptor from disk ");
-        MediaIndexer tg = new MediaIndexer(this, new MediaFileDescriptorBuilder() );
-        String s = "/user/fhuet/desktop/home/workspaces/rechercheefficaceimagessimilaires/images/test.jpg";
-        MediaFileDescriptor id = tg.buildMediaDescriptor(new File(s));
-        System.err.println("DBManager.test() writting to database");
-        saveToDB(id);
-        System.err.println("DBManager.test() dumping entries");
-        String select = "SELECT * FROM IMAGES, PATHS";
-        Statement st;
-        try {
-            st = this.connection.createStatement();
-            ResultSet res = st.executeQuery(select);
-            while (res.next()) {
-                String i = res.getString("path");
-                //  byte[] d = res.getBytes("data");
-                System.err.println(i + " has mtime " + res.getLong("mtime"));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        System.err.println("Testing update ");
-        id.setMtime(0);
-        updateToDB(id);
-        System.err.println("DBManager.test() dumping entries");
-    }
     public void dump(boolean p) {
         String select = "SELECT paths.path||images.path AS path,id,hash FROM IMAGES, PATHS";
         Statement st;
@@ -690,7 +675,6 @@ public class DBManager {
         }
         return preloadedDescriptors;
     }
-
     public boolean preloadedDescriptorsExists() {
         return (this.preloadedDescriptors != null);
     }
@@ -700,4 +684,6 @@ public class DBManager {
             this.preloadedDescriptors = null;
         }
     }
+
+
 }

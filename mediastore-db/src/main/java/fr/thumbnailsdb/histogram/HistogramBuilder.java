@@ -114,8 +114,6 @@ public class HistogramBuilder {
     public static void main(String[] args) throws Exception {
 
 
-//        test();
-
         BufferedImage original = ImageIO.read(new File("/user/fhuet/desktop/home/workspaces/rechercheefficaceimagessimilaires/MediaStore/testImages/folder1/icons3.jpg"));
         int[] b = original.getColorModel().getComponentSize();
         System.out.println(b[0] + ","+ b[1] + ","+b[2] + ",");

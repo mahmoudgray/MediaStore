@@ -21,7 +21,6 @@ public class LSHManager {
 
 
     public LSHManager(DBManager dbManager) {
-        this.lsh = lsh;
         this.dbManager = dbManager;
     }
 
@@ -32,8 +31,10 @@ public class LSHManager {
             System.out.println("LSHManager.buildLSH forced build or empty lsh size : " + lsh.size());
             lsh.clear();
             int total = this.dbManager.size();
+            System.out.println("LSHManager.buildLSH db.size =" + total);
             int processed = 0;
             ResultSet res = this.dbManager.getAllInDataBase();
+
             try {
                 while (res.next()) {
                     processed++;
@@ -68,5 +69,8 @@ public class LSHManager {
         System.out.println("Found " + result.size() + " candidates out of " + lsh.size());
         LoggingStopWatch watch = null;
         return result;
+    }
+    public int size(){
+        return lsh.size();
     }
 }

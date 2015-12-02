@@ -50,7 +50,7 @@ public class SimilarImageFinder {
     }
 
     public Collection<MediaFileDescriptor> findSimilarMedia(String source, int max) {
-        MediaIndexer tg = new MediaIndexer(null, this.mediaFileDescriptorBuilder);
+        MediaIndexer tg = new MediaIndexer(this.thumbstore , this.mediaFileDescriptorBuilder);
         MediaFileDescriptor id = tg.buildMediaDescriptor(new File(source));
        // Collection<MediaFileDescriptor> result = this.findSimilarImage(id, max);
         if (id==null) {
