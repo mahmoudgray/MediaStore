@@ -1,7 +1,8 @@
 package fr.thumbnailsdb.treewalker;
 
 import fr.thumbnailsdb.MediaIndexer;
-import fr.thumbnailsdb.ThumbnailGenerator;
+import fr.thumbnailsdb.dbservices.DBManager;
+import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptorBuilder;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -31,8 +32,9 @@ public class TreeWalker {
     }
 
     public static void main(String[] args) {
-
-        TreeWalker t = new TreeWalker( new MediaIndexer(null));
+        MediaFileDescriptorBuilder mediaFileDescriptorBuilder = new MediaFileDescriptorBuilder();
+        DBManager dbManager = new DBManager(null , mediaFileDescriptorBuilder);
+        TreeWalker t = new TreeWalker( new MediaIndexer(null,mediaFileDescriptorBuilder ));
         t.walk("/Users/fhuet/Documents/workspaces/imagessimilaires/MediaStore");
 
 

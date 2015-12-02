@@ -3,6 +3,7 @@ package fr.thumbnailsdb.hash;
 import fr.thumbnailsdb.MediaFileDescriptor;
 import fr.thumbnailsdb.PreloadedDescriptors;
 import fr.thumbnailsdb.dbservices.DBManager;
+import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptorBuilder;
 import fr.thumbnailsdb.utils.Logger;
 
 import javax.imageio.ImageIO;
@@ -127,7 +128,8 @@ public class ImageHash {
 
     public static void testDB() {
         ImageHash imh = new ImageHash();
-        DBManager tb = new DBManager();
+        MediaFileDescriptorBuilder mediaFileDescriptorBuilder = new MediaFileDescriptorBuilder();
+        DBManager tb = new DBManager(null,mediaFileDescriptorBuilder);
         System.out.println(" Size of DB :  " + tb.size());
         PreloadedDescriptors pl = tb.getPreloadedDescriptors();
         Iterator it = pl.iterator();

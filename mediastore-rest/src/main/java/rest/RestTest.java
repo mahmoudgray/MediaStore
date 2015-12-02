@@ -5,6 +5,7 @@ import com.sun.jersey.multipart.FormDataMultiPart;
 import com.sun.jersey.spi.resource.Singleton;
 import fr.thumbnailsdb.*;
 import fr.thumbnailsdb.dbservices.DBManager;
+import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptorBuilder;
 import fr.thumbnailsdb.diskmonitor.DiskListener;
 import fr.thumbnailsdb.diskmonitor.DiskWatcher;
 import fr.thumbnailsdb.duplicate.DuplicateFolderGroup;
@@ -43,18 +44,19 @@ public class RestTest {
     protected SimilarImageFinder si;
     protected DuplicateMediaFinder df;
     protected DiskWatcher dw;
+    protected MediaFileDescriptorBuilder mediaFileDescriptorBuilder;
 
     public RestTest() {
-        // System.out.println("RestTest.RestTest()");
-
         File f = new File(dbFileName);
         if (f.exists()) {
             try {
-                //TODO : Loop over lines
+                if(mediaFileDescriptorBuilder == null){
+                    this.mediaFileDescriptorBuilder = new MediaFileDescriptorBuilder();
+                }
                 BufferedReader fr = new BufferedReader(new FileReader(f));
                 while ((bdName = fr.readLine()) != null) {
                     if (tb == null) {
-                        tb = new DBManager(bdName);
+                        tb = new DBManager(bdName,mediaFileDescriptorBuilder );
                     } else {
                         tb.addDB(bdName);
                     }
@@ -65,10 +67,11 @@ public class RestTest {
                 e.printStackTrace();
             }
         } else {
-            tb = new DBManager();
+            this.mediaFileDescriptorBuilder = new MediaFileDescriptorBuilder();
+            tb = new DBManager(null,this.mediaFileDescriptorBuilder);
         }
 
-        si = new SimilarImageFinder(tb);
+        si = new SimilarImageFinder(tb,this.mediaFileDescriptorBuilder );
         df = new DuplicateMediaFinder(tb);
         try {
             dw = new DiskWatcher(tb.getIndexedPaths().toArray(new String[]{}));
@@ -272,7 +275,7 @@ public class RestTest {
         System.out.println("Signature : imageID " + imageId);
         BufferedInputStream source = null;
 
-        MediaFileDescriptor mdf = tb.getMediaFileDescriptor(imageId);
+        MediaFileDescriptor mdf = this.mediaFileDescriptorBuilder.getMediaFileDescriptor(imageId);
 
         final InputStream bigInputStream =
                 new ByteArrayInputStream(mdf.getSignatureAsByte());
@@ -329,7 +332,7 @@ public class RestTest {
     public Response update(@QueryParam("folder") String obj) {
         String[] folders = this.parseFolders(obj);
         tb.flushPreloadedDescriptors();
-        new MediaIndexer(tb).updateDB(folders);
+        new MediaIndexer(tb,this.mediaFileDescriptorBuilder ).updateDB(folders);
         return Response.status(200).entity("Update done").build();
     }
 
@@ -341,7 +344,7 @@ public class RestTest {
 
         tb.flushPreloadedDescriptors();
         tb.shrink();
-        MediaIndexer mdi = new MediaIndexer(tb);
+        MediaIndexer mdi = new MediaIndexer(tb,this.mediaFileDescriptorBuilder );
         mdi.updateDB(folders);
         return Response.status(200).entity("Update done").build();
     }
@@ -709,20 +712,12 @@ public class RestTest {
 
         public synchronized void fileCreated(java.nio.file.Path p) {
             Logger.getLogger().log("RestTest$DBDiskUpdater.fileCreated " + p);
-            //   try {
-            new MediaIndexer(tb).process(p.toString());
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
+            new MediaIndexer(tb,mediaFileDescriptorBuilder ).process(p.toString());
         }
 
         public synchronized void fileModified(java.nio.file.Path p) {
             Logger.getLogger().log("RestTest$DBDiskUpdater.fileModified " + p);
-//            try {
-            new MediaIndexer(tb).process(p.toString());
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
+            new MediaIndexer(tb,mediaFileDescriptorBuilder ).process(p.toString());
         }
 
         public synchronized void fileDeleted(java.nio.file.Path p) {
@@ -734,24 +729,15 @@ public class RestTest {
 
         public synchronized void folderCreated(java.nio.file.Path p) {
             Logger.getLogger().log("RestTest$DBDiskUpdater.folderCreated " + p);
-//            try {
-            new MediaIndexer(tb).process(p.toString());
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
+            new MediaIndexer(tb,mediaFileDescriptorBuilder).process(p.toString());
         }
 
         public synchronized void folderModified(java.nio.file.Path p) {
             Logger.getLogger().log("RestTest$DBDiskUpdater.fileModified " + p);
-//            try {
-            new MediaIndexer(tb).process(p.toString());
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
+            new MediaIndexer(tb,mediaFileDescriptorBuilder ).process(p.toString());
         }
 
         public void folderDeleted(java.nio.file.Path p) {
-
 
         }
     }

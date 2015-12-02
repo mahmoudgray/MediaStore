@@ -1,6 +1,7 @@
 package fr.thumbnailsdb;
 
 import fr.thumbnailsdb.dbservices.DBManager;
+import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptorBuilder;
 import org.apache.commons.io.FileUtils;
 import org.testng.Assert;
 import org.testng.annotations.*;
@@ -15,6 +16,7 @@ public class DBManagerTest {
     DBManager tb = null;
     File folder1 = null;
     MediaIndexer tg = null;
+    MediaFileDescriptorBuilder mediaFileDescriptorBuilder = null;
 
 
     @BeforeClass
@@ -25,8 +27,9 @@ public class DBManagerTest {
         folder1 = new File(getClass().getResource("folder1").toURI());
         System.out.println("DBManagerTest.createTempDir Temp Dir " + tmpDir);
         System.out.println("DBManagerTest.createTempDir Folder1  " + folder1);
-        tb = new DBManager(tmpDir.getCanonicalPath() + "/testDB");
-        tg = new MediaIndexer(tb);
+        mediaFileDescriptorBuilder=new MediaFileDescriptorBuilder();
+        tb = new DBManager(tmpDir.getCanonicalPath() + "/testDB", mediaFileDescriptorBuilder );
+        tg = new MediaIndexer(tb, mediaFileDescriptorBuilder);
 
 //        System.out.println("DBManagerTest.createTempDir "));
         //System.out.println("DBManagerTest.createTempDir " + getClass().getResource("folder1"));
@@ -58,7 +61,7 @@ public class DBManagerTest {
     @Test(dependsOnMethods={"testIndexing"})
     public void testIdenticalImage() throws IOException {
         File[] list = folder1.listFiles();
-        SimilarImageFinder si = new SimilarImageFinder(tb);
+        SimilarImageFinder si = new SimilarImageFinder(tb,mediaFileDescriptorBuilder );
 
         for(File f : list) {
             Assert.assertEquals(si.findIdenticalMedia(f.getCanonicalPath()).size(), 1);
@@ -69,7 +72,7 @@ public class DBManagerTest {
     @Test(dependsOnMethods={"testIndexing"})
     public void testSimilarImage() throws IOException {
         File[] list = folder1.listFiles();
-        SimilarImageFinder si = new SimilarImageFinder(tb);
+        SimilarImageFinder si = new SimilarImageFinder(tb,mediaFileDescriptorBuilder );
 
         for(File f : list) {
             Assert.assertEquals(si.findSimilarMedia(f.getCanonicalPath(),1).size(), 1);

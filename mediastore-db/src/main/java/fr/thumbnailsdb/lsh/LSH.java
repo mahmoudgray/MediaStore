@@ -1,7 +1,9 @@
 package fr.thumbnailsdb.lsh;
 
 
+import fr.thumbnailsdb.MediaFileDescriptor;
 import fr.thumbnailsdb.dbservices.DBManager;
+import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptorBuilder;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -95,8 +97,8 @@ public class LSH {
 
     public static void testThumbstore() {
         System.out.println("LSH building reference set");
-
-        DBManager thumbstore = new DBManager();
+        MediaFileDescriptorBuilder mediaFileDescriptorBuilder = new MediaFileDescriptorBuilder();
+        DBManager thumbstore = new DBManager(null , mediaFileDescriptorBuilder);
         int size = thumbstore.size();
         //   VPTree vpTree = new VPTree();
         LSH lsh = new LSH(10, 30, 100);

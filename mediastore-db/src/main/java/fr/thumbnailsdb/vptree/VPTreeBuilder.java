@@ -2,6 +2,7 @@ package fr.thumbnailsdb.vptree;
 
 import fr.thumbnailsdb.MediaFileDescriptor;
 import fr.thumbnailsdb.dbservices.DBManager;
+import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptorBuilder;
 import fr.thumbnailsdb.vptree.distances.Distance;
 import fr.thumbnailsdb.vptree.distances.VPRMSEDistance;
 
@@ -20,10 +21,10 @@ public class VPTreeBuilder {
     private static final boolean DEBUG = false;
     private static final boolean OPTIMIZED = false;
     private static final int sample_size = 10;
-
     private Random generator = new Random(System.currentTimeMillis());
-
     private final Distance distance;
+    protected DBManager dbManager;
+
 
     private Set<Node> nodes = new HashSet<Node>();
 
@@ -32,8 +33,9 @@ public class VPTreeBuilder {
      *
      * @param distance The class implementing the distance.
      */
-    public VPTreeBuilder(Distance distance) {
+    public VPTreeBuilder(Distance distance , DBManager dbManager ) {
         this.distance = distance;
+        this.dbManager =dbManager;
     }
 
     public Set<Node> getNodes() {
@@ -193,12 +195,12 @@ public class VPTreeBuilder {
     }
 
     protected VPTree getPreloadedDescriptorsVPTree() {
-        DBManager thumbstore = new DBManager();
-        int size = thumbstore.size();
+
+        int size = this.dbManager.size();
         VPTree vpTree = new VPTree();
         ArrayList<MediaFileDescriptor> al = new ArrayList<MediaFileDescriptor>(size);
 
-        ResultSet res = thumbstore.getAllInDataBase();
+        ResultSet res = this.dbManager.getAllInDataBase();
             try {
                 while (res.next()) {
                     String path = res.getString("path");
@@ -228,7 +230,9 @@ public class VPTreeBuilder {
 
 
     public static void main(String[] args) {
-        VPTreeBuilder vpt = new VPTreeBuilder(new VPRMSEDistance());
+        MediaFileDescriptorBuilder mediaFileDescriptorBuilder = new MediaFileDescriptorBuilder();
+        DBManager dbManager = new DBManager(null, mediaFileDescriptorBuilder);
+        VPTreeBuilder vpt = new VPTreeBuilder(new VPRMSEDistance(),dbManager);
         vpt.getPreloadedDescriptorsVPTree();
 
     }

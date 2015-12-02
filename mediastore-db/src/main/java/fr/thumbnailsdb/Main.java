@@ -1,6 +1,7 @@
 package fr.thumbnailsdb;
 
 import fr.thumbnailsdb.dbservices.DBManager;
+import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptorBuilder;
 
 import java.util.ArrayList;
 
@@ -11,16 +12,17 @@ public class Main {
         for (int i = 0; i < args.length; i++) {
             System.err.println("    " + args[i]);
         }
-        DBManager tb = new DBManager(dbPath);
+        MediaFileDescriptorBuilder mediaFileDescriptorBuilder = new MediaFileDescriptorBuilder();
+        DBManager tb = new DBManager(dbPath,mediaFileDescriptorBuilder );
 
         if ("similar".equals(args[0])) {
-            SimilarImageFinder si = new SimilarImageFinder(tb);
+            SimilarImageFinder si = new SimilarImageFinder(tb,mediaFileDescriptorBuilder);
             String source = args[1];
             //si.prettyPrintSimilarResults(si.findSimilarMedia(source,10), 10);
         }
 
         if ("duplicate".equals(args[0])) {
-            SimilarImageFinder si = new SimilarImageFinder(tb);
+            SimilarImageFinder si = new SimilarImageFinder(tb,mediaFileDescriptorBuilder );
             String source = args[1];
             si.prettyPrintIdenticalResults(si.findIdenticalMedia(source));
         }
@@ -32,8 +34,9 @@ public class Main {
         for (int i = 0; i < args.length; i++) {
             System.err.println("    " + args[i]);
         }
-        DBManager tb = new DBManager(dbPath);
-        MediaIndexer tg = new MediaIndexer(tb);
+        MediaFileDescriptorBuilder mediaFileDescriptorBuilder = new MediaFileDescriptorBuilder();
+        DBManager tb = new DBManager(dbPath,mediaFileDescriptorBuilder );
+        MediaIndexer tg = new MediaIndexer(tb,mediaFileDescriptorBuilder);
         if ("index".equals(args[0])) {
             String source = args[1];
             tg.processMTRoot(source);

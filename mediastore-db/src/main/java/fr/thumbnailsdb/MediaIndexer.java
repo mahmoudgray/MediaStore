@@ -16,6 +16,7 @@ import java.util.concurrent.TimeUnit;
 import javax.imageio.ImageIO;
 
 import fr.thumbnailsdb.dbservices.DBManager;
+import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptorBuilder;
 import fr.thumbnailsdb.hash.ImageHash;
 import fr.thumbnailsdb.treewalker.TreeWalker;
 import fr.thumbnailsdb.utils.Configuration;
@@ -42,24 +43,22 @@ public class MediaIndexer {
     protected int processedFiles;
     protected long lastProgressTime;
     protected int currentProgressSize;
-
     protected int totalNumberOfFiles;
-
     //default value for the number of threads in the pool.
     protected int maxThreads;
-
     protected ThreadPoolExecutor executorService;
-
     private boolean dryRun = Configuration.dryRun();
 
+    protected MediaFileDescriptorBuilder mediaFileDescriptorBuilder;
 
-    public MediaIndexer(DBManager t) {
 
+    public MediaIndexer(DBManager t, MediaFileDescriptorBuilder mediaFileDescriptorBuilder) {
         maxThreads = Configuration.getMaxIndexerThreads();
         System.out.println("MediaIndexer.MediaIndexer Max Threads = " + maxThreads);
         executorService= new ThreadPoolExecutor(maxThreads, maxThreads, 0L, TimeUnit.MILLISECONDS,
                 new LimitedQueue<Runnable>(50));
         this.ts = t;
+        this.mediaFileDescriptorBuilder = mediaFileDescriptorBuilder;
     }
 
     private class LimitedQueue<E> extends LinkedBlockingQueue<E> {
@@ -199,7 +198,7 @@ public class MediaIndexer {
         System.out.print(".");
         currentProgressSize+=f.length()/1024;
         try {
-            MediaFileDescriptor mf = ts.getMediaFileDescriptor(f.getCanonicalPath());
+            MediaFileDescriptor mf = mediaFileDescriptorBuilder.getMediaFileDescriptor(f.getCanonicalPath());
             Logger.getLogger().err("MediaIndexer.generateAndSave " + f + " descriptor: " + mf);
 
             if ((mf != null) && (f.lastModified() == mf.getMtime())) {
@@ -210,7 +209,6 @@ public class MediaIndexer {
                 boolean update = false;
 
                 if (forceGPSUpdate) {
-                    //  MediaFileDescriptor mfd = ts.getMediaFileDescriptor(f.getCanonicalPath());
                     MetaDataFinder mdf = new MetaDataFinder(f);
                     double latLon[] = mdf.getLatLong();
                     Logger.getLogger().err("MediaIndexer.generateAndSave working on " + f);
@@ -495,8 +493,9 @@ public class MediaIndexer {
                     + "[-db path_to_db] -source folder_or_file_to_process");
             System.exit(0);
         }
-        DBManager ts = new DBManager(pathToDB);
-        MediaIndexer tb = new MediaIndexer(ts);
+        MediaFileDescriptorBuilder mediaFileDescriptorBuilder = new MediaFileDescriptorBuilder();
+        DBManager ts = new DBManager(pathToDB,mediaFileDescriptorBuilder );
+        MediaIndexer tb = new MediaIndexer(ts,mediaFileDescriptorBuilder );
         File fs = new File(source);
             tb.processMTRoot(source);
 

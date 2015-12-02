@@ -1,6 +1,7 @@
 package fr.thumbnailsdb.dbservices;
 
 import fr.thumbnailsdb.*;
+import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptorBuilder;
 import fr.thumbnailsdb.persistentLSH.PersistentLSH;
 import fr.thumbnailsdb.utils.Logger;
 import fr.thumbnailsdb.utils.ProgressBar;
@@ -22,12 +23,12 @@ public class DBManager {
     // protected LSH lsh;  // dependency must be reverted
     protected PersistentLSH lsh;
     protected Connection connection;
+    protected MediaFileDescriptorBuilder mediaFileDescriptorBuilder;
 
-    public DBManager() {
-        this(DEFAULT_DB);
 
-    }
-    public DBManager(String path) {
+    public DBManager(String path, MediaFileDescriptorBuilder mediaFileDescriptorBuilder) {
+        this.mediaFileDescriptorBuilder = mediaFileDescriptorBuilder;
+        this.mediaFileDescriptorBuilder.setDbManager(this);
         if (path == null) {
             path = DEFAULT_DB;
         }
@@ -314,7 +315,7 @@ public class DBManager {
     // some difficult dependence problem i deleteFromdatabase
     public void deleteFromDatabase(String path) {
         Logger.getLogger().log("DBManager.deleteFromDatabase " + path);
-        MediaFileDescriptor mf = this.getMediaFileDescriptor(path);
+        MediaFileDescriptor mf = this.mediaFileDescriptorBuilder.getMediaFileDescriptor(path);
         ResultSet res = this.getFromDatabase(path);
         try {
             while (res.next()) {
@@ -453,7 +454,7 @@ public class DBManager {
             ResultSet res = sta.executeQuery(query);
             // mrs.add(connection,r);
             while (res.next()) {
-                list.add(getCurrentMediaFileDescriptor(res));
+                list.add(this.mediaFileDescriptorBuilder.getCurrentMediaFileDescriptor(res));
             }
 
         } catch (SQLException e) {
@@ -482,7 +483,7 @@ public class DBManager {
         }
         return p;
     }
-    public  String getPath(int index) {
+    public String getPath(int index) {
         ResultSet res = null;
         String p = null;
         if (this.connection == null) {
@@ -514,7 +515,7 @@ public class DBManager {
             res = sta
                     .executeQuery("SELECT paths.path||images.path as path, md5, size FROM IMAGES, PATHS WHERE md5=\'" + mfd.getMD5() + "\'");
             while (res.next()) {
-                results.add(getCurrentMediaFileDescriptor(res));
+                results.add(this.mediaFileDescriptorBuilder.getCurrentMediaFileDescriptor(res));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -530,7 +531,7 @@ public class DBManager {
         System.err.println("DBManager.fix() BD has " + this.size() + " entries");
         try {
             while (all.next()) {
-                id = getCurrentMediaFileDescriptor(all);
+                id = this.mediaFileDescriptorBuilder.getCurrentMediaFileDescriptor(all);
                 if (Utils.isValideImageName(id.getPath())) {
                     if (id.getHash() == null || id.getMD5() == null) {
                         System.err.println("DBManager.fix() " + id.getPath() + " has null data ord md5");
@@ -566,7 +567,7 @@ public class DBManager {
             try {
                 int i = 0;
                 while (all.next()) {
-                    id = getCurrentMediaFileDescriptor(all);
+                    id = this.mediaFileDescriptorBuilder.getCurrentMediaFileDescriptor(all);
                     Logger.getLogger().log("DBManager.shrink() processing  " + id);
                     File tmp = new File(id.getPath());
                     if (!tmp.exists()) {
@@ -582,45 +583,10 @@ public class DBManager {
         }
 
     }
-    public MediaFileDescriptor getCurrentMediaFileDescriptor(ResultSet res) {
-        MediaFileDescriptor id = null;
-        try {
-            String path = res.getString("path");
-            String md5 = res.getString("md5");
-            long mtime = res.getLong("mtime");
-            long size = res.getLong("size");
-            String hash = res.getString("hash");
-
-            id = new MediaFileDescriptor(path, size, mtime, md5, hash);
-            id.setId(res.getInt("id"));
-        } catch (SQLException e) {
-        }
-        return id;
-    }
-    public MediaFileDescriptor getMediaFileDescriptor(String path) {
-        ResultSet res = getFromDatabase(path);
-        try {
-            res.next();
-            return this.getCurrentMediaFileDescriptor(res);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-    public MediaFileDescriptor getMediaFileDescriptor(int index) {
-        ResultSet res = getFromDatabase(index);
-        try {
-            res.next();
-            return this.getCurrentMediaFileDescriptor(res);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
     // todo move this method from here to tests
     public void test() {
         System.err.println("DBManager.test() reading descriptor from disk ");
-        MediaIndexer tg = new MediaIndexer(this);
+        MediaIndexer tg = new MediaIndexer(this, new MediaFileDescriptorBuilder() );
         String s = "/user/fhuet/desktop/home/workspaces/rechercheefficaceimagessimilaires/images/test.jpg";
         MediaFileDescriptor id = tg.buildMediaDescriptor(new File(s));
         System.err.println("DBManager.test() writting to database");

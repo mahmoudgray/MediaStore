@@ -1,5 +1,7 @@
 package fr.thumbnailsdb;
 
+import fr.thumbnailsdb.dbservices.DBManager;
+import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptorBuilder;
 import fr.thumbnailsdb.hash.ImageHash;
 
 import java.awt.image.BufferedImage;
@@ -150,7 +152,9 @@ public class ImageComparator {
         int y = 10;
 
         System.out.println("ImageComparator.testThumbnailImages()  Thumbnail size is " + x + "x" + y);
-        MediaIndexer tb = new MediaIndexer(null);
+        MediaFileDescriptorBuilder mediaFileDescriptorBuilder = new MediaFileDescriptorBuilder();
+        DBManager dbManager = new DBManager(null , mediaFileDescriptorBuilder);
+        MediaIndexer tb = new MediaIndexer(null,mediaFileDescriptorBuilder);
         String path = "/user/fhuet/desktop/home/workspaces/rechercheefficaceimagessimilaires/images/original.jpg";
         BufferedImage img = ImageIO.read(new File(path));
 

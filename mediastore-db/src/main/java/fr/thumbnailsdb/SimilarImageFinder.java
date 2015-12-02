@@ -5,6 +5,7 @@ import fr.thumbnailsdb.bktree.RMSEDistance;
 import fr.thumbnailsdb.dbservices.DBManager;
 import fr.thumbnailsdb.dcandidate.CandidateIterator;
 import fr.thumbnailsdb.dcandidate.CandidatePriorityQueue;
+import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptorBuilder;
 import fr.thumbnailsdb.utils.Configuration;
 import fr.thumbnailsdb.utils.ProgressBar;
 import fr.thumbnailsdb.vptree.VPTree;
@@ -29,6 +30,8 @@ public class SimilarImageFinder {
 
     protected DBManager thumbstore;
 
+    protected MediaFileDescriptorBuilder mediaFileDescriptorBuilder;
+
 
     protected BKTree<MediaFileDescriptor> bkTree;// = new BKTree<String>(new RMSEDistance());
 
@@ -38,12 +41,13 @@ public class SimilarImageFinder {
     private ExecutorService executorService = Executors.newFixedThreadPool(10);
 
 
-    public SimilarImageFinder(DBManager c) {
+    public SimilarImageFinder(DBManager c, MediaFileDescriptorBuilder mediaFileDescriptorBuilder) {
         this.thumbstore = c;
+        this.mediaFileDescriptorBuilder = mediaFileDescriptorBuilder;
     }
 
     public Collection<MediaFileDescriptor> findSimilarMedia(String source, int max) {
-        MediaIndexer tg = new MediaIndexer(null);
+        MediaIndexer tg = new MediaIndexer(null, this.mediaFileDescriptorBuilder);
         MediaFileDescriptor id = tg.buildMediaDescriptor(new File(source));
        // Collection<MediaFileDescriptor> result = this.findSimilarImage(id, max);
         if (id==null) {
@@ -89,7 +93,7 @@ public class SimilarImageFinder {
         if (vpTree == null) {
             int size = thumbstore.size();
             vpTree = new VPTree();
-            VPTreeBuilder builder = new VPTreeBuilder(new VPRMSEDistance());
+            VPTreeBuilder builder = new VPTreeBuilder(new VPRMSEDistance(),this.thumbstore);
             ArrayList<MediaFileDescriptor> al = new ArrayList<MediaFileDescriptor>(size);
             ResultSet res = thumbstore.getAllInDataBase();
                 try {
@@ -148,7 +152,7 @@ public class SimilarImageFinder {
         ArrayList<MediaFileDescriptor> finalArray = new ArrayList<>() ;
         while (it2.hasNext()) {
              Candidate c= it2.next();
-             MediaFileDescriptor md = thumbstore.getMediaFileDescriptor(c.getIndex());
+             MediaFileDescriptor md = mediaFileDescriptorBuilder.getMediaFileDescriptor(c.getIndex());
             if (md!=null) {
              md.setDistance(it2.distance());
              finalArray.add(md);
@@ -260,7 +264,7 @@ public class SimilarImageFinder {
 
     public ArrayList<MediaFileDescriptor> findIdenticalMedia(String source) {
 
-        MediaIndexer tg = new MediaIndexer(null);
+        MediaIndexer tg = new MediaIndexer(null, this.mediaFileDescriptorBuilder);
         MediaFileDescriptor id = tg.buildMediaDescriptor(new File(source)); // ImageDescriptor.readFromDisk(s);
 //        System.out.println(id.md5Digest);
         ArrayList<MediaFileDescriptor> al = new ArrayList<MediaFileDescriptor>();
@@ -295,16 +299,18 @@ public class SimilarImageFinder {
         //String s = "/user/fhuet/desktop/home/workspaces/rechercheefficaceimagessimilaires/images/original.jpg";
         System.out.println("DBManager.testFindSimilarImages() Reference Image " + path);
 
-        MediaIndexer tg = new MediaIndexer(tb);
-        MediaFileDescriptor id = tg.buildMediaDescriptor(new File(path)); // ImageDescriptor.readFromDisk(s);
-        SimilarImageFinder sif = new SimilarImageFinder(tb);
+        MediaIndexer tg = new MediaIndexer(tb, this.mediaFileDescriptorBuilder);
+        MediaFileDescriptor id = tg.buildMediaDescriptor(new File(path));
+        MediaFileDescriptorBuilder mediaFileDescriptorBuilder = new MediaFileDescriptorBuilder();
+        SimilarImageFinder sif = new SimilarImageFinder(tb,mediaFileDescriptorBuilder );
         sif.findSimilarImageUsingLSH(id,20);
         //this.prettyPrintSimilarResults(this.findSimilarImage(id, 2), 2);
     }
 
     public static void main(String[] args) {
-        DBManager tb = new DBManager();
-        SimilarImageFinder si = new SimilarImageFinder(tb);
+        MediaFileDescriptorBuilder mediaFileDescriptorBuilder = new MediaFileDescriptorBuilder();
+        DBManager tb = new DBManager(null,mediaFileDescriptorBuilder);
+        SimilarImageFinder si = new SimilarImageFinder(tb,mediaFileDescriptorBuilder );
         si.testFindSimilarImages(tb, args[0]);
     }
 
