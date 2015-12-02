@@ -37,7 +37,6 @@ public class DBManagerTest {
         mediaIndexer = new MediaIndexer(dbManager, mediaFileDescriptorBuilder);
         lshManager = new LSHManager(dbManager);
     }
-
     @AfterClass
     public void deleteDir() throws IOException {
         FileUtils.deleteDirectory(tmpDir);
@@ -49,13 +48,11 @@ public class DBManagerTest {
 
         }
     }
-
     @Test
     public void testDBConnection(){
         Connection connection = dbManager.getconnection();
         Assert.assertNotNull(connection);
     }
-
     @Test(dependsOnMethods={"testDBConnection"})
     public void testAddIndexedPath() throws IOException {
         dbManager.addIndexPath(folder1.getCanonicalPath());
@@ -69,7 +66,6 @@ public class DBManagerTest {
         }
         Assert.assertTrue(found);
     }
-
     @Test(dependsOnMethods={"testAddIndexedPath"})
     public void testSaveToDB() throws IOException{
         File file = folder1.listFiles()[0];
@@ -96,34 +92,5 @@ public class DBManagerTest {
         }
         Assert.assertTrue(!found);
     }
-
-    @Test(dependsOnMethods={"testDeleteIndexedPath"})
-    public void testIndexing() throws IOException, URISyntaxException {
-        deleteDir();
-        createTempDir();
-        mediaIndexer.processMTRoot(folder1.getCanonicalPath());
-        Assert.assertTrue(dbManager.size()!=0);
-    }
-
-    @Test(dependsOnMethods={"testIndexing"})
-    public void testIdenticalImage() throws IOException {
-        File[] list = folder1.listFiles();
-        SimilarImageFinder si = new SimilarImageFinder(dbManager,mediaFileDescriptorBuilder,lshManager );
-        for(File f : list) {
-            Assert.assertEquals(si.findIdenticalMedia(f.getCanonicalPath()).size(), 1);
-        }
-    }
-
-    @Test(dependsOnMethods={"testIndexing"})
-    public void testSimilarImage() throws IOException, SQLException {
-        File[] list = folder1.listFiles();
-        lshManager.buildLSH(true);
-        SimilarImageFinder si = new SimilarImageFinder(dbManager,mediaFileDescriptorBuilder,lshManager );
-
-        for(File f : list) {
-            Assert.assertEquals(si.findSimilarMedia(f.getCanonicalPath(),1).size(), 1);
-        }
-    }
-
 
 }
