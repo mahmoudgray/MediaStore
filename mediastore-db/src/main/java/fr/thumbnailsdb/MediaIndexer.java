@@ -9,7 +9,6 @@ import java.nio.file.attribute.BasicFileAttributes;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
@@ -20,6 +19,7 @@ import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptorBuilder;
 import fr.thumbnailsdb.hash.ImageHash;
 import fr.thumbnailsdb.treewalker.TreeWalker;
 import fr.thumbnailsdb.utils.Configuration;
+import fr.thumbnailsdb.utils.LimitedQueue;
 import fr.thumbnailsdb.utils.Logger;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.FileUtils;
@@ -29,13 +29,9 @@ public class MediaIndexer {
     protected boolean debug;
     protected boolean software = true;
     protected DBManager ts;
-
     protected boolean forceGPSUpdate = Configuration.forceGPS();
     protected boolean forceHashUpdate = Configuration.forceUpdate();
-
-
     protected Logger log = Logger.getLogger();
-
     protected int newFiles = 0;
     protected int updatedFiles = 0;
     protected int recentModifications = 0;
@@ -48,7 +44,6 @@ public class MediaIndexer {
     protected int maxThreads;
     protected ThreadPoolExecutor executorService;
     private boolean dryRun = Configuration.dryRun();
-
     protected MediaFileDescriptorBuilder mediaFileDescriptorBuilder;
 
 
@@ -59,36 +54,6 @@ public class MediaIndexer {
                 new LimitedQueue<Runnable>(50));
         this.ts = t;
         this.mediaFileDescriptorBuilder = mediaFileDescriptorBuilder;
-    }
-
-    private class LimitedQueue<E> extends LinkedBlockingQueue<E> {
-        public LimitedQueue(int maxSize) {
-            super(maxSize);
-        }
-
-        @Override
-        public boolean add(E e) {
-            return super.add(e);
-        }
-
-        @Override
-        public boolean offer(E e) {
-            //	System.out.println("MediaIndexer.LimitedQueue.offer() " + this.size());
-            // turn offer() and add() into a blocking calls (unless interrupted)
-            try {
-                put(e);
-                return true;
-            } catch (InterruptedException ie) {
-                Thread.currentThread().interrupt();
-            }
-            // System.out.println("MediaIndexer.LimitedQueue.offer()   ... done");
-            return false;
-        }
-
-        @Override
-        public E take() throws InterruptedException {
-            return super.take();
-        }
     }
 
     /**

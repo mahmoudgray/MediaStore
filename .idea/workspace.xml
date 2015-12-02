@@ -5,13 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3e64b3f9-5bcb-408a-be93-7d45372080e5" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/utils/LimitedQueue.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/MediaIndexer.java" afterPath="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/MediaIndexer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/SimilarImageFinder.java" afterPath="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/SimilarImageFinder.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/dbservices/DBManager.java" afterPath="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/dbservices/DBManager.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/descriptorbuilders/MediaFileDescriptorBuilder.java" afterPath="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/descriptorbuilders/MediaFileDescriptorBuilder.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mediastore-db/src/test/java/fr/thumbnailsdb/DBManagerTest.java" afterPath="$PROJECT_DIR$/mediastore-db/src/test/java/fr/thumbnailsdb/DBManagerTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mediastore-rest/src/main/java/rest/RestTest.java" afterPath="$PROJECT_DIR$/mediastore-rest/src/main/java/rest/RestTest.java" />
     </list>
     <ignored path="MediaStore.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -44,85 +40,24 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="DBManager.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/dbservices/DBManager.java">
+      <file leaf-file-name="MediaIndexer.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/MediaIndexer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-5.129032">
-              <caret line="430" column="40" selection-start-line="430" selection-start-column="40" selection-end-line="430" selection-end-column="40" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="58" column="4" selection-start-line="58" selection-start-column="4" selection-end-line="58" selection-end-column="4" />
               <folding>
-                <element signature="method#DBManager#0;class#DBManager#0" expanded="false" />
-                <element signature="method#addDB#0;class#DBManager#0" expanded="false" />
-                <element signature="method#connectToDB#0;class#DBManager#0" expanded="false" />
-                <element signature="method#checkAndCreateTables#0;class#DBManager#0" expanded="false" />
-                <element signature="method#checkOrAddColumns#0;class#DBManager#0" expanded="false" />
-                <element signature="method#compact#0;class#DBManager#0" expanded="false" />
-                <element signature="method#addIndexPath#0;class#DBManager#0" expanded="false" />
-                <element signature="method#getIndexedPaths#0;class#DBManager#0" expanded="false" />
-                <element signature="method#updateIndexedPath#0;class#DBManager#0" expanded="false" />
-                <element signature="docComment;method#decomposePath#0;class#DBManager#0" expanded="false" />
-                <element signature="method#decomposePath#0;class#DBManager#0" expanded="false" />
-                <element signature="docComment;method#saveToDB#0;class#DBManager#0" expanded="false" />
-                <element signature="method#saveToDB#0;class#DBManager#0" expanded="false" />
-                <element signature="method#updateToDB#0;class#DBManager#0" expanded="false" />
-                <element signature="method#isInDataBaseBasedOnName#0;class#DBManager#0" expanded="false" />
-                <element signature="method#deleteFromDatabase#0;class#DBManager#0" expanded="false" />
-                <element signature="method#getIndex#0;class#DBManager#0" expanded="false" />
-                <element signature="method#getFromDatabase#0;class#DBManager#0" expanded="false" />
-                <element signature="method#getFromDatabase#1;class#DBManager#0" expanded="false" />
-                <element signature="method#getMTime#0;class#DBManager#0" expanded="false" />
-                <element signature="method#getAllWithGPS#0;class#DBManager#0" expanded="false" />
-                <element signature="method#getAllInDataBase#0;class#DBManager#0" expanded="false" />
-                <element signature="method#getFromDB#0;class#DBManager#0" expanded="false" />
-                <element signature="method#getPath#0;class#DBManager#0" expanded="false" />
-                <element signature="method#getPath#1;class#DBManager#0" expanded="false" />
-                <element signature="method#getDuplicatesMD5#0;class#DBManager#0" expanded="false" />
-                <element signature="docComment;method#fix#0;class#DBManager#0" expanded="false" />
-                <element signature="method#fix#0;class#DBManager#0" expanded="false" />
-                <element signature="docComment;method#shrink#0;class#DBManager#0" expanded="false" />
-                <element signature="method#shrink#1;class#DBManager#0" expanded="false" />
-                <element signature="method#dump#0;class#DBManager#0" expanded="false" />
-                <element signature="method#getPreloadedDescriptors#0;class#DBManager#0" expanded="false" />
-                <element signature="method#flushPreloadedDescriptors#0;class#DBManager#0" expanded="false" />
-                <marker date="1449078599361" expanded="true" signature="3022:3183" placeholder="CREATE TABLE..IMAGES..." />
-                <marker date="1449078599361" expanded="true" signature="4604:4692" placeholder="CREATE TABLE..PATHS..." />
-                <marker date="1449078599361" expanded="true" signature="5331:5364" placeholder="CREATE TABLE..VERSION..." />
-                <marker date="1449078599361" expanded="true" signature="5481:5532" placeholder="INSERT into VERSION..." />
-                <marker date="1449078599361" expanded="true" signature="6491:6524" placeholder="ALTER TABLE IMAGES..." />
-                <marker date="1449078599361" expanded="true" signature="6788:6821" placeholder="ALTER TABLE IMAGES..." />
-                <marker date="1449078599361" expanded="true" signature="7292:7323" placeholder="SELECT * WHE..." />
-                <marker date="1449078599361" expanded="true" signature="7292:7324" placeholder="SELECT * FRO..PATHS..." />
-                <marker date="1449078599361" expanded="true" signature="7305:7323" placeholder="UPDATE PATHS..." />
-                <marker date="1449078599361" expanded="true" signature="7768:7805" placeholder="insert into PATHS..." />
-                <marker date="1449078599361" expanded="true" signature="8131:8150" placeholder="SELECT * FRO..PATHS..." />
-                <marker date="1449078599361" expanded="true" signature="8635:8690" placeholder="SELECT path,..PATHS..." />
-                <marker date="1449078599361" expanded="true" signature="9119:9155" placeholder="UPDATE PATHS..." />
-                <marker date="1449078599361" expanded="true" signature="10045:10161" placeholder="insert into IMAGES..." />
-                <marker date="1449078599361" expanded="true" signature="11532:11672" placeholder="UPDATE IMAGE..." />
-                <marker date="1449078599361" expanded="true" signature="12960:12987" placeholder="SELECT COUNT..IMAGES..." />
-                <marker date="1449078599361" expanded="true" signature="15960:15993" placeholder="SELECT * FRO..IMAGES..." />
-                <marker date="1449078599361" expanded="true" signature="16598:16720" placeholder="SELECT paths..." />
-                <marker date="1449078599361" expanded="true" signature="17173:17206" placeholder="SELECT * FRO..IMAGES..." />
-                <marker date="1449078599361" expanded="true" signature="17853:17899" placeholder="SELECT * FRO..IMAGES..." />
-                <marker date="1449078599361" expanded="true" signature="20619:20691" placeholder="SELECT paths..IMAGES..." />
-                <marker date="1449078599361" expanded="true" signature="21357:21427" placeholder="SELECT paths..IMAGES..." />
-                <marker date="1449078599361" expanded="true" signature="22279:22382" placeholder="SELECT paths..." />
-                <marker date="1449078599361" expanded="true" signature="25136:25201" placeholder="SELECT paths..IMAGES..." />
+                <element signature="method#MediaIndexer#0;class#MediaIndexer#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MediaFileDescriptorBuilder.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/descriptorbuilders/MediaFileDescriptorBuilder.java">
+      <file leaf-file-name="LimitedQueue.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/utils/LimitedQueue.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.47142857">
-              <caret line="11" column="39" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="39" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="method#getMediaFileDescriptorFromDB#0;class#MediaFileDescriptorBuilder#0" expanded="false" />
-                <element signature="method#getMediaFileDescriptorFromDB#1;class#MediaFileDescriptorBuilder#0" expanded="false" />
-                <element signature="method#getCurrentMediaFileDescriptor#0;class#MediaFileDescriptorBuilder#0" expanded="false" />
-              </folding>
+            <state vertical-scroll-proportion="0.196875">
+              <caret line="7" column="25" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="25" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -159,7 +94,6 @@
         <option value="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/DBManager.java" />
         <option value="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/ThumbStore.java" />
         <option value="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/dbservices/ThumbStore.java" />
-        <option value="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/MediaIndexer.java" />
         <option value="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/ImageComparator.java" />
         <option value="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/treewalker/TreeWalker.java" />
         <option value="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/vptree/VPTreeBuilder.java" />
@@ -173,6 +107,8 @@
         <option value="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/lshbuilders/LSHManager.java" />
         <option value="$PROJECT_DIR$/mediastore-db/src/test/java/fr/thumbnailsdb/DBManagerTest.java" />
         <option value="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/descriptorbuilders/MediaFileDescriptorBuilder.java" />
+        <option value="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/MediaIndexer.java" />
+        <option value="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/utils/LimitedQueue.java" />
       </list>
     </option>
   </component>
@@ -428,7 +364,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="descriptorbuilders" />
+              <option name="myItemId" value="utils" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -441,7 +377,7 @@
     <property name="aspect.path.notification.shown" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../MediaStore11" />
-    <property name="last_directory_selection" value="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/descriptorbuilders" />
+    <property name="last_directory_selection" value="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/utils" />
   </component>
   <component name="RecentsManager">
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
@@ -961,7 +897,7 @@
       <option name="number" value="Default" />
       <updated>1448983844386</updated>
       <workItem from="1448983847143" duration="17338000" />
-      <workItem from="1449042608103" duration="21991000" />
+      <workItem from="1449042608103" duration="22447000" />
     </task>
     <servers />
   </component>
@@ -998,7 +934,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="39329000" />
+    <option name="totallyTimeSpent" value="39785000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="65" y="24" width="1301" height="744" extended-state="6" />
@@ -1017,7 +953,7 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3283582" sideWeight="0.50269026" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3283582" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3283582" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3289777" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -1279,14 +1215,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/MediaIndexer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="324" column="16" selection-start-line="324" selection-start-column="16" selection-end-line="324" selection-end-column="16" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/lshbuilders/LSHManager.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.76863754">
@@ -1308,9 +1236,22 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/descriptorbuilders/MediaFileDescriptorBuilder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.309375">
+          <caret line="11" column="39" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="39" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#getMediaFileDescriptorFromDB#0;class#MediaFileDescriptorBuilder#0" expanded="false" />
+            <element signature="method#getMediaFileDescriptorFromDB#1;class#MediaFileDescriptorBuilder#0" expanded="false" />
+            <element signature="method#getCurrentMediaFileDescriptor#0;class#MediaFileDescriptorBuilder#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/dbservices/DBManager.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-5.129032">
+        <state vertical-scroll-proportion="0.26108375">
           <caret line="430" column="40" selection-start-line="430" selection-start-column="40" selection-end-line="430" selection-end-column="40" />
           <folding>
             <element signature="method#DBManager#0;class#DBManager#0" expanded="false" />
@@ -1374,16 +1315,21 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/descriptorbuilders/MediaFileDescriptorBuilder.java">
+    <entry file="file://$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/MediaIndexer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.47142857">
-          <caret line="11" column="39" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="39" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="58" column="4" selection-start-line="58" selection-start-column="4" selection-end-line="58" selection-end-column="4" />
           <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="method#getMediaFileDescriptorFromDB#0;class#MediaFileDescriptorBuilder#0" expanded="false" />
-            <element signature="method#getMediaFileDescriptorFromDB#1;class#MediaFileDescriptorBuilder#0" expanded="false" />
-            <element signature="method#getCurrentMediaFileDescriptor#0;class#MediaFileDescriptorBuilder#0" expanded="false" />
+            <element signature="method#MediaIndexer#0;class#MediaIndexer#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/utils/LimitedQueue.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.196875">
+          <caret line="7" column="25" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="25" />
+          <folding />
         </state>
       </provider>
     </entry>
