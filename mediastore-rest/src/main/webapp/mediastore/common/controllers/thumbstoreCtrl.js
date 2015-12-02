@@ -58,11 +58,45 @@
                 $scope.total.shift();
             }
             $scope.chart.render();
-        }
+        };
 
-        $scope.updateChart();
-        //window.onload($scope.updateChart());
-        setInterval($scope.updateChart, 1000);
 
+        $scope.getSize = function(){
+            var response = $http.get('rest/hello/db/size');
+            response.success(function(data, status, headers, config){
+                $scope.size = data;
+            });
+
+            response.error(function(data, status, headers, config){
+                alert('AJAX bad request: status = '+status);
+            });
+        };
+          
+        $scope.getPath = function(){
+            $.get("rest/hello/db/path", function(data){
+                $scope.path = data;
+            });
+        };
+
+        $scope.getIndexedPaths = function(){
+            $http.get('rest/hello/paths')
+                .success(function(data, status){
+                    $scope.paths = data;
+                    //console.log($scope.paths);
+                })
+                .error(function(data, status){
+                    alert("AJAX BAD REQUEST");
+                });
+        };
+
+
+
+        (function(){
+            $scope.getSize();
+            $scope.getPath();
+            $scope.updateChart();
+            $scope.getIndexedPaths();
+            setInterval($scope.updateChart, 1000);
+        })();
     }]);
 })();

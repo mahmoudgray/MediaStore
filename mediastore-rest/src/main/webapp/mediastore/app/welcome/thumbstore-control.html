@@ -3,11 +3,15 @@
         Thumbstore Control
     </h1>
     <p>
-        Path db : <span id="db_path"> </span>
+        Path db : <span id="db_path">{{path}}</span>
     </p>
     <p>
-        Size of db : <span id="db_size"> </span>
+        Size of db : <span id="db_size">{{size}}</span>
     </p>
-    <div id="db_paths" style="margin-bottom: 0"> </div>
+    <div id="db_paths" style="margin-bottom: 0"  ng-repeat="p in paths"> 
+    <input type="checkbox" ng-model="path" name="folder">
+        <label>{{p}}
+    </label><br>
+    </div>
     <div id="memoryChart" style="height: 300px; width:30%;clear:both;"> </div>
 </div>
