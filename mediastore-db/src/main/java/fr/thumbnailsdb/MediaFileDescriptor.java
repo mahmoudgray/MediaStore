@@ -239,15 +239,12 @@ public class MediaFileDescriptor implements Serializable, Comparable<MediaFileDe
 
     }
 
-
     public String getMD5() {
         return md5Digest;
     }
-
     public void setConnection(Connection connection) {
         this.connection = connection;
     }
-
     public Connection getConnection() {
 
         return connection;
@@ -262,21 +259,19 @@ public class MediaFileDescriptor implements Serializable, Comparable<MediaFileDe
 
     @Override
     public boolean equals(Object obj) {
-    //    System.out.println("MediaFileDescriptor.equals : " + this  +  "   <>   " + obj);
         if (!(obj instanceof MediaFileDescriptor)) return false;
         MediaFileDescriptor target = (MediaFileDescriptor) obj;
         if ((this.path==null) || (target.getPath()==null))  {
-          //  System.out.println("fr.thumbnailsdb.MediaFileDescriptor.equals " + this.id + " =?= " + target.getId());
-
-            //we don't have the path, just the index in the DB
              return (this.id == target.getId());
         }  else {
              return this.path==target.getPath();
         }
-        //return (this.)
-        //return super.equals(obj);    //To change body of overridden methods use File | Settings | File Templates.
     }
 
+    @Override
+    public int hashCode(){
+        return this.getMD5().hashCode();
+    }
 
 
     public int compareTo(MediaFileDescriptor o) {

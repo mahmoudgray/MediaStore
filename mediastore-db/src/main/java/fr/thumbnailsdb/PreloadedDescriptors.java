@@ -98,8 +98,18 @@ public class PreloadedDescriptors {
         this.list.put(t.getMD5(),t);
     }
     public void remove(MediaFileDescriptor t) {
-        this.list.remove(t.getMD5(),t);
-
+       List<MediaFileDescriptor> mediaFileDescriptors = list.get(t.getMD5());
+        MediaFileDescriptor mr = null;
+        for (MediaFileDescriptor m : mediaFileDescriptors){
+            if(m.getMD5().equals(t.getMD5())){
+                mr=m;
+            }
+        }
+        mediaFileDescriptors = null;
+        list.remove(mr.getMD5(),mr);
+    }
+    public void removeAll(MediaFileDescriptor mediaFileDescriptor){
+        this.list.removeAll(mediaFileDescriptor.getMD5());
     }
     public int size() {
         return list.size();
