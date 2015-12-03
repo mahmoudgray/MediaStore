@@ -17,12 +17,16 @@ public class PreloadedDescriptors {
     private ArrayListMultimap<String, MediaFileDescriptor> list;
     private Comparator comp;
     private static PreloadedDescriptors preloadedDescriptors;
-
+    private static boolean useFullPath = false;
 
 
     private PreloadedDescriptors(int size, Comparator comp) {
         this.comp = comp;
         this.list = ArrayListMultimap.<String, MediaFileDescriptor>create(size, 10);
+    }
+
+    public static void setUseFullPath(boolean fullPath){
+        useFullPath = fullPath;
     }
 
     public static  PreloadedDescriptors getPreloadedDescriptors(DBManager dbManager) {
@@ -57,7 +61,7 @@ public class PreloadedDescriptors {
                     String hash = res.getString("hash");
                     if (path != null && md5 != null) {
                         MediaFileDescriptor imd = new MediaFileDescriptor();
-                        if (SimilarImageFinder.USE_FULL_PATH) {
+                        if (useFullPath) {
                             imd.setPath(path);
                         }
                         imd.setId(id);
@@ -101,6 +105,10 @@ public class PreloadedDescriptors {
        List<MediaFileDescriptor> mediaFileDescriptors = list.get(t.getMD5());
         MediaFileDescriptor mr = null;
         for (MediaFileDescriptor m : mediaFileDescriptors){
+            // it is safer to use m.getPath()== t.getPath() but path is not loaded in PreloadedDescriptors by default
+            // using md5 we risk deleting the wrong file with the same md5 but in different path
+            // so it is better to force loading paths in preloadeddescriptors
+            //this will load a lot in the RAM ??
             if(m.getMD5().equals(t.getMD5())){
                 mr=m;
             }

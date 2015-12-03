@@ -13,7 +13,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.Iterator;
-import java.util.List;
 
 /**
  * Created by mohannad on 03/12/15.
@@ -34,6 +33,8 @@ public class PreloadedDescriptorsTest {
         folder1 = new File(getClass().getResource("folder1").toURI());
         System.out.println("DBManagerTest.createTempDir Temp Dir " + tmpDir);
         System.out.println("DBManagerTest.createTempDir Folder1  " + folder1);
+        // in order to force loading full paths
+        //PreloadedDescriptors.setUseFullPath(true);
         mediaFileDescriptorBuilder=new MediaFileDescriptorBuilder();
         dbManager = new DBManager(tmpDir.getCanonicalPath() + "/testDB", mediaFileDescriptorBuilder );
         mediaIndexer = new MediaIndexer(dbManager, mediaFileDescriptorBuilder);
@@ -58,26 +59,21 @@ public class PreloadedDescriptorsTest {
     }
     @Test(dependsOnMethods={"testPreloadingOfDescriptors"})
     public void testRemovingDescriptor(){
-        File f = folder1.listFiles()[5];
+        File f = folder1.listFiles()[0];
         MediaFileDescriptor mediaFileDescriptor = mediaFileDescriptorBuilder.buildMediaDescriptor(f);
-        PreloadedDescriptors preloadedDescriptors = PreloadedDescriptors.getPreloadedDescriptors(dbManager);
+        PreloadedDescriptors preloadedDescriptors = PreloadedDescriptors.getPreloadedDescriptors(dbManager );
         preloadedDescriptors.remove(mediaFileDescriptor);
         Iterator<MediaFileDescriptor> mediaFileDescriptorIterator = preloadedDescriptors.iterator();
         boolean found = false;
-        System.out.println("++++++++++++++++++++++++++++++++++++++++++");
         System.out.println(mediaFileDescriptor.getMD5());
         while (mediaFileDescriptorIterator.hasNext()){
             MediaFileDescriptor m = mediaFileDescriptorIterator.next();
             System.out.println(m.getMD5());
-            System.out.println("++++++++++++++++++++++++++++++++++++++++++");
             if(m.getMD5().equals(mediaFileDescriptor.getMD5())){
                 found=true;
                 break;
             }
         }
-
-        System.out.println("size === " +preloadedDescriptors.size());
-
         Assert.assertTrue(!found);
     }
 

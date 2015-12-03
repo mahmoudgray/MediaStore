@@ -5,12 +5,10 @@ import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptorBuilder;
 import fr.thumbnailsdb.persistentLSH.PersistentLSH;
 import fr.thumbnailsdb.utils.Configuration;
 import fr.thumbnailsdb.utils.Logger;
-import fr.thumbnailsdb.utils.ProgressBar;
 
 import java.io.File;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 public class DBManager {
