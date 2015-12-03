@@ -131,7 +131,7 @@ public class ImageHash {
         MediaFileDescriptorBuilder mediaFileDescriptorBuilder = new MediaFileDescriptorBuilder();
         DBManager tb = new DBManager(null,mediaFileDescriptorBuilder);
         System.out.println(" Size of DB :  " + tb.size());
-        PreloadedDescriptors pl = tb.getPreloadedDescriptors();
+        PreloadedDescriptors pl = PreloadedDescriptors.getPreloadedDescriptors(tb);
         Iterator it = pl.iterator();
         while (it.hasNext()) {
             MediaFileDescriptor mf = (MediaFileDescriptor) it.next();

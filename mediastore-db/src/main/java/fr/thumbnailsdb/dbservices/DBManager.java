@@ -67,7 +67,7 @@ public class DBManager {
 
         return connection;
     }
-    public Connection getconnection() {
+    public Connection getConnection() {
         return connection;
     }
     public void checkAndCreateTables() throws SQLException {
@@ -261,11 +261,11 @@ public class DBManager {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-            if (preloadedDescriptorsExists()) {
+            if (PreloadedDescriptors.preloadedDescriptorsExists()) {
                 Logger.getLogger().log("MediaIndexer.generateAndSave Adding to preloaded descriptors " + mediaFileDescriptor);
                 mediaFileDescriptor.setConnection(connection);
                 mediaFileDescriptor.setId(getIndex(mediaFileDescriptor.getPath()));
-                this.getPreloadedDescriptors().add(mediaFileDescriptor);
+                PreloadedDescriptors.getPreloadedDescriptors(this).add(mediaFileDescriptor);
             }
         }
     }
@@ -291,11 +291,11 @@ public class DBManager {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-            if (preloadedDescriptorsExists()) {
+            if (PreloadedDescriptors.preloadedDescriptorsExists()) {
                 mediaFileDescriptor.setConnection(this.connection);
                 mediaFileDescriptor.setId(getIndex(mediaFileDescriptor.getPath()));
-                getPreloadedDescriptors().remove(mediaFileDescriptor);
-                getPreloadedDescriptors().add(mediaFileDescriptor);
+                PreloadedDescriptors.getPreloadedDescriptors(this).remove(mediaFileDescriptor);
+                PreloadedDescriptors.getPreloadedDescriptors(this).add(mediaFileDescriptor);
             }
          }
      }
@@ -340,8 +340,8 @@ public class DBManager {
             e.printStackTrace();
         }
         //delete it from the cache
-        if ((mf != null) && (this.preloadedDescriptorsExists())) {
-            this.getPreloadedDescriptors().remove(mf);
+        if ((mf != null) && (PreloadedDescriptors.preloadedDescriptorsExists())) {
+            PreloadedDescriptors.getPreloadedDescriptors(this).remove(mf);
         }
     }
     public int getIndex(String path) {
@@ -620,74 +620,5 @@ public class DBManager {
         }
 
     }
-    public PreloadedDescriptors getPreloadedDescriptors() {
-        if (preloadedDescriptors == null) {
-            long ti = System.currentTimeMillis();
-            Status.getStatus().setStringStatus("Building descriptors list");
-            int dbSize = size();
-            ProgressBar pb = new ProgressBar(0, dbSize, dbSize / 100);
-            preloadedDescriptors = new PreloadedDescriptors(dbSize, new Comparator<MediaFileDescriptor>() {
-                public int compare(MediaFileDescriptor o1, MediaFileDescriptor o2) {
-                    return o1.getMD5().compareTo(o2.getMD5());
-                }
-            });
-            int increment = dbSize / 100;
-            int processed = 0;
-            int processedSinceLastTick = 0;
-            ResultSet res = getAllInDataBase();
-            try {
-                while (res.next()) {
-                    processed++;
-                    processedSinceLastTick++;
-                    if (processedSinceLastTick >= increment) {
-                        pb.tick(processed);
-                        Status.getStatus().setStringStatus("Building descriptors list  " + pb.getPercent() + "%");
-                        processedSinceLastTick = 0;
-                    }
-                    String path = null;
-                    path = res.getString("path");
-                    int id = res.getInt("id");
-                    String md5 = res.getString("md5");
-                    long size = res.getLong("size");
-                    String hash = res.getString("hash");
-                    if (path != null && md5 != null) {
-                        MediaFileDescriptor imd = new MediaFileDescriptor();
-                        if (SimilarImageFinder.USE_FULL_PATH) {
-                            imd.setPath(path);
-                        }
-                        imd.setId(id);
-                        imd.setHash(hash);
-                        imd.setSize(size);
-                        imd.setMd5Digest(md5);
-                        imd.setConnection(this.connection);
-                        preloadedDescriptors.add(imd);
-                    } else {
-                        //TODO : we should clean the data here
-                    }
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-
-            System.err.println("DBManager.getPreloadedDescriptors sorting  " + preloadedDescriptors.size() + " data");
-            long t0 = System.currentTimeMillis();
-            preloadedDescriptors.sort();
-            long t1 = System.currentTimeMillis();
-            System.err.println("DBManager.getPreloadedDescriptors sorting data .... done after " + (t1 - t0));
-            Status.getStatus().setStringStatus(Status.IDLE);
-            System.err.println("DBManager.getPreloadedDescriptors all done  " + (t1 - ti));
-        }
-        return preloadedDescriptors;
-    }
-    public boolean preloadedDescriptorsExists() {
-        return (this.preloadedDescriptors != null);
-    }
-    public void flushPreloadedDescriptors() {
-        if (this.preloadedDescriptors != null) {
-            this.preloadedDescriptors.clear();
-            this.preloadedDescriptors = null;
-        }
-    }
-
 
 }

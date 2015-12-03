@@ -323,7 +323,7 @@ public class RestTest {
     @GET
     @Path("shrink/")
     public Response shrink(@QueryParam("folder") final java.util.List<String> obj) {
-        tb.flushPreloadedDescriptors();
+        PreloadedDescriptors.flushPreloadedDescriptors();
         tb.shrink(obj);
         return Response.status(200).entity("Shrink done").build();
     }
@@ -333,7 +333,7 @@ public class RestTest {
     @Path("update/")
     public Response update(@QueryParam("folder") String obj) {
         String[] folders = this.parseFolders(obj);
-        tb.flushPreloadedDescriptors();
+        PreloadedDescriptors.flushPreloadedDescriptors();
         new MediaIndexer(tb,this.mediaFileDescriptorBuilder ).refreshIndexedPaths(folders);
         return Response.status(200).entity("Update done").build();
     }
@@ -344,7 +344,7 @@ public class RestTest {
 
         String[] folders = this.parseFolders(obj);
 
-        tb.flushPreloadedDescriptors();
+        PreloadedDescriptors.flushPreloadedDescriptors();
         tb.shrink();
         MediaIndexer mdi = new MediaIndexer(tb,this.mediaFileDescriptorBuilder );
         mdi.refreshIndexedPaths(folders);

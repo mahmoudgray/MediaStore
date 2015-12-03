@@ -20,7 +20,7 @@ public class DuplicateMediaFinder {
     }
 
     public PreloadedDescriptors findDuplicateMedia() {
-        return thumbstore.getPreloadedDescriptors();
+        return PreloadedDescriptors.getPreloadedDescriptors(thumbstore);
     }
 
 

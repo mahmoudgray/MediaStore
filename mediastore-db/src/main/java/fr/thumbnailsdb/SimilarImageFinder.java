@@ -191,9 +191,9 @@ public class SimilarImageFinder {
             }
         });
 
-        Iterator<MediaFileDescriptor> it = thumbstore.getPreloadedDescriptors().iterator();
+        Iterator<MediaFileDescriptor> it = PreloadedDescriptors.getPreloadedDescriptors(thumbstore).iterator();
         Status.getStatus().setStringStatus(Status.FIND_SIMILAR);
-        int size = thumbstore.getPreloadedDescriptors().size();
+        int size = PreloadedDescriptors.getPreloadedDescriptors(thumbstore).size();
         int processed = 0;
         ProgressBar pb = new ProgressBar(0, size, size / 100);
         int increment = size / 100;

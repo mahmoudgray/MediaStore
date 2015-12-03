@@ -11,7 +11,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class DBManagerTest {
@@ -50,7 +49,7 @@ public class DBManagerTest {
     }
     @Test
     public void testDBConnection(){
-        Connection connection = dbManager.getconnection();
+        Connection connection = dbManager.getConnection();
         Assert.assertNotNull(connection);
     }
     @Test(dependsOnMethods={"testDBConnection"})

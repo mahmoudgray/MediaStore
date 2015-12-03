@@ -54,14 +54,12 @@ public class MediaIndexer {
         try {
             MediaFileDescriptor mf = mediaFileDescriptorBuilder.getMediaFileDescriptorFromDB(f.getCanonicalPath());
             Logger.getLogger().err("MediaIndexer.generateAndSave " + f + " descriptor: " + mf);
-
             if ((mf != null) && (f.lastModified() == mf.getMtime())) {
                 //Descriptor exists with same mtime
                 Logger.getLogger().err("MediaIndexer.generateImageDescriptor() Already in DB, ignoring with same mtime");
                 Logger.getLogger().err("MediaIndexer.generateImageDescriptor() In   DB : " + mf.getMtime());
                 Logger.getLogger().err("MediaIndexer.generateImageDescriptor() On Disk : " + f.lastModified());
                 boolean update = false;
-
                 if (forceGPSUpdate) {
                     MetaDataFinder mdf = new MetaDataFinder(f);
                     double latLon[] = mdf.getLatLong();
@@ -82,9 +80,7 @@ public class MediaIndexer {
                     }
 
                 }
-                // if (update) {
                 this.fileCreatedUpdated(false, update);
-                //}
             } else {
                 Logger.getLogger().err("MediaIndexer.generateAndSave building descriptor");
                 MediaFileDescriptor id = mediaFileDescriptorBuilder.buildMediaDescriptor(f);
