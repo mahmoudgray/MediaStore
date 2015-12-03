@@ -2,6 +2,7 @@
 
 angular.module('mediastore',  ['ngRoute',,
     'folders.service',
+    'folders.directive',
     'thumbstore.ctrl',
     'thumbnail.ctrl',
     'duplicatefolders.ctrl',

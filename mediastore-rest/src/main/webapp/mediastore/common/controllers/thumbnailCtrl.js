@@ -6,7 +6,7 @@
 (function(){
     var app = angular.module('thumbnail.ctrl', []);
 
-    app.controller('ThumbnailCtrl',  ['$scope', '$http', function($scope, $http){
+    app.controller('ThumbnailCtrl',  ['$scope', '$http','FoldersFactory', function($scope, $http, FoldersFactory){
         var app = this;
         $scope.input = "";
        // $scope.gps = false;
@@ -36,10 +36,15 @@
             alert("delete", path);
         };
 
+        $scope.getFolders = function () {
+            $scope.paths = FoldersFactory.getSelectedFolders();
+        };
+
         $scope.resetSearch = function(){
             $scope.$apply();
             $scope.input = "";
             //$scope.gps = false;
-        }
+        };
+        $scope.getFolders();
     }]);
 })();

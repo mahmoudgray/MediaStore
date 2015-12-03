@@ -83,7 +83,6 @@
             $http.get('rest/hello/paths')
                 .success(function(data, status){
                     $scope.paths = data;
-                    //console.log($scope.paths);
                 })
                 .error(function(data, status){
                     alert("AJAX BAD REQUEST");
@@ -97,11 +96,16 @@
             }, function(data){});
         };
 
+        $scope.getFolders = function(){
+            $scope.folders = FoldersFactory.getSelectedFolders();
+        };
+        
+  
         (function(){
             $scope.getSize();
             $scope.getPath();
-            $scope.updateChart();
             $scope.getIndexedPaths();
+            $scope.updateChart();
             setInterval($scope.updateChart, 1000);
         })();
     }]);
