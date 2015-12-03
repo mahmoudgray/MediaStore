@@ -97,24 +97,11 @@ public class PreloadedDescriptors {
             preloadedDescriptors = null;
         }
     }
-
     public void add(MediaFileDescriptor t) {
         this.list.put(t.getMD5(),t);
     }
-    public void remove(MediaFileDescriptor t) {
-       List<MediaFileDescriptor> mediaFileDescriptors = list.get(t.getMD5());
-        MediaFileDescriptor mr = null;
-        for (MediaFileDescriptor m : mediaFileDescriptors){
-            // it is safer to use m.getPath()== t.getPath() but path is not loaded in PreloadedDescriptors by default
-            // using md5 we risk deleting the wrong file with the same md5 but in different path
-            // so it is better to force loading paths in preloadeddescriptors
-            //this will load a lot in the RAM ??
-            if(m.getMD5().equals(t.getMD5())){
-                mr=m;
-            }
-        }
-        mediaFileDescriptors = null;
-        list.remove(mr.getMD5(),mr);
+    public void remove(MediaFileDescriptor t){
+        list.remove(t.getMD5() ,t);
     }
     public void removeAll(MediaFileDescriptor mediaFileDescriptor){
         this.list.removeAll(mediaFileDescriptor.getMD5());

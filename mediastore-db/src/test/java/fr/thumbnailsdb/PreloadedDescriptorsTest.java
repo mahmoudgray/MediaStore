@@ -58,9 +58,9 @@ public class PreloadedDescriptorsTest {
         Assert.assertEquals(size,9);
     }
     @Test(dependsOnMethods={"testPreloadingOfDescriptors"})
-    public void testRemovingDescriptor(){
+    public void testRemovingDescriptor() throws IOException {
         File f = folder1.listFiles()[0];
-        MediaFileDescriptor mediaFileDescriptor = mediaFileDescriptorBuilder.buildMediaDescriptor(f);
+        MediaFileDescriptor mediaFileDescriptor = mediaFileDescriptorBuilder.getMediaFileDescriptorFromDB(f.getCanonicalPath());
         PreloadedDescriptors preloadedDescriptors = PreloadedDescriptors.getPreloadedDescriptors(dbManager );
         preloadedDescriptors.remove(mediaFileDescriptor);
         Iterator<MediaFileDescriptor> mediaFileDescriptorIterator = preloadedDescriptors.iterator();
