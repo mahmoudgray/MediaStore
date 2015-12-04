@@ -3,7 +3,6 @@ package fr.thumbnailsdb;
 import fr.thumbnailsdb.dbservices.DBManager;
 import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptorBuilder;
 import fr.thumbnailsdb.hash.ImageHash;
-import fr.thumbnailsdb.utils.ImageProcessor;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -156,28 +155,27 @@ public class ImageComparator {
         MediaFileDescriptorBuilder mediaFileDescriptorBuilder = new MediaFileDescriptorBuilder();
         DBManager dbManager = new DBManager(null , mediaFileDescriptorBuilder);
         MediaIndexer tb = new MediaIndexer(null,mediaFileDescriptorBuilder);
-        ImageProcessor imageProcessor = new ImageProcessor();
         String path = "/user/fhuet/desktop/home/workspaces/rechercheefficaceimagessimilaires/images/original.jpg";
         BufferedImage img = ImageIO.read(new File(path));
 
         System.out.println("-------");
-        BufferedImage imgTb = imageProcessor.downScaleImageToGray(img, x, y);
+        BufferedImage imgTb = ImageHash.downScaleImageToGray(img, x, y);
         String path2 = "/user/fhuet/desktop/home/workspaces/rechercheefficaceimagessimilaires/images/Jaguar_1600x1200.jpg";
         BufferedImage img2 = ImageIO.read(new File(path2));
-        BufferedImage img2Tb = imageProcessor.downScaleImageToGray(img2, x, y);
+        BufferedImage img2Tb = ImageHash.downScaleImageToGray(img2, x, y);
         System.out.println("ImageComparator.testThumbnailImages() Comparison of DIFFERENT original images RMSE : " + ImageComparator.compareUsingRMSE(img, img2));
         System.out.println("ImageComparator.main() Comparison of DIFFERENT thumbnails RMSE " + ImageComparator.compareUsingRMSE(imgTb, img2Tb));
 
         System.out.println("-------------------");
         String path3 = "/user/fhuet/desktop/home/workspaces/rechercheefficaceimagessimilaires/images/original-modifie.jpg";
         BufferedImage img3 = ImageIO.read(new File(path3));
-        BufferedImage img3Tb = imageProcessor.downScaleImageToGray(img3, x, y);
+        BufferedImage img3Tb = ImageHash.downScaleImageToGray(img3, x, y);
         System.out.println("ImageComparator.testThumbnailImages() Comparison of MODIFIED original images RMSE : " + ImageComparator.compareUsingRMSE(img, img3));
         System.out.println("ImageComparator.main() Comparison of MODIFIED thumbnails RMSE " + ImageComparator.compareUsingRMSE(imgTb, img3Tb));
         System.out.println("--------------");
         String path4 = "/user/fhuet/desktop/home/workspaces/rechercheefficaceimagessimilaires/images/original-different.jpg";
         BufferedImage img4 = ImageIO.read(new File(path4));
-        BufferedImage img4Tb = imageProcessor.downScaleImageToGray(img4, x, y);
+        BufferedImage img4Tb = ImageHash.downScaleImageToGray(img4, x, y);
         System.out.println("ImageComparator.testThumbnailImages() Comparison of VERY MODIFIED original images RMSE : " + ImageComparator.compareUsingRMSE(img, img4));
         System.out.println("ImageComparator.main() Comparison of VERY MODIFIED thumbnails RMSE " + ImageComparator.compareUsingRMSE(imgTb, img4Tb));
 
