@@ -24,11 +24,9 @@ public class PreloadedDescriptors {
         this.comp = comp;
         this.list = ArrayListMultimap.<String, MediaFileDescriptor>create(size, 10);
     }
-
     public static void setUseFullPath(boolean fullPath){
         useFullPath = fullPath;
     }
-
     public static  PreloadedDescriptors getPreloadedDescriptors(DBManager dbManager) {
         if (preloadedDescriptors == null) {
             long ti = System.currentTimeMillis();

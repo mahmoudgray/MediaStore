@@ -51,12 +51,10 @@ public class PreloadedDescriptorsTest {
 
         }
     }
-
     @Test
     public void testPreLoadedDescriptorExists(){
         Assert.assertTrue(!PreloadedDescriptors.preloadedDescriptorsExists());
     }
-
     @Test(dependsOnMethods={"testPreLoadedDescriptorExists"})
     public void testPreloadingOfDescriptors() throws IOException, URISyntaxException {
         mediaIndexer.processMTRoot(folder1.getCanonicalPath());
@@ -81,7 +79,6 @@ public class PreloadedDescriptorsTest {
         }
         Assert.assertTrue(!found);
     }
-
     @Test(dependsOnMethods={"testPreloadingOfDescriptors"})
     public void testPreloadedDescriptorFlush(){
         PreloadedDescriptors.flushPreloadedDescriptors();

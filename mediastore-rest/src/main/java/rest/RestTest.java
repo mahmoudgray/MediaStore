@@ -10,6 +10,7 @@ import fr.thumbnailsdb.diskmonitor.DiskListener;
 import fr.thumbnailsdb.diskmonitor.DiskWatcher;
 import fr.thumbnailsdb.duplicate.DuplicateFolderGroup;
 import fr.thumbnailsdb.duplicate.DuplicateFolderList;
+import fr.thumbnailsdb.hash.ImageHash;
 import fr.thumbnailsdb.lshbuilders.LSHManager;
 import fr.thumbnailsdb.utils.Logger;
 import org.apache.commons.codec.binary.Base64;
@@ -416,14 +417,13 @@ public class RestTest {
     @Path("findSimilarFromURL/")
     @Produces({MediaType.APPLICATION_JSON})
     public Response findSimilarFromURL(@QueryParam("url") String sUrl) {
-        ThumbnailGenerator tg = new ThumbnailGenerator(null);
         try {
             URL url = new URL(sUrl);
             InputStream in = new BufferedInputStream(url.openStream());
             File temp = streamToFile(in);
-            MediaFileDescriptor initialImage = tg.buildMediaDescriptor(temp);
+            MediaFileDescriptor initialImage = this.mediaFileDescriptorBuilder.buildMediaDescriptor(temp);
 
-            JSONObject responseDetailsJson = computeSimilar(tg, temp, initialImage);
+            JSONObject responseDetailsJson = computeSimilar(temp, initialImage);
             return Response.status(200).entity(responseDetailsJson).type(MediaType.APPLICATION_JSON).build();
         } catch (IOException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
@@ -466,21 +466,15 @@ public class RestTest {
     // @Consumes("image/*")
     @Produces({MediaType.APPLICATION_JSON})
     public Response findSimilar(InputStream stream) {
-        ThumbnailGenerator tg = new ThumbnailGenerator(null);
-//        BodyPartEntity bpe = (BodyPartEntity) multipart.getBodyParts().get(0).getEntity();
-      //  Collection<MediaFileDescriptor> c = null;
-      //  ArrayList<SimilarImage> al = null;
         File temp = null;
         MediaFileDescriptor initialImage = null;
-      //  InputStream source = stream; //bpe.getInputStream();
         temp = streamToFile(stream);
-        initialImage = tg.buildMediaDescriptor(temp);
-
-        JSONObject responseDetailsJson = computeSimilar(tg, temp, initialImage);
+        initialImage = this.mediaFileDescriptorBuilder.buildMediaDescriptor(temp);
+        JSONObject responseDetailsJson = computeSimilar(temp, initialImage);
         return Response.status(200).entity(responseDetailsJson).type(MediaType.APPLICATION_JSON).build();
     }
 
-    private JSONObject computeSimilar(ThumbnailGenerator tg, File temp, MediaFileDescriptor initialImage) {
+    private JSONObject computeSimilar( File temp, MediaFileDescriptor initialImage) {
         Collection<MediaFileDescriptor> c;ArrayList<SimilarImage> al;
         long t1 = System.currentTimeMillis();
         c = si.findSimilarMedia(temp.getAbsolutePath(), 20);
@@ -500,7 +494,7 @@ public class RestTest {
                 FileInputStream f = new FileInputStream(new File(path));
                 try {
                     //encode thumbnail
-                    BufferedImage bf = tg.downScaleImage(ImageIO.read(f), 200, 200);
+                    BufferedImage bf = ImageHash.downScaleImage(ImageIO.read(f), 200, 200);
                     ByteArrayOutputStream out = new ByteArrayOutputStream();
                     ImageIO.write(bf, "JPEG", out);
                     imgData = Base64.encodeBase64String(out.toByteArray());

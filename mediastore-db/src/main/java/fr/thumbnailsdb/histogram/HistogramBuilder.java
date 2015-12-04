@@ -1,16 +1,9 @@
 package fr.thumbnailsdb.histogram;
 
-import fr.thumbnailsdb.ThumbnailGenerator;
-
 import javax.imageio.ImageIO;
-import javax.media.jai.JAI;
-import javax.media.jai.PlanarImage;
-import javax.media.jai.RenderedOp;
-import javax.media.jai.operator.ColorQuantizerDescriptor;
 import javax.media.jai.widget.ScrollingImagePanel;
 import javax.swing.*;
 import java.awt.image.BufferedImage;
-import java.awt.image.renderable.ParameterBlock;
 import java.io.File;
 import java.util.HashMap;
 import java.util.HashSet;

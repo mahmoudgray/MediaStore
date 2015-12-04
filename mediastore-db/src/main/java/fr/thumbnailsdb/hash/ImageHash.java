@@ -22,13 +22,13 @@ public class ImageHash {
 
     public static BufferedImage downScaleImageToGray(BufferedImage bi, int nw, int nh) throws IOException {
         if (Logger.getLogger().isEnabled()) {
-            Logger.getLogger().log("ThumbnailGenerator.downScaleImageToGray()  original image is " + bi.getWidth() + "x"
+            Logger.getLogger().log("ImageHash.downScaleImageToGray()  original image is " + bi.getWidth() + "x"
                     + bi.getHeight());
         }
         BufferedImage scaledBI = null;
         // if (nw < width || nh < height) {
         if (Logger.getLogger().isEnabled()) {
-            Logger.getLogger().log("ThumbnailGenerator.downScaleImageToGray() to " + nw + "x" + nh);
+            Logger.getLogger().log("ImageHash.downScaleImageToGray() to " + nw + "x" + nh);
         }
         if (Logger.getLogger().isEnabled()) {
             Logger.getLogger().log("resizing to " + nw + "x" + nh);
@@ -41,8 +41,41 @@ public class ImageHash {
         // }
         return scaledBI;
     }
+    public static BufferedImage downScaleImage(BufferedImage bi, int nw, int nh) throws IOException {
+        if (Logger.getLogger().isEnabled()) {
+            Logger.getLogger().log("ImageHash.downScaleImage()  original image is " + bi.getWidth() + "x"
+                    + bi.getHeight());
+        }
+        BufferedImage scaledBI = null;
+        if (Logger.getLogger().isEnabled()) {
+            Logger.getLogger().log("ImageHash.downScaleImage() requested to " + nw + "x" + nh);
+        }
+        float h_original = bi.getHeight();
+        float w_original = bi.getWidth();
 
-
+        float h_ratio = h_original / nh;
+        float w_ratio = w_original / nw;
+        //ensure we have at least one
+        if (h_ratio < 1) {
+            h_ratio = 1;
+        }
+        if (w_ratio < 1) {
+            w_ratio = 1;
+        }
+        float ratio = Math.max(h_ratio, w_ratio);
+        int fWidth = Math.round(w_original / ratio);
+        int fHeight = Math.round(h_original / ratio);
+        if (Logger.getLogger().isEnabled()) {
+            Logger.getLogger().log("resizing to " + fWidth + "x" + fHeight + " with scale " + ratio);
+        }
+        scaledBI = new BufferedImage(fWidth, fHeight, BufferedImage.TYPE_INT_RGB);
+        Graphics2D g = scaledBI.createGraphics();
+        g.setComposite(AlphaComposite.Src);
+        g.drawImage(bi, 0, 0, fWidth, fHeight, null);
+        g.dispose();
+        // }
+        return scaledBI;
+    }
     private static int meanValue(BufferedImage bf) {
         int[] data1 = new int[bf.getWidth() * bf.getHeight()];
         bf.getRGB(0, 0, bf.getWidth(), bf.getHeight(), data1, 0, bf.getWidth());
@@ -53,8 +86,7 @@ public class ImageHash {
         }
         return (int) (total / data1.length);
     }
-
-    public static  String generateSignature(BufferedImage source) throws IOException {
+    public static String generateSignature(BufferedImage source) throws IOException {
         BufferedImage bf = downScaleImageToGray(source, WIDTH, HEIGHT);
         String signature = "";
         int[] data1 = new int[bf.getWidth() * bf.getHeight()];
@@ -69,7 +101,14 @@ public class ImageHash {
         }
         return signature;
     }
-
+    public static String generateSignature(String path) throws IOException {
+        BufferedImage bf = ImageIO.read(new File(path));
+        return generateSignature(bf);
+    }
+    public static String generateSignature(InputStream in) throws IOException {
+        BufferedImage bf = ImageIO.read(in);
+        return generateSignature(bf);
+    }
     public static BufferedImage signatureToImage(String signature) {
         final BufferedImage bf = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_BYTE_GRAY);
         int[] data = new int[WIDTH * HEIGHT];
@@ -93,19 +132,6 @@ public class ImageHash {
 //        });
         return bf;
     }
-
-
-    public static String generateSignature(String path) throws IOException {
-        BufferedImage bf = ImageIO.read(new File(path));
-        return generateSignature(bf);
-    }
-
-
-    public static String generateSignature(InputStream in) throws IOException {
-        BufferedImage bf = ImageIO.read(in);
-        return generateSignature(bf);
-    }
-
     public static int hammingDistance(String sg1, String sg2) {
 
         if (sg1.length() != sg2.length()) {
@@ -121,11 +147,6 @@ public class ImageHash {
         return distance;
 
     }
-
-
-
-
-
     public static void testDB() {
         ImageHash imh = new ImageHash();
         MediaFileDescriptorBuilder mediaFileDescriptorBuilder = new MediaFileDescriptorBuilder();
@@ -180,11 +201,9 @@ public class ImageHash {
             }
         }
     }
-
     public static void main(String[] args) {
 //                       testHash(args);
         testDB();
     }
-
 
 }
