@@ -18,7 +18,6 @@ import java.sql.SQLException;
  * Created by mohannad on 02/12/15.
  */
 public class MediaFileDescriptorBuilder {
-
     protected DBManager dbManager;
     protected MD5Generator md5Generator;
 
@@ -61,14 +60,14 @@ public class MediaFileDescriptorBuilder {
             long size = res.getLong("size");
             String hash = res.getString("hash");
 
-            id = new MediaFileDescriptor(path, size, mtime, md5, hash);
+            id = new MediaFileDescriptor(path, size, mtime, md5, hash,this.dbManager);
             id.setId(res.getInt("id"));
         } catch (SQLException e) {
         }
         return id;
     }
     public MediaFileDescriptor buildMediaDescriptor(File f) {
-        MediaFileDescriptor id = new MediaFileDescriptor();
+        MediaFileDescriptor id = new MediaFileDescriptor(this.dbManager);
         int[] data;
         String md5;
         try {

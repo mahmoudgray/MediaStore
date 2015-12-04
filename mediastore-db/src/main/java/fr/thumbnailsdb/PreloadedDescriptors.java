@@ -60,7 +60,7 @@ public class PreloadedDescriptors {
                     long size = res.getLong("size");
                     String hash = res.getString("hash");
                     if (path != null && md5 != null) {
-                        MediaFileDescriptor imd = new MediaFileDescriptor();
+                        MediaFileDescriptor imd = new MediaFileDescriptor(dbManager);
                         if (useFullPath) {
                             imd.setPath(path);
                         }

@@ -208,7 +208,7 @@ public class VPTreeBuilder {
                     String s = res.getString("hash");
                     if (s != null) {
 
-                        MediaFileDescriptor imd = new MediaFileDescriptor();
+                        MediaFileDescriptor imd = new MediaFileDescriptor(this.dbManager);
                         imd.setPath(path);
                         imd.setHash(s);
 //                                imd.setData(idata);

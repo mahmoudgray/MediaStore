@@ -74,7 +74,7 @@ public class PreloadedDescriptorsTest {
         boolean found = false;
         while (mediaFileDescriptorIterator.hasNext()){
             MediaFileDescriptor m = mediaFileDescriptorIterator.next();
-            if(mediaFileDescriptor.getId() == m.getId()){
+            if(mediaFileDescriptor.equals(m)){
                 found=true;
                 break;
             }

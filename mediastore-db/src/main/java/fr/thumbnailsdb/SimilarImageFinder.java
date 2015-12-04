@@ -52,7 +52,6 @@ public class SimilarImageFinder {
     public Collection<MediaFileDescriptor> findSimilarMedia(String source, int max) {
         MediaIndexer tg = new MediaIndexer(this.thumbstore , this.mediaFileDescriptorBuilder);
         MediaFileDescriptor id = mediaFileDescriptorBuilder.buildMediaDescriptor(new File(source));
-       // Collection<MediaFileDescriptor> result = this.findSimilarImage(id, max);
         if (id==null) {
             System.err.println("Error cannot load image "  + source);
         }
@@ -75,7 +74,7 @@ public class SimilarImageFinder {
                             int[] idata = Utils.toIntArray(d);
                             if (idata != null) {
 
-                                MediaFileDescriptor imd = new MediaFileDescriptor();
+                                MediaFileDescriptor imd = new MediaFileDescriptor(this.thumbstore);
                                 imd.setPath(path);
                                 //TODO: handle signature here
                                 //  imd.setData(idata);
@@ -106,7 +105,7 @@ public class SimilarImageFinder {
                         String s = res.getString("hash");
                         if (s != null) {
 
-                            MediaFileDescriptor imd = new MediaFileDescriptor();
+                            MediaFileDescriptor imd = new MediaFileDescriptor(this.thumbstore);
                             imd.setPath(path);
                             imd.setHash(s);
 //                                imd.setData(idata);
@@ -220,7 +219,7 @@ public class SimilarImageFinder {
                 MediaFileDescriptor df = queue.peek();
                 if (df.distance > distance) {
                     queue.poll();
-                    MediaFileDescriptor imd = new MediaFileDescriptor();
+                    MediaFileDescriptor imd = new MediaFileDescriptor(this.thumbstore);
                     imd.setPath(current.getPath());
                     imd.setDistance(distance);
                     imd.setHash(current.getHash());
@@ -229,7 +228,7 @@ public class SimilarImageFinder {
                     queue.add(imd);
                 }
             } else {
-                MediaFileDescriptor imd = new MediaFileDescriptor();
+                MediaFileDescriptor imd = new MediaFileDescriptor(this.thumbstore);
                 imd.setPath(current.getPath());
                 imd.setDistance(distance);
                 imd.setHash(current.getHash());
@@ -268,7 +267,7 @@ public class SimilarImageFinder {
     public ArrayList<MediaFileDescriptor> findIdenticalMedia(String source) {
 
         MediaIndexer tg = new MediaIndexer(null, this.mediaFileDescriptorBuilder);
-        MediaFileDescriptor id = mediaFileDescriptorBuilder.buildMediaDescriptor(new File(source)); // ImageDescriptor.readFromDisk(s);
+        MediaFileDescriptor id = mediaFileDescriptorBuilder.buildMediaDescriptor(new File(source));
 //        System.out.println(id.md5Digest);
         ArrayList<MediaFileDescriptor> al = new ArrayList<MediaFileDescriptor>();
         return thumbstore.getDuplicatesMD5(id);

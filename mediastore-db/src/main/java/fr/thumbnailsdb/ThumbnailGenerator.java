@@ -2,6 +2,7 @@ package fr.thumbnailsdb;
 
 import fr.thumbnailsdb.dbservices.DBManager;
 import fr.thumbnailsdb.hash.ImageHash;
+import fr.thumbnailsdb.utils.LimitedQueue;
 import fr.thumbnailsdb.utils.Logger;
 import org.apache.commons.codec.digest.DigestUtils;
 
@@ -14,57 +15,21 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
+
 public class ThumbnailGenerator {
 
     public static final int WIDTH = 10;
     public static final int HEIGHT = 10;
     protected boolean debug;
     protected boolean software = true;
-    protected DBManager ts;
-
+    protected DBManager dbManager;
     protected Logger log = Logger.getLogger();
-
-
-    ThreadPoolExecutor executorService = new ThreadPoolExecutor(4, 4, 0L, TimeUnit.MILLISECONDS,
-            new LimitedQueue<Runnable>(50));
+    protected ThreadPoolExecutor executorService =
+            new ThreadPoolExecutor(4, 4, 0L, TimeUnit.MILLISECONDS,new LimitedQueue<Runnable>(50));
 
     public ThumbnailGenerator(DBManager t) {
-        this.ts = t;
+        this.dbManager = t;
     }
-
-    private class LimitedQueue<E> extends LinkedBlockingQueue<E> {
-        public LimitedQueue(int maxSize) {
-            super(maxSize);
-        }
-
-        @Override
-        public boolean add(E e) {
-            // System.out.println("ThumbnailGenerator.LimitedQueue.add()");
-            return super.add(e);
-        }
-
-        @Override
-        public boolean offer(E e) {
-            //	System.out.println("ThumbnailGenerator.LimitedQueue.offer() " + this.size());
-            // turn offer() and add() into a blocking calls (unless interrupted)
-            try {
-                put(e);
-                return true;
-            } catch (InterruptedException ie) {
-                Thread.currentThread().interrupt();
-            }
-            // System.out.println("ThumbnailGenerator.LimitedQueue.offer()   ... done");
-            return false;
-        }
-
-        @Override
-        public E take() throws InterruptedException {
-            //		System.out.println("ThumbnailGenerator.LimitedQueue.take()");
-            return super.take();
-        }
-
-    }
-
     /**
      * Load the image and resize it if necessary
      *
@@ -181,7 +146,7 @@ public class ThumbnailGenerator {
     }
 
     public MediaFileDescriptor buildMediaDescriptor(File f) {
-        MediaFileDescriptor id = new MediaFileDescriptor();
+        MediaFileDescriptor id = new MediaFileDescriptor(this.dbManager);
         int[] data;
         String md5;
         try {
@@ -210,7 +175,7 @@ public class ThumbnailGenerator {
         // + f);
         // System.out.println("checking if in DB");
         try {
-            if (ts.isInDataBaseBasedOnName(f.getCanonicalPath())) {
+            if (dbManager.isInDataBaseBasedOnName(f.getCanonicalPath())) {
                 // System.out.println("ThumbnailGenerator.generateImageDescriptor() Already in DB, ignoring");
                 if (log.isEnabled()) {
                     log.log(f.getCanonicalPath() + " already in DB");
@@ -218,7 +183,7 @@ public class ThumbnailGenerator {
             } else {
                 MediaFileDescriptor id = this.buildMediaDescriptor(f);
                 if (id != null) {
-                    ts.saveToDB(id);
+                    dbManager.saveToDB(id);
                 }
                 if (log.isEnabled()) {
                     log.log(f.getCanonicalPath() + " ..... size  " + (f.length() / 1024) + " KiB OK " + executorService.getActiveCount() + " threads running");
