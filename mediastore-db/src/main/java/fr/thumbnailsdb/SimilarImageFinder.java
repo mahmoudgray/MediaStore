@@ -15,7 +15,6 @@ import fr.thumbnailsdb.vptree.VPTree;
 import fr.thumbnailsdb.vptree.VPTreeBuilder;
 import fr.thumbnailsdb.distance.VPRMSEDistance;
 import org.perf4j.LoggingStopWatch;
-
 import java.io.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;

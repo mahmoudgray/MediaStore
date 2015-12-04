@@ -4,7 +4,7 @@ package fr.thumbnailsdb.candidates;
  * Created by fhuet on 26/04/2014.
  */
 //we need to add a distance field to the candidates
-class DCandidate {
+public class DCandidate {
     private double distance;
     private Candidate candidate;
 

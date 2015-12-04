@@ -16,9 +16,9 @@ import org.testng.annotations.Test;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.sql.Connection;
+
 import java.sql.SQLException;
-import java.util.ArrayList;
+
 
 
 public class MediaIndexerTest {

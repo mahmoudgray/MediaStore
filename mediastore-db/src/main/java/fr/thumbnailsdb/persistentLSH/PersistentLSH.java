@@ -18,8 +18,7 @@ public class PersistentLSH {
 
 
     private static String file = "lsh";
-    //
-    //   private int nbTables = 10;
+
     private PersistentLSHTable[] tables;
     private PersistentLSHTable t;
     private int lastCandidatesCount;
@@ -31,9 +30,7 @@ public class PersistentLSH {
     public PersistentLSH(int nbTables, int k, int maxExcluded) {
         System.out.println("fr.thumbnailsdb.persistentLSH.PersistentLSH.PersistentLSH");
         executorService = Executors.newFixedThreadPool(nbTables);
-        db = DBMaker.newFileDB(new File(file))
-                .closeOnJvmShutdown().make();
-        //DBMaker.newMemoryDB().make();
+        db = DBMaker.newFileDB(new File(file)).closeOnJvmShutdown().make();
         tables = new PersistentLSHTable[nbTables];
         StopWatch stopWatch = null;
         if (Configuration.timing()) {
@@ -73,7 +70,7 @@ public class PersistentLSH {
             }
         }
         lastCandidatesCount = hs.size();
-        return new ArrayList<Candidate>(hs);
+        return new ArrayList<>(hs);
     }
 
 
