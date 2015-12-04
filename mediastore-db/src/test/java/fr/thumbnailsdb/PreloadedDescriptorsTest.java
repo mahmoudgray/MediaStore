@@ -31,8 +31,8 @@ public class PreloadedDescriptorsTest {
         tmpDir.delete();
         tmpDir.mkdir();
         folder1 = new File(getClass().getResource("folder1").toURI());
-        System.out.println("DBManagerTest.createTempDir Temp Dir " + tmpDir);
-        System.out.println("DBManagerTest.createTempDir Folder1  " + folder1);
+        System.out.println("PreloadedDescriptorsTest.createTempDir Temp Dir " + tmpDir);
+        System.out.println("PreloadedDescriptorsTest.createTempDir Folder1  " + folder1);
         // in order to force loading full paths
         //PreloadedDescriptors.setUseFullPath(true);
         mediaFileDescriptorBuilder=new MediaFileDescriptorBuilder();
@@ -51,10 +51,17 @@ public class PreloadedDescriptorsTest {
 
         }
     }
+
     @Test
+    public void testPreLoadedDescriptorExists(){
+        Assert.assertTrue(!PreloadedDescriptors.preloadedDescriptorsExists());
+    }
+
+    @Test(dependsOnMethods={"testPreLoadedDescriptorExists"})
     public void testPreloadingOfDescriptors() throws IOException, URISyntaxException {
         mediaIndexer.processMTRoot(folder1.getCanonicalPath());
         int size = PreloadedDescriptors.getPreloadedDescriptors(dbManager).size();
+        Assert.assertTrue(PreloadedDescriptors.preloadedDescriptorsExists());
         Assert.assertEquals(size,9);
     }
     @Test(dependsOnMethods={"testPreloadingOfDescriptors"})
@@ -65,16 +72,20 @@ public class PreloadedDescriptorsTest {
         preloadedDescriptors.remove(mediaFileDescriptor);
         Iterator<MediaFileDescriptor> mediaFileDescriptorIterator = preloadedDescriptors.iterator();
         boolean found = false;
-        System.out.println(mediaFileDescriptor.getMD5());
         while (mediaFileDescriptorIterator.hasNext()){
             MediaFileDescriptor m = mediaFileDescriptorIterator.next();
-            System.out.println(m.getMD5());
-            if(m.getMD5().equals(mediaFileDescriptor.getMD5())){
+            if(mediaFileDescriptor.getId() == m.getId()){
                 found=true;
                 break;
             }
         }
         Assert.assertTrue(!found);
+    }
+
+    @Test(dependsOnMethods={"testPreloadingOfDescriptors"})
+    public void testPreloadedDescriptorFlush(){
+        PreloadedDescriptors.flushPreloadedDescriptors();
+        Assert.assertTrue(!PreloadedDescriptors.preloadedDescriptorsExists());
     }
 
 }

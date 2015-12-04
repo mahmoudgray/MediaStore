@@ -36,8 +36,8 @@ public class MediaIndexerTest {
         tmpDir.delete();
         tmpDir.mkdir();
         folder1 = new File(getClass().getResource("folder1").toURI());
-        System.out.println("DBManagerTest.createTempDir Temp Dir " + tmpDir);
-        System.out.println("DBManagerTest.createTempDir Folder1  " + folder1);
+        System.out.println("MediaIndexerTest.createTempDir Temp Dir " + tmpDir);
+        System.out.println("MediaIndexerTest.createTempDir Folder1  " + folder1);
         mediaFileDescriptorBuilder=new MediaFileDescriptorBuilder();
         dbManager = new DBManager(tmpDir.getCanonicalPath() + "/testDB", mediaFileDescriptorBuilder );
         mediaIndexer = new MediaIndexer(dbManager, mediaFileDescriptorBuilder);
@@ -72,7 +72,6 @@ public class MediaIndexerTest {
         File[] list = folder1.listFiles();
         lshManager.buildLSH(true);
         SimilarImageFinder si = new SimilarImageFinder(dbManager,mediaFileDescriptorBuilder,lshManager );
-
         for(File f : list) {
             Assert.assertEquals(si.findSimilarMedia(f.getCanonicalPath(),1).size(), 1);
         }
