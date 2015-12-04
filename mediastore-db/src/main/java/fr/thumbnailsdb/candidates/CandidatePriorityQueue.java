@@ -1,11 +1,7 @@
-package fr.thumbnailsdb.dcandidate;
-
-import fr.thumbnailsdb.Candidate;
+package fr.thumbnailsdb.candidates;
 
 import java.util.Comparator;
-import java.util.Iterator;
 import java.util.PriorityQueue;
-import java.util.TreeSet;
 
 /**
  * Created by fhuet on 26/04/2014.
@@ -29,23 +25,17 @@ public class CandidatePriorityQueue {
             }
         });
     }
-
     public Candidate peek() {
         return queue.peek().getCandidate();
     }
-
     public int size() {
         return queue.size();
     }
 
     public boolean add(Candidate o, double distance) {
-//        System.out.println("fr.thumbnailsdb.dcandidate.CandidatePriorityQueue.add " + o.getIndex() + " current size   " + this.size() +  " max " + this.max);
-//        System.out.println("              distance " + distance);
-
         if (queue.size() >= max) {
             DCandidate df = queue.peek();
             if (df.getDistance() > distance) {
-              //  queue.remove(df);
                 queue.remove();
                 return queue.add(new DCandidate(new Candidate(o.getIndex(),o.getHash()), distance));
             } else {

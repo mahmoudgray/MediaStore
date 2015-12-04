@@ -1,6 +1,6 @@
 package fr.thumbnailsdb.persistentLSH;
 
-import fr.thumbnailsdb.Candidate;
+import fr.thumbnailsdb.candidates.Candidate;
 import fr.thumbnailsdb.lsh.KbitLSH;
 import org.mapdb.DB;
 import org.mapdb.Fun;

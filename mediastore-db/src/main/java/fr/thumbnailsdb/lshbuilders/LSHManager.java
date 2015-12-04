@@ -1,6 +1,6 @@
 package fr.thumbnailsdb.lshbuilders;
 
-import fr.thumbnailsdb.Candidate;
+import fr.thumbnailsdb.candidates.Candidate;
 import fr.thumbnailsdb.MediaFileDescriptor;
 import fr.thumbnailsdb.Status;
 import fr.thumbnailsdb.dbservices.DBManager;

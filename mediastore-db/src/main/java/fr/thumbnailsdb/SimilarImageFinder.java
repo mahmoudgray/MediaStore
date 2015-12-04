@@ -1,10 +1,11 @@
 package fr.thumbnailsdb;
 
 import fr.thumbnailsdb.bktree.BKTree;
+import fr.thumbnailsdb.candidates.Candidate;
 import fr.thumbnailsdb.distance.RMSEDistance;
 import fr.thumbnailsdb.dbservices.DBManager;
-import fr.thumbnailsdb.dcandidate.CandidateIterator;
-import fr.thumbnailsdb.dcandidate.CandidatePriorityQueue;
+import fr.thumbnailsdb.candidates.CandidateIterator;
+import fr.thumbnailsdb.candidates.CandidatePriorityQueue;
 import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptorBuilder;
 import fr.thumbnailsdb.lshbuilders.LSHManager;
 import fr.thumbnailsdb.utils.Configuration;

@@ -1,6 +1,4 @@
-package fr.thumbnailsdb.dcandidate;
-
-import fr.thumbnailsdb.Candidate;
+package fr.thumbnailsdb.candidates;
 
 /**
  * Created by fhuet on 26/04/2014.
@@ -14,15 +12,12 @@ class DCandidate {
         this.candidate = c;
         this.distance = d;
     }
-
     public Candidate getCandidate() {
         return candidate;
     }
-
     public double getDistance() {
         return distance;
     }
-
     public void setDistance(double distance) {
         this.distance = distance;
     }

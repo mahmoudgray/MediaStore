@@ -1,6 +1,4 @@
-package fr.thumbnailsdb.dcandidate;
-
-import fr.thumbnailsdb.Candidate;
+package fr.thumbnailsdb.candidates;
 
 import java.util.Iterator;
 
