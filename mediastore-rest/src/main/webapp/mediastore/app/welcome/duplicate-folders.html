@@ -1,8 +1,8 @@
 <div class="container">
     <h1>Duplicates Folders</h1><br>
-    <form ng-submit="getDuplicateFolders()">
-        <input type="submit" class="btn btn-primary" value="Get Folders"><br>
-    </form>
+    <button type="button" class="btn btn-xs btn-info" ng-click="getDuplicateFolders()">
+        <span class="glyphicon glyphicon-search"></span> Search
+    </button><br>
     
     <table class="table table-striped table-condensed">
         <thead>
@@ -23,7 +23,7 @@
             <td>{{r.filesInFolder2}}</td>
             <td>{{r.folder1}}<br>{{r.folder2}}</td>
             <td>
-                <a ng-click="hello()" class="btn btn-small btn-info">folders</a>
+                <a ng-click="hello()" class="btn btn-xs btn-info"><span class="glyphicon glyphicon-folder-open"></span>   folders</a>
             </td>
         </tr>
     {{r.folder2}}    </tbody>

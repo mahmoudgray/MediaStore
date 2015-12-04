@@ -8,3 +8,10 @@ service.factory('ThumbnailFactory', [function() {
 	
 
 }]);
+
+service.factory('ThumbnailsFactory', [function(){
+
+
+
+
+}]);
