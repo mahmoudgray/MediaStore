@@ -1,10 +1,11 @@
 package fr.thumbnailsdb.vptree;
 
+import fr.thumbnailsdb.distance.Distance;
+
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-import fr.thumbnailsdb.vptree.distances.Distance;
 
 /**
  * @author Paolo Ciccarese
@@ -31,7 +32,7 @@ public class VPTreeSeeker {
         if (DEBUG) System.out.println("> " + tNode);
         
         if (tNode != null) {
-            double distance = this.distance.d(query, tNode.get());
+            double distance = this.distance.getDistance(query, tNode.get());
 
             if (distance <= range) {
                 if (DEBUG) System.out.println("*** add ***");

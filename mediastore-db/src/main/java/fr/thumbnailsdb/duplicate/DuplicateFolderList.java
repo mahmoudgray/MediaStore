@@ -110,11 +110,9 @@ public class DuplicateFolderList {
     private boolean match(DuplicateFolderGroup d, String[] filter) {
         for (String s : filter) {
             if (d.folder1.contains(s) || d.folder2.contains(s)) {
-//                System.out.println("DuplicateFolderList.match " + d.folder1 + " OR " + d.folder2 + " matches " + s);
                 return true;
             }
         }
-//        System.out.println("DuplicateFolderList.match " + d.folder1 + " OR " + d.folder2 + " no match");
         return false;
     }
 

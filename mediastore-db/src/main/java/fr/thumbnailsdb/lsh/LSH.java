@@ -107,19 +107,14 @@ public class LSH {
         ResultSet res = thumbstore.getAllInDataBase();
             try {
                 while (res.next()) {
-                    // String path = res.getString("path");
                     int index = res.getInt("ID");
-
-                    //  byte[] d = res.getBytes("data");
                     String s = res.getString("hash");
                     if (s != null) {
-
                         lsh.add(s, index);
-
                     }
                 }
             } catch (SQLException e) {
-                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                e.printStackTrace();
             }
         System.out.println(" ... done");
     }

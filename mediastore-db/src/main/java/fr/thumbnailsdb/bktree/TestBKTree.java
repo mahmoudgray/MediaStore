@@ -1,5 +1,7 @@
 package fr.thumbnailsdb.bktree;
 
+import fr.thumbnailsdb.distance.LevenshteinDistance;
+
 import java.io.IOException;
 import java.util.HashMap;
 
@@ -33,7 +35,7 @@ public class TestBKTree {
 			bkTree.add(word);
 		}
 		
-		HashMap<String, Integer> queryMap = bkTree.query("bark", 2);
+		HashMap<String, Double> queryMap = bkTree.query("bark", 2);
 		System.out.println(queryMap);
 		
 		String searchTerm = "temotw";

@@ -3,13 +3,12 @@ package fr.thumbnailsdb.vptree;
 import fr.thumbnailsdb.MediaFileDescriptor;
 import fr.thumbnailsdb.dbservices.DBManager;
 import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptorBuilder;
-import fr.thumbnailsdb.vptree.distances.Distance;
-import fr.thumbnailsdb.vptree.distances.VPRMSEDistance;
-
+import fr.thumbnailsdb.distance.VPRMSEDistance;
 import java.io.Serializable;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
+import fr.thumbnailsdb.distance.Distance;
 
 
 /**
@@ -172,7 +171,7 @@ public class VPTreeBuilder {
         Serializable x = pivot.get();
         for (int i = begin; i <= end; i++) {
             Serializable y = nodes[i].get();
-            double d = (x == y || x.equals(y)) ? 0.0d : distance.d(x, y);
+            double d = (x == y || x.equals(y)) ? 0.0d : distance.getDistance(x, y);
             nodes[i].setDistance(d);
         }
     }
@@ -204,16 +203,13 @@ public class VPTreeBuilder {
             try {
                 while (res.next()) {
                     String path = res.getString("path");
-                    //  byte[] d = res.getBytes("data");
                     String s = res.getString("hash");
                     if (s != null) {
 
                         MediaFileDescriptor imd = new MediaFileDescriptor(this.dbManager);
                         imd.setPath(path);
                         imd.setHash(s);
-//                                imd.setData(idata);
                         //TODO: handle signature here
-
                         al.add(imd);
 
                     }

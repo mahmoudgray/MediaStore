@@ -1,5 +1,7 @@
 package fr.thumbnailsdb.bktree;
 
+import fr.thumbnailsdb.distance.Distance;
+
 import java.util.HashMap;
 
 
@@ -23,7 +25,7 @@ import java.util.HashMap;
 public class BKTree <E> {
 
 	private Node root;
-	private HashMap<E, Integer> matches;
+	private HashMap<E, Double> matches;
 	private Distance distance;
 	private E bestTerm;
 
@@ -58,8 +60,8 @@ public class BKTree <E> {
 	 * @param threshold
 	 * @return
 	 */
-	public HashMap<E, Integer> query(E searchObject, int threshold) {
-		matches = new HashMap<E,Integer>();
+	public HashMap<E, Double> query(E searchObject, int threshold) {
+		matches = new HashMap<E,Double>();
 		root.query(searchObject, threshold, matches);
 		return matches;
 	}
@@ -69,7 +71,7 @@ public class BKTree <E> {
 	 * @param term 
 	 * @return the edit distance of the best match
 	 */
-	public int find(E term) {
+	public double find(E term) {
 		return root.findBestMatch(term, Integer.MAX_VALUE);
 	}
 	
@@ -88,9 +90,9 @@ public class BKTree <E> {
 	 * @param term
 	 * @return a match that is within the best edit distance of the search term.
 	 */
-	public HashMap<E,Integer> findBestWordMatchWithDistance(E term) {
-		int distance = root.findBestMatch(term, Integer.MAX_VALUE);
-		HashMap<E, Integer> returnMap = new HashMap<E, Integer>();
+	public HashMap<E,Double> findBestWordMatchWithDistance(E term) {
+		double distance = root.findBestMatch(term, Integer.MAX_VALUE);
+		HashMap<E, Double> returnMap = new HashMap<E, Double>();
 		returnMap.put(root.getBestTerm(), distance);
 		return returnMap;
 	}
@@ -98,15 +100,15 @@ public class BKTree <E> {
 	private class Node {
 
 		E term;
-		HashMap<Integer, Node> children;
+		HashMap<Double, Node> children;
 
 		public Node(E term) {
 			this.term = term;
-			children = new HashMap<Integer, Node>();
+			children = new HashMap<Double, Node>();
 		}
 
 		public void add(E term) {
-			int score = distance.getDistance(term, this.term);
+			double score = distance.getDistance(term, this.term);
             //System.out.println("BKTree$Node.add distance :" + score);
 			Node child = children.get(score);
 			if(child != null) {
@@ -117,23 +119,16 @@ public class BKTree <E> {
 			}
 		}
 
-		public int findBestMatch(E term, int bestDistance) {
-			int distanceAtNode = distance.getDistance(term, this.term);
-
-//			System.out.println("term = " + term + ", this.term = " + this.term + ", distance = " + distanceAtNode);
-			
-//			if(distanceAtNode == 1) {
-//				return distanceAtNode;
-//			}
-			
+		public double findBestMatch(E term, double bestDistance) {
+			double distanceAtNode = distance.getDistance(term, this.term);
 			if(distanceAtNode < bestDistance) {
 				bestDistance = distanceAtNode;
 				bestTerm = this.term;
 			}
 			
-			int possibleBest = bestDistance;
+			double possibleBest = bestDistance;
 
-			for (Integer score : children.keySet()) {
+			for (Double score : children.keySet()) {
 				if(score < distanceAtNode + bestDistance ) {
 					possibleBest = children.get(score).findBestMatch(term, bestDistance);
 					if(possibleBest < bestDistance) {
@@ -148,8 +143,8 @@ public class BKTree <E> {
 			return bestTerm;
 		}
 
-		public void query(E term, int threshold, HashMap<E, Integer> collected) {
-			int distanceAtNode = distance.getDistance(term, this.term);
+		public void query(E term, int threshold, HashMap<E, Double> collected) {
+			double distanceAtNode = distance.getDistance(term, this.term);
 
 			if(distanceAtNode == threshold) {
 				collected.put(this.term, distanceAtNode);
@@ -160,7 +155,7 @@ public class BKTree <E> {
 				collected.put(this.term, distanceAtNode);
 			}
 
-			for (int score = distanceAtNode-threshold; score <= threshold+distanceAtNode; score++) {
+			for (int score =(int) (distanceAtNode-threshold); score <= threshold+distanceAtNode; score++) {
 				Node child = children.get(score);
 				if(child != null) {
 					child.query(term, threshold, collected);

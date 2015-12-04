@@ -1,8 +1,8 @@
-package fr.thumbnailsdb.vptree.distances;
+package fr.thumbnailsdb.distance;
 
-import fr.thumbnailsdb.MediaFileDescriptor;
-import fr.thumbnailsdb.hash.ImageHash;
+import fr.thumbnailsdb.MediaFileDescriptor;;
 import fr.thumbnailsdb.utils.ImageComparator;
+
 
 /**
  * Created with IntelliJ IDEA.
@@ -11,10 +11,10 @@ import fr.thumbnailsdb.utils.ImageComparator;
  * Time: 16:41
  * To change this template use File | Settings | File Templates.
  */
-public class VPRMSEDistance extends Distance {
+public class VPRMSEDistance implements Distance {
 
     @Override
-    public double d(Object x, Object y) {
+    public double getDistance(Object x, Object y) {
         MediaFileDescriptor mf1 = (MediaFileDescriptor) x;
         MediaFileDescriptor mf2 = (MediaFileDescriptor) y ;
         return ImageComparator.compareUsingHammingDistance(mf1.getHash(),mf2.getHash());

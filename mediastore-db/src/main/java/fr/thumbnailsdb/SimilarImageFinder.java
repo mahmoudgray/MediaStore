@@ -1,7 +1,7 @@
 package fr.thumbnailsdb;
 
 import fr.thumbnailsdb.bktree.BKTree;
-import fr.thumbnailsdb.bktree.RMSEDistance;
+import fr.thumbnailsdb.distance.RMSEDistance;
 import fr.thumbnailsdb.dbservices.DBManager;
 import fr.thumbnailsdb.dcandidate.CandidateIterator;
 import fr.thumbnailsdb.dcandidate.CandidatePriorityQueue;
@@ -12,7 +12,7 @@ import fr.thumbnailsdb.utils.ImageComparator;
 import fr.thumbnailsdb.utils.ProgressBar;
 import fr.thumbnailsdb.vptree.VPTree;
 import fr.thumbnailsdb.vptree.VPTreeBuilder;
-import fr.thumbnailsdb.vptree.distances.VPRMSEDistance;
+import fr.thumbnailsdb.distance.VPRMSEDistance;
 import org.perf4j.LoggingStopWatch;
 
 import java.io.*;
@@ -102,14 +102,12 @@ public class SimilarImageFinder {
                 try {
                     while (res.next()) {
                         String path = res.getString("path");
-                        //  byte[] d = res.getBytes("data");
                         String s = res.getString("hash");
                         if (s != null) {
 
                             MediaFileDescriptor imd = new MediaFileDescriptor(this.thumbstore);
                             imd.setPath(path);
                             imd.setHash(s);
-//                                imd.setData(idata);
                             //TODO: handle signature here
 
                             al.add(imd);

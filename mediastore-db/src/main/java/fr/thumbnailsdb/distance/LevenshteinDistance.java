@@ -1,11 +1,13 @@
-package fr.thumbnailsdb.bktree;
+package fr.thumbnailsdb.distance;
+
+import fr.thumbnailsdb.distance.Distance;
 
 /**
  * http://en.wikipedia.org/wiki/Levenshtein_distance 
  */
 public class LevenshteinDistance implements Distance {
 
-	public int getDistance(Object object1, Object object2) {
+	public double getDistance(Object object1, Object object2) {
 		
 		String string1 = (String) object1;
 		String string2 = (String) object2;
