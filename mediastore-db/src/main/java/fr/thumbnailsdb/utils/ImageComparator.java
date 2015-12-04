@@ -1,5 +1,7 @@
-package fr.thumbnailsdb;
+package fr.thumbnailsdb.utils;
 
+import fr.thumbnailsdb.MediaFileDescriptor;
+import fr.thumbnailsdb.MediaIndexer;
 import fr.thumbnailsdb.dbservices.DBManager;
 import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptorBuilder;
 import fr.thumbnailsdb.hash.ImageHash;
@@ -16,7 +18,6 @@ public class ImageComparator {
     private static final int THRESHOLD = 50 ;
 
     public static double compareUsingRMSE(BufferedImage img1, BufferedImage img2) {
-        // double result;
         int h = img1.getHeight();
         int w = img1.getWidth();
         if (w != img2.getWidth() || h != img2.getHeight()) {
@@ -29,10 +30,6 @@ public class ImageComparator {
 
         int[] data2 = new int[w * h];
         img2.getRGB(0, 0, w, h, data2, 0, w);
-
-        // double quantumScale = (1.0/(18446744073709551615.0));
-        // System.out.println("ImageComparator.compareUsingRMSE() quantumScale "
-        // + quantumScale);
 
         float totalR = 0;
         float totalG = 0;
@@ -68,8 +65,6 @@ public class ImageComparator {
         }
         return (totalR + totalG + totalB) / (3 * w * h) * 100;
     }
-
-
     public static double compareARGBUsingRMSE(int[] img1, int[] img2) {
         float totalR = 0;
         float totalG = 0;
@@ -106,7 +101,6 @@ public class ImageComparator {
         }
         return (totalR + totalG + totalB) / (3 * img1.length) * 100;
     }
-
     public static double compareRGBUsingRMSE(int[] img1, int[] img2) {
         if (img1== null || img2==null) {
             return Double.MAX_VALUE;
@@ -124,12 +118,19 @@ public class ImageComparator {
         }
         return total;
     }
+    public static double compareUsingHammingDistance(String sg1, String sg2) {
+        if (sg1.length() != sg2.length()) {
+            return -1;
+        }
 
-    public static double compareUsingHammingDistance(String s1, String s2) {
-        return ImageHash.hammingDistance(s1,s2);
+        int distance = 0;
+        for (int i = 0; i < sg1.length(); i++) {
+            if (sg1.charAt(i) != sg2.charAt(i)) {
+                distance++;
+            }
+        }
+        return distance;
     }
-
-
     protected static void testFullScaleImages() throws IOException {
         System.out.println("ImageComparator.main() ---- similar images");
         String path = "/user/fhuet/desktop/home/workspaces/rechercheefficaceimagessimilaires/images/original.jpg";
@@ -145,8 +146,6 @@ public class ImageComparator {
         img2 = ImageIO.read(new File(path2));
         ImageComparator.compareUsingRMSE(img, img2);
     }
-
-
     protected static void testThumbnailImages() throws IOException {
         int x = 10;
         int y = 10;
@@ -188,7 +187,6 @@ public class ImageComparator {
 //        System.out.println("ImageComparator.main() Comparison of VERY MODIFIED thumbnails using ARGB RMSE " + ImageComparator.compareARGBUsingRMSE(id1.getData(), id4.getData()));
 
     }
-
     public static void main(String[] args) throws IOException {
         //testFullScaleImages();
         testThumbnailImages();

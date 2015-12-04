@@ -8,6 +8,7 @@ import fr.thumbnailsdb.dcandidate.CandidatePriorityQueue;
 import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptorBuilder;
 import fr.thumbnailsdb.lshbuilders.LSHManager;
 import fr.thumbnailsdb.utils.Configuration;
+import fr.thumbnailsdb.utils.ImageComparator;
 import fr.thumbnailsdb.utils.ProgressBar;
 import fr.thumbnailsdb.vptree.VPTree;
 import fr.thumbnailsdb.vptree.VPTreeBuilder;

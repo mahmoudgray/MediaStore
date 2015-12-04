@@ -4,6 +4,7 @@ import fr.thumbnailsdb.MediaFileDescriptor;
 import fr.thumbnailsdb.PreloadedDescriptors;
 import fr.thumbnailsdb.dbservices.DBManager;
 import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptorBuilder;
+import fr.thumbnailsdb.utils.ImageComparator;
 import fr.thumbnailsdb.utils.Logger;
 
 import javax.imageio.ImageIO;
@@ -16,10 +17,8 @@ import java.util.Iterator;
 
 
 public class ImageHash {
-
     private static int WIDTH = 10;
     private static int HEIGHT = 10;
-
     public static BufferedImage downScaleImageToGray(BufferedImage bi, int nw, int nh) throws IOException {
         if (Logger.getLogger().isEnabled()) {
             Logger.getLogger().log("ImageHash.downScaleImageToGray()  original image is " + bi.getWidth() + "x"
@@ -132,21 +131,6 @@ public class ImageHash {
 //        });
         return bf;
     }
-    public static int hammingDistance(String sg1, String sg2) {
-
-        if (sg1.length() != sg2.length()) {
-            return -1;
-        }
-
-        int distance = 0;
-        for (int i = 0; i < sg1.length(); i++) {
-            if (sg1.charAt(i) != sg2.charAt(i)) {
-                distance++;
-            }
-        }
-        return distance;
-
-    }
     public static void testDB() {
         ImageHash imh = new ImageHash();
         MediaFileDescriptorBuilder mediaFileDescriptorBuilder = new MediaFileDescriptorBuilder();
@@ -176,7 +160,6 @@ public class ImageHash {
             System.err.println("Usage : java  " + ImageHash.class + " <paths>");
             System.exit(-1);
         }
-
         String signature;
         for (String s : args) {
             try {
@@ -188,16 +171,15 @@ public class ImageHash {
                 e.printStackTrace();
             }
         }
-
         if (args.length > 2) {
             try {
                 String sig1 = imh.generateSignature(args[0]);
                 String sig2 = imh.generateSignature(args[1]);
                 String sig3 = imh.generateSignature(args[2]);
-                System.out.println("Hamming distance " + args[0] + "<->" + args[1] + "  : " + imh.hammingDistance(sig1, sig2));
-                System.out.println("Hamming distance " + args[0] + "<->" + args[2] + "  : " + imh.hammingDistance(sig1, sig3));
+                System.out.println("Hamming distance " + args[0] + "<->" + args[1] + "  : " + ImageComparator.compareUsingHammingDistance(sig1, sig2));
+                System.out.println("Hamming distance " + args[0] + "<->" + args[2] + "  : " + ImageComparator.compareUsingHammingDistance(sig1, sig3));
             } catch (IOException e) {
-                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                e.printStackTrace();
             }
         }
     }

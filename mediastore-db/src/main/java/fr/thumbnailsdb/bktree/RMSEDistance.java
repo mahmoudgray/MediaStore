@@ -1,6 +1,5 @@
 package fr.thumbnailsdb.bktree;
 
-import fr.thumbnailsdb.ImageComparator;
 import fr.thumbnailsdb.MediaFileDescriptor;
 
 /**
