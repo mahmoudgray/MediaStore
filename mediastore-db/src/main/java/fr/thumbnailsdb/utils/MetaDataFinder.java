@@ -1,18 +1,15 @@
-package fr.thumbnailsdb;
+package fr.thumbnailsdb.utils;
 
 import com.drew.imaging.ImageMetadataReader;
 import com.drew.lang.GeoLocation;
 import com.drew.metadata.Directory;
 import com.drew.metadata.Metadata;
 import com.drew.metadata.Tag;
-import com.drew.metadata.exif.ExifIFD0Directory;
 import com.drew.metadata.exif.ExifSubIFDDescriptor;
 import com.drew.metadata.exif.ExifSubIFDDirectory;
 import com.drew.metadata.exif.GpsDirectory;
-import fr.thumbnailsdb.utils.Logger;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.Date;
 
 /**

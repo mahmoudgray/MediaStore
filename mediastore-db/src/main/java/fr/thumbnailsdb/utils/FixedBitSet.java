@@ -14,18 +14,19 @@ public class FixedBitSet implements Serializable {
 
     public FixedBitSet(int size) {
         this.size =size;
-        this.b=new BitSet();
+        this.b=new BitSet(size); //this.b=new BitSet();
     }
-
     public  FixedBitSet(String s) {
         this(s.length());
         for(int i =0;i<s.length();i++) {
+            if((s.charAt(i)!='1') && (s.charAt(i)!='0')){
+                throw new RuntimeException("Unsupported formate of hash");
+            }
             if (s.charAt(i)=='1') {
                 b.set(i);
             }
         }
     }
-
     public String toString(){
             String r = new String();
             for(int i=0;i<size;i++) {
@@ -36,14 +37,6 @@ public class FixedBitSet implements Serializable {
                 }
             }
             return r;
-    }
-
-
-    public static void main(String[] args) {
-        String s = "1100000000111100000011111000001100011000111011000101111010001111111100110111010000001110100011101000";
-        String s2= "1100000000111100000011111000001100011000111011000101111010001111111100110111010000001110100011101";
-        FixedBitSet b = new FixedBitSet(s);
-        System.out.println("fr.thumbnailsdb.utils.FixedBitSet fromString " + b );
     }
 
 }

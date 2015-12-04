@@ -10,11 +10,8 @@ import java.util.concurrent.TimeUnit;
 import fr.thumbnailsdb.dbservices.DBManager;
 import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptorBuilder;
 import fr.thumbnailsdb.hash.ImageHash;
-import fr.thumbnailsdb.utils.MD5Generator;
+import fr.thumbnailsdb.utils.*;
 import fr.thumbnailsdb.treewalker.TreeWalker;
-import fr.thumbnailsdb.utils.Configuration;
-import fr.thumbnailsdb.utils.LimitedQueue;
-import fr.thumbnailsdb.utils.Logger;
 
 public class MediaIndexer {
 
