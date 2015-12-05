@@ -2,7 +2,7 @@ package fr.thumbnailsdb;
 
 import fr.thumbnailsdb.dbservices.DBManager;
 import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptorBuilder;
-import fr.thumbnailsdb.lshbuilders.LSHManager;
+import fr.thumbnailsdb.lsh.LSHManager;
 
 import java.util.ArrayList;
 
@@ -20,7 +20,6 @@ public class Main {
         if ("similar".equals(args[0])) {
             SimilarImageFinder si = new SimilarImageFinder(tb,mediaFileDescriptorBuilder,lshManager);
             String source = args[1];
-            //si.prettyPrintSimilarResults(si.findSimilarMedia(source,10), 10);
         }
 
         if ("duplicate".equals(args[0])) {

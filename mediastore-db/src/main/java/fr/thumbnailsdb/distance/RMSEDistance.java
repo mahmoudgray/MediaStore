@@ -1,7 +1,6 @@
 package fr.thumbnailsdb.distance;
 
-import fr.thumbnailsdb.MediaFileDescriptor;
-import fr.thumbnailsdb.distance.Distance;
+import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptor;
 
 /**
  * Created with IntelliJ IDEA.

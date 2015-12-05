@@ -1,6 +1,6 @@
 package fr.thumbnailsdb.distance;
 
-import fr.thumbnailsdb.MediaFileDescriptor;;
+import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptor;;
 import fr.thumbnailsdb.utils.ImageComparator;
 
 

@@ -1,6 +1,6 @@
 package fr.thumbnailsdb.vptree;
 
-import fr.thumbnailsdb.MediaFileDescriptor;
+import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptor;
 import fr.thumbnailsdb.dbservices.DBManager;
 import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptorBuilder;
 import fr.thumbnailsdb.distance.VPRMSEDistance;

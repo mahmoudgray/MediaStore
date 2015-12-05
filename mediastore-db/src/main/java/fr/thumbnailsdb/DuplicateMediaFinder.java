@@ -1,6 +1,7 @@
 package fr.thumbnailsdb;
 
 import fr.thumbnailsdb.dbservices.DBManager;
+import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptor;
 import fr.thumbnailsdb.duplicate.DuplicateFileGroup;
 import fr.thumbnailsdb.duplicate.DuplicateFileList;
 import fr.thumbnailsdb.duplicate.DuplicateFolderList;
@@ -11,16 +12,16 @@ import java.util.List;
 
 public class DuplicateMediaFinder {
 
-    protected DBManager thumbstore;
+    protected DBManager dbManager;
 
     protected DuplicateFileList duplicateFileList;
 
     public DuplicateMediaFinder(DBManager c) {
-        this.thumbstore = c;
+        this.dbManager = c;
     }
 
     public PreloadedDescriptors findDuplicateMedia() {
-        return PreloadedDescriptors.getPreloadedDescriptors(thumbstore);
+        return PreloadedDescriptors.getPreloadedDescriptors(dbManager);
     }
 
 
@@ -38,7 +39,7 @@ public class DuplicateMediaFinder {
             if (md5 != null) {
                 //TODO : this should be done in the DB directly
                 int index = mfd.getId();
-                String path = thumbstore.getPath(index);
+                String path = dbManager.getPath(index);
                 if (md5.equals(currentMd5)) {
                     // add to current group
                     dg.add(mfd.getSize(), path);
@@ -80,7 +81,7 @@ public class DuplicateMediaFinder {
                 while (itMedia.hasNext()) {
                     MediaFileDescriptor mfd = itMedia.next();
                     int index = mfd.getId();
-                    String path = thumbstore.getPath(index);
+                    String path = dbManager.getPath(index);
                     mfd.setPath(path);
                     dg.add(mfd.getSize(), mfd.getPath());
                 }

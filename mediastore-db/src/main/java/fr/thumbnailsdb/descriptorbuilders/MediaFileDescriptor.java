@@ -1,4 +1,4 @@
-package fr.thumbnailsdb;
+package fr.thumbnailsdb.descriptorbuilders;
 
 import fr.thumbnailsdb.dbservices.DBManager;
 import fr.thumbnailsdb.hash.ImageHash;
@@ -29,7 +29,7 @@ public class MediaFileDescriptor implements Serializable, Comparable<MediaFileDe
     protected Connection connection;
 
     @XmlElement
-    protected double distance;
+    private double distance;
 
 
     public MediaFileDescriptor(DBManager dbManager) {

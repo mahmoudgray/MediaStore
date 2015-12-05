@@ -2,12 +2,13 @@ package fr.thumbnailsdb;
 
 import fr.thumbnailsdb.bktree.BKTree;
 import fr.thumbnailsdb.candidates.Candidate;
+import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptor;
 import fr.thumbnailsdb.distance.RMSEDistance;
 import fr.thumbnailsdb.dbservices.DBManager;
 import fr.thumbnailsdb.candidates.CandidateIterator;
 import fr.thumbnailsdb.candidates.CandidatePriorityQueue;
 import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptorBuilder;
-import fr.thumbnailsdb.lshbuilders.LSHManager;
+import fr.thumbnailsdb.lsh.LSHManager;
 import fr.thumbnailsdb.utils.Configuration;
 import fr.thumbnailsdb.utils.ImageComparator;
 import fr.thumbnailsdb.utils.ProgressBar;
@@ -19,8 +20,6 @@ import java.io.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public class SimilarImageFinder {
 
@@ -30,136 +29,59 @@ public class SimilarImageFinder {
     public static boolean USE_FULL_PATH = false;
 
 
-    protected DBManager thumbstore;
+    protected DBManager dbManager;
     protected LSHManager lshManager;
 
     protected MediaFileDescriptorBuilder mediaFileDescriptorBuilder;
-
-
-    protected BKTree<MediaFileDescriptor> bkTree;// = new BKTree<String>(new RMSEDistance());
-
+    protected BKTree<MediaFileDescriptor> bkTree;
     protected VPTree vpTree;
-
-    //for parallel comparison of images
-    private ExecutorService executorService = Executors.newFixedThreadPool(10);
 
 
     public SimilarImageFinder(DBManager c, MediaFileDescriptorBuilder mediaFileDescriptorBuilder , LSHManager lshManager) {
-        this.thumbstore = c;
+        this.dbManager = c;
         this.mediaFileDescriptorBuilder = mediaFileDescriptorBuilder;
         this.lshManager = lshManager;
     }
-
-    public Collection<MediaFileDescriptor> findSimilarMedia(String source, int max) {
-        MediaIndexer tg = new MediaIndexer(this.thumbstore , this.mediaFileDescriptorBuilder);
-        MediaFileDescriptor id = mediaFileDescriptorBuilder.buildMediaDescriptor(new File(source));
-        if (id==null) {
+    public Collection<MediaFileDescriptor> findSimilarImages(String source, int max) {
+        MediaFileDescriptor mediaFileDescriptor = mediaFileDescriptorBuilder.buildMediaDescriptor(new File(source));
+        if (mediaFileDescriptor==null) {
             System.err.println("Error cannot load image "  + source);
         }
-
-        Collection<MediaFileDescriptor> result = this.findSimilarImageUsingLSH(id, max);
+        Collection<MediaFileDescriptor> result = this.findSimilarImageUsingLSH(mediaFileDescriptor, max);
             return result;
     }
-
-
-    protected BKTree<MediaFileDescriptor> getPreloadedDescriptorsBKTree() {
-        if (bkTree == null) {
-            int size = thumbstore.size();
-            bkTree = new BKTree<MediaFileDescriptor>(new RMSEDistance());
-            ResultSet res = thumbstore.getAllInDataBase();
-                try {
-                    while (res.next()) {
-                        String path = res.getString("path");
-                        byte[] d = res.getBytes("data");
-                        if (d != null) {
-                            int[] idata = Utils.toIntArray(d);
-                            if (idata != null) {
-
-                                MediaFileDescriptor imd = new MediaFileDescriptor(this.thumbstore);
-                                imd.setPath(path);
-                                //TODO: handle signature here
-                                //  imd.setData(idata);
-                                bkTree.add(imd);
-                            }
-                        }
-                    }
-                } catch (SQLException e) {
-                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                }
-
-        }
-        System.out.println("SimilarImageFinder.getPreloadedDescriptors records in BKTree : " + bkTree.size());
-        return bkTree;
-    }
-
-    protected VPTree getPreloadedDescriptorsVPTree() {
-        if (vpTree == null) {
-            int size = thumbstore.size();
-            vpTree = new VPTree();
-            VPTreeBuilder builder = new VPTreeBuilder(new VPRMSEDistance(),this.thumbstore);
-            ArrayList<MediaFileDescriptor> al = new ArrayList<MediaFileDescriptor>(size);
-            ResultSet res = thumbstore.getAllInDataBase();
-                try {
-                    while (res.next()) {
-                        String path = res.getString("path");
-                        String s = res.getString("hash");
-                        if (s != null) {
-
-                            MediaFileDescriptor imd = new MediaFileDescriptor(this.thumbstore);
-                            imd.setPath(path);
-                            imd.setHash(s);
-                            //TODO: handle signature here
-
-                            al.add(imd);
-
-                        }
-                    }
-                } catch (SQLException e) {
-                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                }
-            System.out.println("SimilarImageFinder.getPreloadedDescriptors array list built , creating tree");
-            vpTree = builder.buildVPTree(al);
-        }
-        System.out.println("SimilarImageFinder.getPreloadedDescriptors records in VPTree : " + vpTree);
-        return vpTree;
-
-
-    }
-
-
-    protected Collection<MediaFileDescriptor> findSimilarImageUsingLSH(MediaFileDescriptor id, int max) {
-
-        List<Candidate> al = this.lshManager.findCandidatesUsingLSH(id);
-        Iterator<Candidate> it = al.iterator();
+    protected Collection<MediaFileDescriptor> findSimilarImageUsingLSH(MediaFileDescriptor sourceMediaFileDescriptor, int max) {
+        List<Candidate> candidateList = this.lshManager.findCandidatesUsingLSH(sourceMediaFileDescriptor);
+        Iterator<Candidate> lshIterator = candidateList.iterator();
         LoggingStopWatch watch = null;
         if (Configuration.timing()) {
             watch = new LoggingStopWatch("findSimilarImageUsingLSH");
             watch.start();
         }
         Status.getStatus().setStringStatus(Status.FIND_SIMILAR + " using LSH");
-        CandidatePriorityQueue queue = new CandidatePriorityQueue(max);
-        String sourceHash=id.getHash();
-        while (it.hasNext()) {
-            Candidate current = it.next();
-            String sig = current.getHash();
-            if (sig == null) {
+        CandidatePriorityQueue candidatePriorityQueue = new CandidatePriorityQueue(max);
+        String sourceHash=sourceMediaFileDescriptor.getHash();
+        while (lshIterator.hasNext()) {
+            Candidate candidate = lshIterator.next();
+            String candidateHash = candidate.getHash();
+            if (candidateHash == null) {
                 continue;
             }
-            double distance = ImageComparator.compareUsingHammingDistance(sourceHash, sig);
-            queue.add(current,distance);
+            double distance = ImageComparator.compareUsingHammingDistance(sourceHash, candidateHash);
+            candidatePriorityQueue.add(candidate,distance);
         }
         Status.getStatus().setStringStatus(Status.IDLE);
-        CandidateIterator it2 = queue.iterator();
-        ArrayList<MediaFileDescriptor> finalArray = new ArrayList<>() ;
-        while (it2.hasNext()) {
-             Candidate c= it2.next();
-             MediaFileDescriptor md = mediaFileDescriptorBuilder.getMediaFileDescriptorFromDB(c.getIndex());
-            if (md!=null) {
-             md.setDistance(it2.distance());
-             finalArray.add(md);
+        CandidateIterator candidateIterator = candidatePriorityQueue.iterator();
+        ArrayList<MediaFileDescriptor> finalCandidatesList = new ArrayList<>() ;
+        while (candidateIterator.hasNext()) {
+             Candidate c= candidateIterator.next();
+             MediaFileDescriptor mDescriptor = mediaFileDescriptorBuilder.getMediaFileDescriptorFromDB(c.getIndex());
+            if (mDescriptor!=null) {
+                 mDescriptor.setDistance(candidateIterator.distance());
+                 finalCandidatesList.add(mDescriptor);
             }
         }
-            Collections.sort(finalArray,new Comparator<MediaFileDescriptor>(){
+            Collections.sort(finalCandidatesList,new Comparator<MediaFileDescriptor>(){
 //
 
             public int compare(MediaFileDescriptor o1, MediaFileDescriptor o2) {
@@ -173,10 +95,36 @@ public class SimilarImageFinder {
             watch.stop();
         }
 
-        return finalArray; //Arrays.asList(arr);
+        return finalCandidatesList;
 
     }
+    public ArrayList<MediaFileDescriptor> findIdenticalMedia(String source) {
 
+        MediaIndexer tg = new MediaIndexer(null, this.mediaFileDescriptorBuilder);
+        MediaFileDescriptor id = mediaFileDescriptorBuilder.buildMediaDescriptor(new File(source));
+//        System.out.println(id.md5Digest);
+        ArrayList<MediaFileDescriptor> al = new ArrayList<MediaFileDescriptor>();
+        return dbManager.getDuplicatesMD5(id);
+    }
+    public void prettyPrintIdenticalResults(ArrayList<MediaFileDescriptor> findIdenticalMedia) {
+        Iterator<MediaFileDescriptor> it = findIdenticalMedia.iterator();
+        while (it.hasNext()) {
+            MediaFileDescriptor mediaFileDescriptor = (MediaFileDescriptor) it.next();
+            System.out.println(mediaFileDescriptor.getPath() + " " + mediaFileDescriptor.getSize());
+        }
+    }
+    public String prettyStringIdenticalResults(ArrayList<MediaFileDescriptor> findIdenticalMedia, int max) {
+        Iterator<MediaFileDescriptor> it = findIdenticalMedia.iterator();
+        String result = "";
+        int i = 0;
+        while (it.hasNext() && i < max) {
+            MediaFileDescriptor mediaFileDescriptor = (MediaFileDescriptor) it.next();
+            i++;
+            result += mediaFileDescriptor.getPath() + " " + mediaFileDescriptor.getSize();
+        }
+
+        return result;
+    }
     protected Collection<MediaFileDescriptor> findSimilarImage(MediaFileDescriptor id, int max) {
 
         PriorityQueue<MediaFileDescriptor> queue = new PriorityQueue<MediaFileDescriptor>(max, new Comparator<MediaFileDescriptor>() {
@@ -189,9 +137,9 @@ public class SimilarImageFinder {
             }
         });
 
-        Iterator<MediaFileDescriptor> it = PreloadedDescriptors.getPreloadedDescriptors(thumbstore).iterator();
+        Iterator<MediaFileDescriptor> it = PreloadedDescriptors.getPreloadedDescriptors(dbManager).iterator();
         Status.getStatus().setStringStatus(Status.FIND_SIMILAR);
-        int size = PreloadedDescriptors.getPreloadedDescriptors(thumbstore).size();
+        int size = PreloadedDescriptors.getPreloadedDescriptors(dbManager).size();
         int processed = 0;
         ProgressBar pb = new ProgressBar(0, size, size / 100);
         int increment = size / 100;
@@ -216,9 +164,9 @@ public class SimilarImageFinder {
 
             if (queue.size() == max) {
                 MediaFileDescriptor df = queue.peek();
-                if (df.distance > distance) {
+                if (df.getDistance() > distance) {
                     queue.poll();
-                    MediaFileDescriptor imd = new MediaFileDescriptor(this.thumbstore);
+                    MediaFileDescriptor imd = new MediaFileDescriptor(this.dbManager);
                     imd.setPath(current.getPath());
                     imd.setDistance(distance);
                     imd.setHash(current.getHash());
@@ -227,7 +175,7 @@ public class SimilarImageFinder {
                     queue.add(imd);
                 }
             } else {
-                MediaFileDescriptor imd = new MediaFileDescriptor(this.thumbstore);
+                MediaFileDescriptor imd = new MediaFileDescriptor(this.dbManager);
                 imd.setPath(current.getPath());
                 imd.setDistance(distance);
                 imd.setHash(current.getHash());
@@ -250,7 +198,6 @@ public class SimilarImageFinder {
         });
         return Arrays.asList(arr);
     }
-
     public void prettyPrintSimilarResults(TreeSet<MediaFileDescriptor> ts, int maxResults) {
         int i = 0;
         for (Iterator iterator = ts.iterator(); iterator.hasNext(); ) {
@@ -262,36 +209,67 @@ public class SimilarImageFinder {
             }
         }
     }
+    protected BKTree<MediaFileDescriptor> getPreloadedDescriptorsBKTree() {
+        if (bkTree == null) {
+            int size = dbManager.size();
+            bkTree = new BKTree<MediaFileDescriptor>(new RMSEDistance());
+            ResultSet res = dbManager.getAllInDataBase();
+            try {
+                while (res.next()) {
+                    String path = res.getString("path");
+                    byte[] d = res.getBytes("data");
+                    if (d != null) {
+                        int[] idata = Utils.toIntArray(d);
+                        if (idata != null) {
 
-    public ArrayList<MediaFileDescriptor> findIdenticalMedia(String source) {
+                            MediaFileDescriptor imd = new MediaFileDescriptor(this.dbManager);
+                            imd.setPath(path);
+                            //TODO: handle signature here
+                            //  imd.setData(idata);
+                            bkTree.add(imd);
+                        }
+                    }
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            }
 
-        MediaIndexer tg = new MediaIndexer(null, this.mediaFileDescriptorBuilder);
-        MediaFileDescriptor id = mediaFileDescriptorBuilder.buildMediaDescriptor(new File(source));
-//        System.out.println(id.md5Digest);
-        ArrayList<MediaFileDescriptor> al = new ArrayList<MediaFileDescriptor>();
-        return thumbstore.getDuplicatesMD5(id);
-    }
-
-
-    public void prettyPrintIdenticalResults(ArrayList<MediaFileDescriptor> findIdenticalMedia) {
-        Iterator<MediaFileDescriptor> it = findIdenticalMedia.iterator();
-        while (it.hasNext()) {
-            MediaFileDescriptor mediaFileDescriptor = (MediaFileDescriptor) it.next();
-            System.out.println(mediaFileDescriptor.getPath() + " " + mediaFileDescriptor.getSize());
         }
+        System.out.println("SimilarImageFinder.getPreloadedDescriptors records in BKTree : " + bkTree.size());
+        return bkTree;
     }
+    protected VPTree getPreloadedDescriptorsVPTree() {
+        if (vpTree == null) {
+            int size = dbManager.size();
+            vpTree = new VPTree();
+            VPTreeBuilder builder = new VPTreeBuilder(new VPRMSEDistance(),this.dbManager);
+            ArrayList<MediaFileDescriptor> al = new ArrayList<MediaFileDescriptor>(size);
+            ResultSet res = dbManager.getAllInDataBase();
+            try {
+                while (res.next()) {
+                    String path = res.getString("path");
+                    String s = res.getString("hash");
+                    if (s != null) {
 
-    public String prettyStringIdenticalResults(ArrayList<MediaFileDescriptor> findIdenticalMedia, int max) {
-        Iterator<MediaFileDescriptor> it = findIdenticalMedia.iterator();
-        String result = "";
-        int i = 0;
-        while (it.hasNext() && i < max) {
-            MediaFileDescriptor mediaFileDescriptor = (MediaFileDescriptor) it.next();
-            i++;
-            result += mediaFileDescriptor.getPath() + " " + mediaFileDescriptor.getSize();
+                        MediaFileDescriptor imd = new MediaFileDescriptor(this.dbManager);
+                        imd.setPath(path);
+                        imd.setHash(s);
+                        //TODO: handle signature here
+
+                        al.add(imd);
+
+                    }
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            }
+            System.out.println("SimilarImageFinder.getPreloadedDescriptors array list built , creating tree");
+            vpTree = builder.buildVPTree(al);
         }
+        System.out.println("SimilarImageFinder.getPreloadedDescriptors records in VPTree : " + vpTree);
+        return vpTree;
 
-        return result;
+
     }
 
 

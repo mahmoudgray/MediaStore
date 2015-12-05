@@ -6,7 +6,7 @@ package fr.thumbnailsdb;
 
 import fr.thumbnailsdb.dbservices.DBManager;
 import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptorBuilder;
-import fr.thumbnailsdb.lshbuilders.LSHManager;
+import fr.thumbnailsdb.lsh.LSHManager;
 import org.apache.commons.io.FileUtils;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
@@ -73,7 +73,7 @@ public class MediaIndexerTest {
         lshManager.buildLSH(true);
         SimilarImageFinder si = new SimilarImageFinder(dbManager,mediaFileDescriptorBuilder,lshManager );
         for(File f : list) {
-            Assert.assertEquals(si.findSimilarMedia(f.getCanonicalPath(),1).size(), 1);
+            Assert.assertEquals(si.findSimilarImages(f.getCanonicalPath(),1).size(), 1);
         }
     }
 

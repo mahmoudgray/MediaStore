@@ -2,6 +2,7 @@ package fr.thumbnailsdb;
 
 import com.google.common.collect.ArrayListMultimap;
 import fr.thumbnailsdb.dbservices.DBManager;
+import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptor;
 import fr.thumbnailsdb.utils.ProgressBar;
 
 

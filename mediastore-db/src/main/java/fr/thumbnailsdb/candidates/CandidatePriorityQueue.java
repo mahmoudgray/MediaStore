@@ -31,7 +31,6 @@ public class CandidatePriorityQueue {
     public int size() {
         return queue.size();
     }
-
     public boolean add(Candidate o, double distance) {
         if (queue.size() >= max) {
             DCandidate df = queue.peek();

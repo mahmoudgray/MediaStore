@@ -1,6 +1,5 @@
 package fr.thumbnailsdb.descriptorbuilders;
 
-import fr.thumbnailsdb.MediaFileDescriptor;
 import fr.thumbnailsdb.utils.MetaDataFinder;
 import fr.thumbnailsdb.Utils;
 import fr.thumbnailsdb.dbservices.DBManager;

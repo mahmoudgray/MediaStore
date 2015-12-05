@@ -1,8 +1,9 @@
 package fr.thumbnailsdb;
 
 import fr.thumbnailsdb.dbservices.DBManager;
+import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptor;
 import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptorBuilder;
-import fr.thumbnailsdb.lshbuilders.LSHManager;
+import fr.thumbnailsdb.lsh.LSHManager;
 import org.apache.commons.io.FileUtils;
 import org.testng.Assert;
 import org.testng.annotations.*;

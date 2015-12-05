@@ -1,4 +1,4 @@
-package fr.thumbnailsdb.persistentLSH;
+package fr.thumbnailsdb.lsh;
 
 import fr.thumbnailsdb.candidates.Candidate;
 import fr.thumbnailsdb.utils.Configuration;
@@ -20,7 +20,6 @@ public class PersistentLSH {
     private static String file = "lsh";
 
     private PersistentLSHTable[] tables;
-    private PersistentLSHTable t;
     private int lastCandidatesCount;
     DB db;
 
@@ -28,7 +27,7 @@ public class PersistentLSH {
 
 
     public PersistentLSH(int nbTables, int k, int maxExcluded) {
-        System.out.println("fr.thumbnailsdb.persistentLSH.PersistentLSH.PersistentLSH");
+        System.out.println("PersistentLSH Constructor");
         executorService = Executors.newFixedThreadPool(nbTables);
         db = DBMaker.newFileDB(new File(file)).closeOnJvmShutdown().make();
         tables = new PersistentLSHTable[nbTables];
@@ -37,7 +36,6 @@ public class PersistentLSH {
             stopWatch = new LoggingStopWatch("PersistentLSH");
         }
         for (int i = 0; i < nbTables; i++) {
-            //System.out.println("fr.thumbnailsdb.persistentLSH.PersistentLSH.PersistentLSH loading table " + i);
             tables[i] = new PersistentLSHTable(k, maxExcluded, i, db);
             if (Configuration.timing()) {
                 stopWatch.lap("PersistentLSH." + i);
@@ -47,15 +45,11 @@ public class PersistentLSH {
             stopWatch.stop("PersistentLSH");
         }
     }
-
-
     public void add(String key, int value) {
         for (PersistentLSHTable t : tables) {
             t.add(key, value);
         }
     }
-
-
     public List<Candidate> lookupCandidates(String key) {
         HashSet<Candidate> hs = new HashSet<>();
         LoggingStopWatch watch = null;
@@ -72,12 +66,10 @@ public class PersistentLSH {
         lastCandidatesCount = hs.size();
         return new ArrayList<>(hs);
     }
-
-
     public List<Candidate> lookupCandidatesMT(String key) {
         //build the list of tasks
         List<Callable<List<Candidate>>> callableList = new ArrayList<>();
-        HashSet<Candidate> hs = new HashSet<Candidate>();
+        HashSet<Candidate> candidateHashSet = new HashSet<Candidate>();
         LoggingStopWatch watch = null;
         if (Configuration.timing()) {
             watch = new LoggingStopWatch("lookupCandidatesMT");
@@ -89,7 +81,7 @@ public class PersistentLSH {
         try {
             List<Future<List<Candidate>>> futureList = executorService.invokeAll(callableList);
             for (Future<List<Candidate>> f : futureList) {
-                hs.addAll(f.get());
+                candidateHashSet.addAll(f.get());
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -97,14 +89,13 @@ public class PersistentLSH {
         } catch (ExecutionException e) {
             e.printStackTrace();
         }
-        lastCandidatesCount = hs.size();
+        lastCandidatesCount = candidateHashSet.size();
         if (Configuration.timing()) {
             watch.stop();
         }
 
-        return new ArrayList<>(hs);
+        return new ArrayList<>(candidateHashSet);
     }
-
     class LookupTask implements Callable<List<Candidate>> {
 
         private PersistentLSHTable table;
@@ -116,30 +107,23 @@ public class PersistentLSH {
         }
 
         public List<Candidate> call() throws Exception {
-            //System.out.println("fr.thumbnailsdb.persistentLSH.PersistentLSH.LookupTask.call " + table.get(key));
             return table.get(key);
         }
     }
-
-
     public int lastCandidatesCount() {
         return lastCandidatesCount;
     }
-
     public int size() {
         return tables[0].size();
     }
-
     public void clear() {
         for (PersistentLSHTable t : tables) {
             t.clear();
         }
     }
-
     public void commit() {
         db.commit();
     }
-
     private static String randomString(int max) {
         StringBuilder s = new StringBuilder();
         Random r = new Random();
@@ -148,7 +132,6 @@ public class PersistentLSH {
         }
         return s.toString();
     }
-
     public static void testRandom(int max) {
         int nbBits = 20;
         System.out.println("Generating random strings");
@@ -174,7 +157,6 @@ public class PersistentLSH {
         List<Candidate> result = lsh.lookupCandidates(s);
         System.out.println("Found " + result.size() + " candidates");
     }
-
     private static void testLocal() {
         String[] input = new String[]{"1,0000000000000000000000000000000000100000110010111111000100111101111111111011111111111111111111111111",
                 "2,1111111111110111101111110010011111011111111001111111101011111110000001111000001011111111111111111111",
@@ -219,9 +201,8 @@ public class PersistentLSH {
             System.out.println("  " + i);
         }
     }
-
     public static void testLoad(String f) {
-        System.out.println("fr.thumbnailsdb.persistentLSH.PersistentLSH.testLoad with file " + f);
+        System.out.println("PersistentLSH.testLoad with file " + f);
         PersistentLSH.file = f;
         PersistentLSH lsh = new PersistentLSH(10, 30, 100);
         //now perform some random lookup
@@ -230,17 +211,12 @@ public class PersistentLSH {
             stopWatch = new LoggingStopWatch("testLoad.lookupCandidates");
         }
         for (int i = 0; i < 10; i++) {
-//            if (Configuration.timing()) {
-//                stopWatch.lap("testLoad.lookupCandidates." +i);
-//            }
             lsh.lookupCandidatesMT(randomString(100));
         }
         if (Configuration.timing()) {
             stopWatch.stop("testLoad.lookupCandidates");
-//            System.out.println("fr.thumbnailsdb.persistentLSH.PersistentLSH.testLoad total " + stopWatch.getElapsedTime());
         }
     }
-
     public static void main(String[] args) {
           testLocal();
        // testLoad(args[0]);

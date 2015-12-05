@@ -1,4 +1,4 @@
-package fr.thumbnailsdb.persistentLSH;
+package fr.thumbnailsdb.lsh;
 
 import fr.thumbnailsdb.candidates.Candidate;
 import fr.thumbnailsdb.lsh.KbitLSH;
@@ -24,12 +24,10 @@ public class PersistentLSHTable {
            multiMap = db.createTreeSet("lsh" + index).counterEnable().make();
         }
     }
-
     public void add(String hash, int index) {
         String hv = hashFunction.hash(hash);
         multiMap.add(Fun.t2(hv,new Candidate(index, hash)));
     }
-
     public List<Candidate> get(String key) {
         List<Candidate> list = new ArrayList<>();
         for(Candidate l: Fun.filter(multiMap, hashFunction.hash(key))){
@@ -37,11 +35,9 @@ public class PersistentLSHTable {
         }
         return list;
     }
-
     public void clear() {
         multiMap.clear();
     }
-
     public int size() {
         return multiMap.size();
     }

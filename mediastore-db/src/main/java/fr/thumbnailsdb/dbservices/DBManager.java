@@ -1,8 +1,9 @@
 package fr.thumbnailsdb.dbservices;
 
 import fr.thumbnailsdb.*;
+import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptor;
 import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptorBuilder;
-import fr.thumbnailsdb.persistentLSH.PersistentLSH;
+import fr.thumbnailsdb.lsh.PersistentLSH;
 import fr.thumbnailsdb.utils.Configuration;
 import fr.thumbnailsdb.utils.Logger;
 
@@ -19,7 +20,6 @@ public class DBManager {
     // it is better to revert dependency
     //This is used as a cache of preloaded descriptors
     protected PreloadedDescriptors preloadedDescriptors;
-    // protected LSH lsh;  // dependency must be reverted
     protected PersistentLSH lsh;
     protected Connection connection;
     protected MediaFileDescriptorBuilder mediaFileDescriptorBuilder;

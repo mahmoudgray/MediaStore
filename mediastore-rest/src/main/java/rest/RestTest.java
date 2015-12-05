@@ -5,13 +5,14 @@ import com.sun.jersey.multipart.FormDataMultiPart;
 import com.sun.jersey.spi.resource.Singleton;
 import fr.thumbnailsdb.*;
 import fr.thumbnailsdb.dbservices.DBManager;
+import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptor;
 import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptorBuilder;
 import fr.thumbnailsdb.diskmonitor.DiskListener;
 import fr.thumbnailsdb.diskmonitor.DiskWatcher;
 import fr.thumbnailsdb.duplicate.DuplicateFolderGroup;
 import fr.thumbnailsdb.duplicate.DuplicateFolderList;
 import fr.thumbnailsdb.hash.ImageHash;
-import fr.thumbnailsdb.lshbuilders.LSHManager;
+import fr.thumbnailsdb.lsh.LSHManager;
 import fr.thumbnailsdb.utils.Logger;
 import fr.thumbnailsdb.utils.MetaDataFinder;
 import org.apache.commons.codec.binary.Base64;
@@ -478,7 +479,7 @@ public class RestTest {
     private JSONObject computeSimilar( File temp, MediaFileDescriptor initialImage) {
         Collection<MediaFileDescriptor> c;ArrayList<SimilarImage> al;
         long t1 = System.currentTimeMillis();
-        c = si.findSimilarMedia(temp.getAbsolutePath(), 20);
+        c = si.findSimilarImages(temp.getAbsolutePath(), 20);
         long t2 = System.currentTimeMillis();
         System.out.println("Found similar files " + c.size() + " took " + (t2 - t1) + "ms");
 

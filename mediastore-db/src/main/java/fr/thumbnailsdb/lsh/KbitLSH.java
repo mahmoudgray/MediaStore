@@ -34,16 +34,14 @@ public class KbitLSH {
         for (int i = 0; i < indexes.length; i++) {
            result+=s.charAt(indexes[i]);
         }
-     //   System.out.println("KbitLSH " + s + " -> " + result);
-        return result; //.hashCode();
+        return result;
     }
 
     public static void main(String[] args) {
         KbitLSH klsh = new KbitLSH(5,10);
         String test = "1010111010";
-        klsh.hash(test);
-
-
+        String res =  klsh.hash(test);
+        System.out.println(res);
     }
 
 }
