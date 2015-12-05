@@ -45,6 +45,11 @@ public class MediaIndexerTest {
     }
     @AfterClass
     public void deleteDir() throws IOException {
+        lshManager.clear();
+        lshManager=null;
+        dbManager=null;
+        mediaIndexer=null;
+        mediaFileDescriptorBuilder=null;
         FileUtils.deleteDirectory(tmpDir);
         try{
             FileUtils.deleteDirectory(new File("lsh"));

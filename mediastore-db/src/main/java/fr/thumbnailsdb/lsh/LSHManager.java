@@ -61,6 +61,9 @@ public class LSHManager {
         }
         return new int[]{lsh.size(), lsh.lastCandidatesCount()};
     }
+    public void clear(){
+        lsh.clear();
+    }
     public List<Candidate> findCandidatesUsingLSH(MediaFileDescriptor mediaFileDescriptor) {
         if (lsh == null) {
             buildLSH(false);

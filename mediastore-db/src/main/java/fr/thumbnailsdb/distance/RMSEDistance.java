@@ -16,8 +16,5 @@ public class RMSEDistance implements Distance {
         MediaFileDescriptor mf2 = (MediaFileDescriptor) object2 ;
         //TODO fixe for hash
         return 0;
-       // return (int) ImageComparator.compareARGBUsingRMSE(mf1.getData(), mf2.getData());
-
-        //return 0;  //To change body of implemented methods use File | Settings | File Templates.
     }
 }
