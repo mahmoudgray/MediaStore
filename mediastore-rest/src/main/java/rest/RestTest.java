@@ -45,10 +45,10 @@ public class RestTest {
     private final String dbFileName = "db.txt";
 
     String bdName;
-    protected DBManager tb;
-    protected SimilarImageFinder si;
-    protected DuplicateMediaFinder df;
-    protected DiskWatcher dw;
+    protected DBManager dbManager;
+    protected SimilarImageFinder similarImageFinder;
+    protected DuplicateMediaFinder duplicateMediaFinder;
+    protected DiskWatcher diskWatcher;
     protected MediaFileDescriptorBuilder mediaFileDescriptorBuilder;
     protected LSHManager lshManager;
 
@@ -61,10 +61,10 @@ public class RestTest {
                 }
                 BufferedReader fr = new BufferedReader(new FileReader(f));
                 while ((bdName = fr.readLine()) != null) {
-                    if (tb == null) {
-                        tb = new DBManager(bdName,mediaFileDescriptorBuilder );
+                    if (dbManager == null) {
+                        dbManager = new DBManager(bdName,mediaFileDescriptorBuilder );
                     } else {
-                        tb.addDB(bdName);
+                        dbManager.addDB(bdName);
                     }
                 }
             } catch (FileNotFoundException e) {
@@ -74,15 +74,15 @@ public class RestTest {
             }
         } else {
             this.mediaFileDescriptorBuilder = new MediaFileDescriptorBuilder();
-            tb = new DBManager(null,this.mediaFileDescriptorBuilder);
+            dbManager = new DBManager(null,this.mediaFileDescriptorBuilder);
         }
-        lshManager = new LSHManager(this.tb);
-        si = new SimilarImageFinder(tb,this.mediaFileDescriptorBuilder,lshManager );
-        df = new DuplicateMediaFinder(tb);
+        lshManager = new LSHManager(this.dbManager);
+        similarImageFinder = new SimilarImageFinder(dbManager,this.mediaFileDescriptorBuilder,lshManager );
+        duplicateMediaFinder = new DuplicateMediaFinder(dbManager);
         try {
-            dw = new DiskWatcher(tb.getIndexedPaths().toArray(new String[]{}));
-            dw.addListener(new DBDiskUpdater());
-            dw.processEvents();
+            diskWatcher = new DiskWatcher(dbManager.getIndexedPaths().toArray(new String[]{}));
+            diskWatcher.addListener(new DBDiskUpdater());
+            diskWatcher.processEvents();
         } catch (IOException e) {
             Logger.getLogger().err("Could not register path");
         }
@@ -94,13 +94,11 @@ public class RestTest {
     @GET
     @Path("/db/{param}")
     public Response getDBInfo(@PathParam("param") String info) {
-        //     System.out.println("RestTest.getDBInfo() " + info);
         if ("size".equals(info)) {
-            //       System.out.println("RestTest.getDBInfo() " + tb.size());
-            return Response.status(200).entity(tb.size() + "").build();
+            return Response.status(200).entity(dbManager.size() + "").build();
         }
         if ("path".equals(info)) {
-            return Response.status(200).entity(tb.getIndexedPaths() + "").build();
+            return Response.status(200).entity(dbManager.getIndexedPaths() + "").build();
         }
         if ("status".equals(info)) {
             return Response.status(200).entity("idle").build();
@@ -126,16 +124,6 @@ public class RestTest {
         } catch (JSONException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
-//        if ("size".equals(info)) {
-//            System.out.println("RestTest.getDBInfo() " + tb.size());
-//            return Response.status(200).entity(tb.size() + "").build();
-//        }
-//        if ("path".equals(info)) {
-//            return Response.status(200).entity(tb.getPath() + "").build();
-//        }
-//        if ("status".equals(info)) {
-//            return Response.status(200).entity("idle").build();
-//        }
 
         return Response.status(200).entity(result).build();
     }
@@ -154,7 +142,7 @@ public class RestTest {
     @Path("/paths")
     @Produces({MediaType.APPLICATION_JSON})
     public Response getPaths() {
-        return Response.status(200).entity(tb.getIndexedPaths()).build();
+        return Response.status(200).entity(dbManager.getIndexedPaths()).build();
     }
 
 
@@ -184,7 +172,7 @@ public class RestTest {
 
         System.out.println("RestTest.getDuplicate " + obj);
         Status.getStatus().setStringStatus("Requesting duplicate media");
-        Collection dc = (Collection) df.computeDuplicateSets(df.findDuplicateMedia()).toCollection(Integer.parseInt(max), folders);
+        Collection dc = (Collection) duplicateMediaFinder.computeDuplicateSets();
         Status.getStatus().setStringStatus(Status.IDLE);
         return Response.status(200).entity(dc).build();
     }
@@ -206,9 +194,7 @@ public class RestTest {
     }
 
     private synchronized DuplicateFolderList getDuplicateFolderGroup() {
-        PreloadedDescriptors mfdList = df.findDuplicateMedia();
-        Status.getStatus().setStringStatus("Computing duplicate folders on preloaded list of size " + mfdList.size());
-        DuplicateFolderList dc = df.computeDuplicateFolderSets(mfdList);
+        DuplicateFolderList dc = duplicateMediaFinder.computeDuplicateFolderSets();
         Status.getStatus().setStringStatus(Status.IDLE);
         return dc;
     }
@@ -328,7 +314,7 @@ public class RestTest {
     @Path("shrink/")
     public Response shrink(@QueryParam("folder") final java.util.List<String> obj) {
         PreloadedDescriptors.flushPreloadedDescriptors();
-        tb.shrink(obj);
+        dbManager.shrink(obj);
         return Response.status(200).entity("Shrink done").build();
     }
 
@@ -338,7 +324,7 @@ public class RestTest {
     public Response update(@QueryParam("folder") String obj) {
         String[] folders = this.parseFolders(obj);
         PreloadedDescriptors.flushPreloadedDescriptors();
-        new MediaIndexer(tb,this.mediaFileDescriptorBuilder ).refreshIndexedPaths(folders);
+        new MediaIndexer(dbManager,this.mediaFileDescriptorBuilder ).refreshIndexedPaths(folders);
         return Response.status(200).entity("Update done").build();
     }
 
@@ -349,8 +335,8 @@ public class RestTest {
         String[] folders = this.parseFolders(obj);
 
         PreloadedDescriptors.flushPreloadedDescriptors();
-        tb.shrink();
-        MediaIndexer mdi = new MediaIndexer(tb,this.mediaFileDescriptorBuilder );
+        dbManager.shrink();
+        MediaIndexer mdi = new MediaIndexer(dbManager,this.mediaFileDescriptorBuilder );
         mdi.refreshIndexedPaths(folders);
         return Response.status(200).entity("Update done").build();
     }
@@ -478,9 +464,10 @@ public class RestTest {
     }
 
     private JSONObject computeSimilar( File temp, MediaFileDescriptor initialImage) {
-        Collection<MediaFileDescriptor> c;ArrayList<SimilarImage> al;
+        Collection<MediaFileDescriptor> c;
+        ArrayList<SimilarImage> al;
         long t1 = System.currentTimeMillis();
-        c = si.findSimilarImages(temp.getAbsolutePath(), 20);
+        c = similarImageFinder.findSimilarImages(temp.getAbsolutePath(), 20);
         long t2 = System.currentTimeMillis();
         System.out.println("Found similar files " + c.size() + " took " + (t2 - t1) + "ms");
 
@@ -516,7 +503,6 @@ public class RestTest {
             String folder = Utils.fileToDirectory(path);
             SimilarImage si = new SimilarImage(path, Utils.folderSize(folder), imgData, mdf.getDistance(), sigData);
             al.add(si);
-            //  System.out.println(si);
 
         }
         System.out.println("RestTest.findSimilar sending " + al.size() + " elements");
@@ -647,7 +633,7 @@ public class RestTest {
     @Path("getAllGPS/")
     @Produces({MediaType.APPLICATION_JSON})
     public Response getAllGPS() {
-        ArrayList<String> al = tb.getAllWithGPS();
+        ArrayList<String> al = dbManager.getAllWithGPS();
         return Response.status(200).entity(al).type(MediaType.APPLICATION_JSON).build();
     }
 
@@ -660,7 +646,7 @@ public class RestTest {
         String[] folders = this.parseFolders(obj);
         Status.getStatus().setStringStatus("Requesting all media with filter : " + filter + " GPS : " + gps);
         long t0 = System.currentTimeMillis();
-        ArrayList<MediaFileDescriptor> pd = tb.getFromDB(filter, gps);
+        ArrayList<MediaFileDescriptor> pd = dbManager.getFromDB(filter, gps);
         long t1 = System.currentTimeMillis();
         System.out.println("RestTest.getAll with filter " + filter + "  took " + (t1 - t0) + " ms");
         Iterator<MediaFileDescriptor> it = pd.iterator();
@@ -711,27 +697,27 @@ public class RestTest {
 
         public synchronized void fileCreated(java.nio.file.Path p) {
             Logger.getLogger().log("RestTest$DBDiskUpdater.fileCreated " + p);
-            new MediaIndexer(tb,mediaFileDescriptorBuilder ).process(p.toString());
+            new MediaIndexer(dbManager,mediaFileDescriptorBuilder ).process(p.toString());
         }
 
         public synchronized void fileModified(java.nio.file.Path p) {
             Logger.getLogger().log("RestTest$DBDiskUpdater.fileModified " + p);
-            new MediaIndexer(tb,mediaFileDescriptorBuilder ).process(p.toString());
+            new MediaIndexer(dbManager,mediaFileDescriptorBuilder ).process(p.toString());
         }
 
         public synchronized void fileDeleted(java.nio.file.Path p) {
             Logger.getLogger().log("RestTest$DBDiskUpdater.fileDeleted " + p);
-            tb.deleteFromDatabase(p.toString());
+            dbManager.deleteFromDatabase(p.toString());
         }
 
         public synchronized void folderCreated(java.nio.file.Path p) {
             Logger.getLogger().log("RestTest$DBDiskUpdater.folderCreated " + p);
-            new MediaIndexer(tb,mediaFileDescriptorBuilder).process(p.toString());
+            new MediaIndexer(dbManager,mediaFileDescriptorBuilder).process(p.toString());
         }
 
         public synchronized void folderModified(java.nio.file.Path p) {
             Logger.getLogger().log("RestTest$DBDiskUpdater.fileModified " + p);
-            new MediaIndexer(tb,mediaFileDescriptorBuilder ).process(p.toString());
+            new MediaIndexer(dbManager,mediaFileDescriptorBuilder ).process(p.toString());
         }
 
         public void folderDeleted(java.nio.file.Path p) {

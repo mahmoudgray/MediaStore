@@ -19,13 +19,8 @@ public class DuplicateMediaFinder {
     public DuplicateMediaFinder(DBManager c) {
         this.dbManager = c;
     }
-
-    public PreloadedDescriptors findDuplicateMedia() {
-        return PreloadedDescriptors.getPreloadedDescriptors(dbManager);
-    }
-
-
-    public DuplicateFileList computeDuplicateSets(PreloadedDescriptors r) {
+    public DuplicateFileList computeDuplicateSets() {
+        PreloadedDescriptors r = PreloadedDescriptors.getPreloadedDescriptors(dbManager);
         if (duplicateFileList != null) {
             return duplicateFileList;
         }
@@ -59,13 +54,10 @@ public class DuplicateMediaFinder {
 
         return duplicateFileList;
     }
-
-    /**
-     * @param r the set of files sorted by md5 value
-     * @return
-     */
-    public DuplicateFolderList computeDuplicateFolderSets(PreloadedDescriptors r) {
+    public DuplicateFolderList computeDuplicateFolderSets() {
+        PreloadedDescriptors r = PreloadedDescriptors.getPreloadedDescriptors(dbManager);
         Logger.getLogger().log("DuplicateMediaFinder.computeDuplicateFolderSets preloadedDescriptors  V2 " + r.size());
+
         long t0 = System.currentTimeMillis();
         DuplicateFileGroup dg = new DuplicateFileGroup();
         String currentMd5 = "";
@@ -99,4 +91,5 @@ public class DuplicateMediaFinder {
         Logger.getLogger().log("DuplicateMediaFinder.computeDuplicateFolderSets has " + dfl.size() + " entries");
         return dfl;
     }
+    
 }
