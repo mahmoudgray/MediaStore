@@ -1,4 +1,4 @@
-package fr.thumbnailsdb;
+package fr.thumbnailsdb.utils;
 
 import fr.thumbnailsdb.utils.FileCounter;
 import org.apache.commons.codec.binary.Base64;

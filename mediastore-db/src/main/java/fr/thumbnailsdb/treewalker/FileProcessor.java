@@ -1,7 +1,7 @@
 package fr.thumbnailsdb.treewalker;
 
 import fr.thumbnailsdb.MediaIndexer;
-import fr.thumbnailsdb.Utils;
+import fr.thumbnailsdb.utils.Utils;
 
 import java.io.File;
 import java.io.IOException;

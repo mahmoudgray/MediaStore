@@ -1,9 +1,5 @@
 package fr.thumbnailsdb;
 
-/**
- * Created by mohannad on 02/12/15.
- */
-
 import fr.thumbnailsdb.dbservices.DBManager;
 import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptorBuilder;
 import fr.thumbnailsdb.lsh.LSHManager;
@@ -16,13 +12,12 @@ import org.testng.annotations.Test;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
-
 import java.sql.SQLException;
 
-
-
-public class MediaIndexerTest {
-
+/**
+ * Created by mohannad on 07/12/15.
+ */
+public class SimilarImageFinderTest {
     File tmpDir = null;
     DBManager dbManager = null;
     File folder1 = null;
@@ -42,9 +37,11 @@ public class MediaIndexerTest {
         dbManager = new DBManager(tmpDir.getCanonicalPath() + "/testDB", mediaFileDescriptorBuilder );
         mediaIndexer = new MediaIndexer(dbManager, mediaFileDescriptorBuilder);
         lshManager = new LSHManager(dbManager);
+        mediaIndexer.processMTRoot(folder1.getCanonicalPath());
     }
     @AfterClass
     public void deleteDir() throws IOException {
+        lshManager.clear();
         lshManager=null;
         dbManager=null;
         mediaIndexer=null;
@@ -58,12 +55,22 @@ public class MediaIndexerTest {
 
         }
     }
+
     @Test
-    public void testIndexing() throws IOException, URISyntaxException {
-        mediaIndexer.processMTRoot(folder1.getCanonicalPath());
-        Assert.assertTrue(dbManager.size()==9);
+    public void testIdenticalImage() throws IOException {
+        File[] list = folder1.listFiles();
+        SimilarImageFinder si = new SimilarImageFinder(dbManager,mediaFileDescriptorBuilder,lshManager );
+        for(File f : list) {
+            Assert.assertEquals(si.findIdenticalMedia(f.getCanonicalPath()).size(), 1);
+        }
     }
-
-
-
+    @Test
+    public void testSimilarImage() throws IOException, SQLException {
+        File[] list = folder1.listFiles();
+        lshManager.buildLSH(true);
+        SimilarImageFinder si = new SimilarImageFinder(dbManager,mediaFileDescriptorBuilder,lshManager );
+        for(File f : list) {
+            Assert.assertEquals(si.findSimilarImages(f.getCanonicalPath(),1).size(), 1);
+        }
+    }
 }

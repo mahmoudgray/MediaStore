@@ -15,6 +15,7 @@ import fr.thumbnailsdb.hash.ImageHash;
 import fr.thumbnailsdb.lsh.LSHManager;
 import fr.thumbnailsdb.utils.Logger;
 import fr.thumbnailsdb.utils.MetaDataFinder;
+import fr.thumbnailsdb.utils.Utils;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.FileUtils;
 import org.codehaus.jettison.json.JSONArray;

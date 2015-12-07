@@ -1,7 +1,7 @@
 package fr.thumbnailsdb.descriptorbuilders;
 
 import fr.thumbnailsdb.utils.MetaDataFinder;
-import fr.thumbnailsdb.Utils;
+import fr.thumbnailsdb.utils.Utils;
 import fr.thumbnailsdb.dbservices.DBManager;
 import fr.thumbnailsdb.hash.ImageHash;
 import fr.thumbnailsdb.utils.MD5Generator;

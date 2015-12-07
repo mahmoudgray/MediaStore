@@ -6,6 +6,7 @@ import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptorBuilder;
 import fr.thumbnailsdb.lsh.PersistentLSH;
 import fr.thumbnailsdb.utils.Configuration;
 import fr.thumbnailsdb.utils.Logger;
+import fr.thumbnailsdb.utils.Utils;
 
 import java.io.File;
 import java.sql.*;

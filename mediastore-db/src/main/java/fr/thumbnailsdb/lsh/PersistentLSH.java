@@ -74,9 +74,9 @@ public class PersistentLSH {
         if (Configuration.timing()) {
             watch = new LoggingStopWatch("lookupCandidatesMT");
         }
-        for (PersistentLSHTable t : tables) {
+        for (PersistentLSHTable persistentLSHTable : tables) {
             //fill the list of tasks
-            callableList.add(new LookupTask(t, key));
+            callableList.add(new LookupTask(persistentLSHTable, key));
         }
         try {
             List<Future<List<Candidate>>> futureList = executorService.invokeAll(callableList);

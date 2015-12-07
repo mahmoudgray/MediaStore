@@ -1,8 +1,7 @@
 package fr.thumbnailsdb.duplicate;
 
-import fr.thumbnailsdb.Utils;
+import fr.thumbnailsdb.utils.Utils;
 
-import java.io.File;
 import java.util.*;
 
 /**

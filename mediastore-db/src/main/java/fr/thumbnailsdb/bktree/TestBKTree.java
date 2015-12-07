@@ -38,7 +38,7 @@ public class TestBKTree {
 		HashMap<String, Double> queryMap = bkTree.query("bark", 2);
 		System.out.println(queryMap);
 		
-		String searchTerm = "temotw";
+		String searchTerm = "soda";
 		System.out.println("Best match for search '"+searchTerm+"' = "+bkTree.findBestWordMatchWithDistance(searchTerm));
 		
 		searchTerm = "garage";
