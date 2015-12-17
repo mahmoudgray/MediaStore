@@ -106,7 +106,7 @@
             $scope.getPath();
             $scope.getIndexedPaths();
             $scope.updateChart();
-            setInterval($scope.updateChart, 1000);
+            //setInterval($scope.updateChart, 1000);
         })();
     }]);
 })();

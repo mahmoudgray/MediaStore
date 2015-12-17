@@ -1,5 +1,5 @@
 <div class="container">
-    <h1>Duplicate Medias</h1>
+    <h2>Duplicate Medias</h2>
     <form ng-submit="getDuplicateMedias()">
         <input type="text" placeholder="FILTER" ng-model="input" value="5">
         <input type="submit" class="btn btn-primary" value="Search"><br>
@@ -21,10 +21,13 @@
         <tr ng-repeat="r in result">
             <td>{{r.fileSize}}</td>
             <td>{{r.al.length}}</td>
-            <td>{{r.al[0]}}</td>
-            <td><a ng-click="hello()" class="btn btn-xs btn-primary"><span class="glyphicon glyphicon-picture"></span>  file</a></td>
-            <td><a ng-click="hello()" class="btn btn-xs btn-info"><span class="glyphicon glyphicon-folder-open"></span>   folders</a></td>
-            <td><a ng-click="hello()" class="btn btn-xs btn-danger"><span class="glyphicon glyphicon-trash"></span>delete</a></td>
+            <td>
+                <ol>
+                    <li ng-repeat="file in r.al">
+                    {{file}}<a ng-click="generatePathLink(file)" class="btn btn-xs btn-primary"><span class="glyphicon glyphicon-picture"></span> file</a> <a ng-click="generatePathLink(file)" class="btn btn-xs btn-info"><span class="glyphicon glyphicon-folder-open"></span>   folders</a> <a ng-click="generateDeleteLink(file)" class="btn btn-xs btn-danger"><span class="glyphicon glyphicon-trash"></span>delete</a>
+                    </li>
+                </ol>
+            </td>
         </tr>
         </tbody>
     </table>

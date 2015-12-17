@@ -1,5 +1,5 @@
 <div class="container">
-    <h1>Thumbnail</h1>
+    <h2>Thumbnail</h2>
     <form ng-submit="getAll()">
         <input type="text" placeholder="FILTER" ng-model="input">
         <input type="submit" class="btn btn-primary" value="Get All">
@@ -22,16 +22,16 @@
                 <td>{{img.path}}</td>
                 <td>{{img.size}}</td>
                 <td>
-                    <a ng-click="deleteImage(img.path)" class="btn btn-xs btn-primary"><span class="glyphicon glyphicon-picture"></span>  file</a>
+                    <a ng-click="generatePathLink(img.path)" class="btn btn-xs btn-primary"><span class="glyphicon glyphicon-picture"></span>  file</a>
                 </td>
                 <td>
-                    <a ng-click="deleteImage(img.path)" class="btn btn-xs btn-info"><span class="glyphicon glyphicon-folder-open"></span>   folders</a></a>
+                    <a ng-click="generatePathLink(img.path)" class="btn btn-xs btn-info"><span class="glyphicon glyphicon-folder-open"></span>   folders</a></a>
                 </td>
                 <td>
                     <a ng-click="deleteImage(img.path)" class="btn btn-xs btn-primary"><span class="glyphicon glyphicon-show-thumbnails"></span>thumbnail</a>
                 </td>
                 <td>
-                    <a ng-click="deleteImage(img.path)" class="btn btn-xs btn-danger"><span class="glyphicon glyphicon-trash"></span>delete</a>
+                    <a ng-click="generateDeleteLink(img.path)" class="btn btn-xs btn-danger"><span class="glyphicon glyphicon-trash"></span>delete</a>
                 </td>
 
             </tr>

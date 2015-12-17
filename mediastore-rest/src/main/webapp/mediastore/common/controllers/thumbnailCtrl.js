@@ -45,6 +45,16 @@
             $scope.input = "";
             //$scope.gps = false;
         };
+
+        $scope.generatePathLink = function(param){
+            FoldersFactory.callOpen(param, null);
+        };
+
+        $scope.generateDeleteLink = function(par){
+            FoldersFactory.callDelete(par);
+            $scope.getAll();
+        }
+
         $scope.getFolders();
     }]);
 })();

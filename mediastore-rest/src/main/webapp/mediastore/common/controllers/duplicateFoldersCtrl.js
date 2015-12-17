@@ -22,5 +22,10 @@
                 console.log($scope.result);
             });
         };
+
+        $scope.generatePathLink = function(par1, par2){
+            FoldersFactory.callOpen(par1, par2);
+        };
+
     }]);
 })();

@@ -8,7 +8,7 @@
 
 	var app = angular.module('duplicatemedias.ctrl', []);
 
-	app.controller('DuplicateMediasCtrl', ['$scope', function($scope){
+	app.controller('DuplicateMediasCtrl', ['$scope', 'FoldersFactory', function($scope, FoldersFactory){
 
 		var app = this;
 
@@ -34,6 +34,15 @@
 			$scope.$apply();
 			$scope.input = "";
 		};
+
+		$scope.generatePathLink = function(param){
+			FoldersFactory.callOpen(param, null);
+		}
+
+		$scope.generateDeleteLink = function(par){
+			FoldersFactory.callDelete(par);
+			$scope.getDuplicateMedias();
+		}
 
 	}]);
 })();

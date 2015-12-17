@@ -1,5 +1,5 @@
 <div class="container">
-    <h1>Duplicates Folders</h1><br>
+    <h2>Duplicates Folders</h2>
     <button type="button" class="btn btn-xs btn-info" ng-click="getDuplicateFolders()">
         <span class="glyphicon glyphicon-search"></span> Search
     </button><br>
@@ -23,7 +23,8 @@
             <td>{{r.filesInFolder2}}</td>
             <td>{{r.folder1}}<br>{{r.folder2}}</td>
             <td>
-                <a ng-click="hello()" class="btn btn-xs btn-info"><span class="glyphicon glyphicon-folder-open"></span>   folders</a>
+                <a ng-click="generatePathLink(r.folder1, null)" class="btn btn-xs btn-info"><span class="glyphicon glyphicon-folder-open"></span>   folders</a><br>
+                <a ng-click="generatePathLink(null, r.folder2)" class="btn btn-xs btn-info"><span class="glyphicon glyphicon-folder-open"></span>   folders</a>
             </td>
         </tr>
     {{r.folder2}}    </tbody>
