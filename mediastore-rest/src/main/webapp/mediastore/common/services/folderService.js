@@ -34,6 +34,17 @@ service.factory('FoldersFactory', [function(){
 
 		callDelete: function(par){
 			$.get("rest/hello/trash", {path:par});
+		},
+
+		getFolder: function(par){
+			var n = par.lastIndexOf('/');
+		    if (n == -1) {
+		        //ok, maybe it's a windows path
+		        n = par.lastIndexOf('\\');
+		    }
+		    //  var file = path.substring(n + 1);
+		    var folder = par.substring(0, n);
+		    return folder;
 		}
 	};
 }]);

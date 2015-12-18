@@ -35,8 +35,13 @@
 			$scope.input = "";
 		};
 
-		$scope.generatePathLink = function(param){
-			FoldersFactory.callOpen(param, null);
+		$scope.generatePathLink1 = function(path){
+			FoldersFactory.callOpen(path, null);
+		}
+
+		$scope.generatePathLink2 = function(path){
+			var folder = FoldersFactory.getFolder(path);
+			FoldersFactory.callOpen(folder, null);
 		}
 
 		$scope.generateDeleteLink = function(par){

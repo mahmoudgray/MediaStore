@@ -9,6 +9,7 @@
     app.controller('ThumbnailCtrl',  ['$scope', '$http','FoldersFactory', function($scope, $http, FoldersFactory){
         var app = this;
         $scope.input = "";
+        $scope.showThumbnail = false;
        // $scope.gps = false;
         $scope.getAll = function () {
 
@@ -46,13 +47,23 @@
             //$scope.gps = false;
         };
 
-        $scope.generatePathLink = function(param){
-            FoldersFactory.callOpen(param, null);
-        };
-
+       
+        /**
         $scope.generateDeleteLink = function(par){
             FoldersFactory.callDelete(par);
             $scope.getAll();
+        }**/
+        $scope.generatePathLink1 = function(path){
+            FoldersFactory.callOpen(path, null);
+        }
+
+        $scope.generatePathLink2 = function(path){
+            var folder = FoldersFactory.getFolder(path);
+            FoldersFactory.callOpen(folder, null);
+        }
+
+        $scope.generateThumbnailLink = function(){
+            $scope.showThumbnail = !$scope.showThumbnail;
         }
 
         $scope.getFolders();
