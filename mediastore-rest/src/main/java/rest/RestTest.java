@@ -14,6 +14,7 @@ import fr.thumbnailsdb.duplicate.DuplicateFolderGroup;
 import fr.thumbnailsdb.duplicate.DuplicateFolderList;
 import fr.thumbnailsdb.hash.ImageHash;
 import fr.thumbnailsdb.lsh.LSHManager;
+import fr.thumbnailsdb.lsh.LSHManagerIF;
 import fr.thumbnailsdb.mediaIndexers.MediaIndexer;
 import fr.thumbnailsdb.utils.Logger;
 import fr.thumbnailsdb.utils.MetaDataFinder;
@@ -52,7 +53,7 @@ public class RestTest {
     protected DuplicateMediaFinder duplicateMediaFinder;
     protected DiskWatcher diskWatcher;
     protected MediaFileDescriptorBuilder mediaFileDescriptorBuilder;
-    protected LSHManager lshManager;
+    protected LSHManagerIF lshManagerIF;
 
     public RestTest() {
         File f = new File(dbFileName);
@@ -78,8 +79,8 @@ public class RestTest {
             this.mediaFileDescriptorBuilder = new MediaFileDescriptorBuilder();
             dbManagerIF = new DBManager(null,this.mediaFileDescriptorBuilder);
         }
-        lshManager = new LSHManager(this.dbManagerIF);
-        similarImageFinder = new SimilarImageFinder(dbManagerIF,this.mediaFileDescriptorBuilder,lshManager );
+        lshManagerIF = new LSHManager(this.dbManagerIF);
+        similarImageFinder = new SimilarImageFinder(dbManagerIF,this.mediaFileDescriptorBuilder, lshManagerIF);
         duplicateMediaFinder = new DuplicateMediaFinder(dbManagerIF);
         try {
             diskWatcher = new DiskWatcher(dbManagerIF.getIndexedPaths().toArray(new String[]{}));
@@ -473,7 +474,7 @@ public class RestTest {
         long t2 = System.currentTimeMillis();
         System.out.println("Found similar files " + c.size() + " took " + (t2 - t1) + "ms");
 
-        int[] status = this.lshManager.getLSHStatus();
+        int[] status = this.lshManagerIF.getLSHStatus();
 
         al = new ArrayList<SimilarImage>(c.size());
         for (MediaFileDescriptorIF mdf : c) {

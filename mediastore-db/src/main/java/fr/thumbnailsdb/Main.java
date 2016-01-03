@@ -4,6 +4,7 @@ import fr.thumbnailsdb.dbservices.DBManager;
 import fr.thumbnailsdb.dbservices.DBManagerIF;
 import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptorBuilder;
 import fr.thumbnailsdb.lsh.LSHManager;
+import fr.thumbnailsdb.lsh.LSHManagerIF;
 import fr.thumbnailsdb.mediaIndexers.MediaIndexer;
 
 import java.util.ArrayList;
@@ -17,15 +18,15 @@ public class Main {
         }
         MediaFileDescriptorBuilder mediaFileDescriptorBuilder = new MediaFileDescriptorBuilder();
         DBManagerIF tb = new DBManager(dbPath,mediaFileDescriptorBuilder );
-        LSHManager lshManager = new LSHManager(tb);
+        LSHManagerIF lshManagerIF = new LSHManager(tb);
 
         if ("similar".equals(args[0])) {
-            SimilarImageFinder si = new SimilarImageFinder(tb,mediaFileDescriptorBuilder,lshManager);
+            SimilarImageFinder si = new SimilarImageFinder(tb,mediaFileDescriptorBuilder, lshManagerIF);
             String source = args[1];
         }
 
         if ("duplicate".equals(args[0])) {
-            SimilarImageFinder si = new SimilarImageFinder(tb,mediaFileDescriptorBuilder,lshManager );
+            SimilarImageFinder si = new SimilarImageFinder(tb,mediaFileDescriptorBuilder, lshManagerIF);
             String source = args[1];
             si.prettyPrintIdenticalResults(si.findIdenticalMedia(source));
         }
@@ -40,7 +41,7 @@ public class Main {
         MediaFileDescriptorBuilder mediaFileDescriptorBuilder = new MediaFileDescriptorBuilder();
         DBManagerIF tb = new DBManager(dbPath,mediaFileDescriptorBuilder );
         MediaIndexer tg = new MediaIndexer(tb,mediaFileDescriptorBuilder);
-        LSHManager lshManager = new LSHManager(tb);
+        LSHManagerIF lshManagerIF = new LSHManager(tb);
         if ("index".equals(args[0])) {
             String source = args[1];
             tg.processMTRoot(source);
@@ -81,7 +82,7 @@ public class Main {
             //df.prettyPrintDuplicateFolder(df.findDuplicateMedia());
         }
         if ("lsh".equals(args[0])) {
-            lshManager.buildLSH(true);
+            lshManagerIF.buildLSH(true);
         }
 
         if ("dump".equals(args[0])) {

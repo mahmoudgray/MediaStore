@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * Created by mohannad on 02/12/15.
  */
-public class LSHManager {
+public class LSHManager implements LSHManagerIF {
     protected PersistentLSH lsh;
     protected DBManagerIF dbManagerIF;
 
@@ -23,6 +23,7 @@ public class LSHManager {
         this.dbManagerIF = dbManagerIF;
     }
 
+    @Override
     public void buildLSH(boolean force) {
         lsh = new PersistentLSH(5, 15, 100);
         if ((force)  || lsh.size() == 0) {
@@ -54,15 +55,18 @@ public class LSHManager {
             Status.getStatus().setStringStatus(Status.IDLE);
         }
     }
+    @Override
     public int[] getLSHStatus() {
         if (lsh == null) {
             buildLSH(false);
         }
         return new int[]{lsh.size(), lsh.lastCandidatesCount()};
     }
+    @Override
     public void clear(){
         lsh.clear();
     }
+    @Override
     public List<Candidate> findCandidatesUsingLSH(MediaFileDescriptorIF mediaFileDescriptorIF) {
         if (lsh == null) {
             buildLSH(false);
@@ -72,6 +76,7 @@ public class LSHManager {
         LoggingStopWatch watch = null;
         return result;
     }
+    @Override
     public int size(){
         return lsh.size();
     }

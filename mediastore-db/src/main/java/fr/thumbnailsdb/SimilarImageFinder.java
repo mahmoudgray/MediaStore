@@ -9,6 +9,7 @@ import fr.thumbnailsdb.candidates.CandidatePriorityQueue;
 import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptorBuilder;
 import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptorIF;
 import fr.thumbnailsdb.lsh.LSHManager;
+import fr.thumbnailsdb.lsh.LSHManagerIF;
 import fr.thumbnailsdb.utils.Configuration;
 import fr.thumbnailsdb.utils.ImageComparator;
 import fr.thumbnailsdb.utils.ProgressBar;
@@ -25,14 +26,14 @@ public class SimilarImageFinder {
 
 
     protected DBManagerIF dbManagerIF;
-    protected LSHManager lshManager;
+    protected LSHManagerIF lshManagerIF;
     protected MediaFileDescriptorBuilder mediaFileDescriptorBuilder;
 
 
-    public SimilarImageFinder(DBManagerIF c, MediaFileDescriptorBuilder mediaFileDescriptorBuilder , LSHManager lshManager) {
+    public SimilarImageFinder(DBManagerIF c, MediaFileDescriptorBuilder mediaFileDescriptorBuilder , LSHManagerIF lshManagerIF) {
         this.dbManagerIF = c;
         this.mediaFileDescriptorBuilder = mediaFileDescriptorBuilder;
-        this.lshManager = lshManager;
+        this.lshManagerIF = lshManagerIF;
     }
     public Collection<MediaFileDescriptorIF> findSimilarImages(String source, int max) {
         MediaFileDescriptorIF mediaFileDescriptorIF = mediaFileDescriptorBuilder.buildMediaDescriptor(new File(source));
@@ -43,7 +44,7 @@ public class SimilarImageFinder {
         return result;
     }
     protected Collection<MediaFileDescriptorIF> findSimilarImageUsingLSH(MediaFileDescriptorIF sourceMediaFileDescriptorIF, int max) {
-        List<Candidate> candidateList = this.lshManager.findCandidatesUsingLSH(sourceMediaFileDescriptorIF);
+        List<Candidate> candidateList = this.lshManagerIF.findCandidatesUsingLSH(sourceMediaFileDescriptorIF);
         Iterator<Candidate> lshIterator = candidateList.iterator();
         LoggingStopWatch watch = null;
         if (Configuration.timing()) {
@@ -179,15 +180,15 @@ public class SimilarImageFinder {
         System.out.println("DBManager.testFindSimilarImages() Reference Image " + path);
         MediaFileDescriptorIF mediaFileDescriptorIF = mediaFileDescriptorBuilder.buildMediaDescriptor(new File(path));
         MediaFileDescriptorBuilder mediaFileDescriptorBuilder = new MediaFileDescriptorBuilder();
-        LSHManager lshManager = new LSHManager(dbManagerIF);
-        SimilarImageFinder sif = new SimilarImageFinder(dbManagerIF,mediaFileDescriptorBuilder,lshManager );
+        LSHManagerIF lshManagerIF = new LSHManager(dbManagerIF);
+        SimilarImageFinder sif = new SimilarImageFinder(dbManagerIF,mediaFileDescriptorBuilder, lshManagerIF);
         sif.findSimilarImageUsingLSH(mediaFileDescriptorIF,20);
     }
     public static void main(String[] args) {
         MediaFileDescriptorBuilder mediaFileDescriptorBuilder = new MediaFileDescriptorBuilder();
         DBManagerIF tb = new DBManager(null,mediaFileDescriptorBuilder);
-        LSHManager lshManager = new LSHManager(tb);
-        SimilarImageFinder si = new SimilarImageFinder(tb,mediaFileDescriptorBuilder,lshManager );
+        LSHManagerIF lshManagerIF = new LSHManager(tb);
+        SimilarImageFinder si = new SimilarImageFinder(tb,mediaFileDescriptorBuilder, lshManagerIF);
         si.testFindSimilarImages(tb, args[0]);
     }
 

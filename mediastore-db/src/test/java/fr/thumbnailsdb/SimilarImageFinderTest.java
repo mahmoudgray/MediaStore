@@ -4,6 +4,7 @@ import fr.thumbnailsdb.dbservices.DBManager;
 import fr.thumbnailsdb.dbservices.DBManagerIF;
 import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptorBuilder;
 import fr.thumbnailsdb.lsh.LSHManager;
+import fr.thumbnailsdb.lsh.LSHManagerIF;
 import fr.thumbnailsdb.mediaIndexers.MediaIndexer;
 import org.apache.commons.io.FileUtils;
 import org.testng.Assert;
@@ -25,7 +26,7 @@ public class SimilarImageFinderTest {
     File folder1 = null;
     MediaIndexer mediaIndexer = null;
     MediaFileDescriptorBuilder mediaFileDescriptorBuilder = null;
-    LSHManager lshManager = null;
+    LSHManagerIF lshManagerIF = null;
 
     @BeforeClass
     public void createTempDir() throws IOException, URISyntaxException {
@@ -38,13 +39,13 @@ public class SimilarImageFinderTest {
         mediaFileDescriptorBuilder=new MediaFileDescriptorBuilder();
         dbManagerIF = new DBManager(tmpDir.getCanonicalPath() + "/testDB", mediaFileDescriptorBuilder );
         mediaIndexer = new MediaIndexer(dbManagerIF, mediaFileDescriptorBuilder);
-        lshManager = new LSHManager(dbManagerIF);
+        lshManagerIF = new LSHManager(dbManagerIF);
         mediaIndexer.processMTRoot(folder1.getCanonicalPath());
     }
     @AfterClass
     public void deleteDir() throws IOException {
-        lshManager.clear();
-        lshManager=null;
+        lshManagerIF.clear();
+        lshManagerIF =null;
         dbManagerIF =null;
         mediaIndexer=null;
         mediaFileDescriptorBuilder=null;
@@ -61,7 +62,7 @@ public class SimilarImageFinderTest {
     @Test
     public void testIdenticalImage() throws IOException {
         File[] list = folder1.listFiles();
-        SimilarImageFinder si = new SimilarImageFinder(dbManagerIF,mediaFileDescriptorBuilder,lshManager );
+        SimilarImageFinder si = new SimilarImageFinder(dbManagerIF,mediaFileDescriptorBuilder, lshManagerIF);
         for(File f : list) {
             Assert.assertEquals(si.findIdenticalMedia(f.getCanonicalPath()).size(), 1);
         }
@@ -69,8 +70,8 @@ public class SimilarImageFinderTest {
     @Test
     public void testSimilarImage() throws IOException, SQLException {
         File[] list = folder1.listFiles();
-        lshManager.buildLSH(true);
-        SimilarImageFinder si = new SimilarImageFinder(dbManagerIF,mediaFileDescriptorBuilder,lshManager );
+        lshManagerIF.buildLSH(true);
+        SimilarImageFinder si = new SimilarImageFinder(dbManagerIF,mediaFileDescriptorBuilder, lshManagerIF);
         for(File f : list) {
             Assert.assertEquals(si.findSimilarImages(f.getCanonicalPath(),1).size(), 1);
         }

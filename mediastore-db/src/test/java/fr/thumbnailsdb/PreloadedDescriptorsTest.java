@@ -5,6 +5,7 @@ import fr.thumbnailsdb.dbservices.DBManagerIF;
 import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptorBuilder;
 import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptorIF;
 import fr.thumbnailsdb.lsh.LSHManager;
+import fr.thumbnailsdb.lsh.LSHManagerIF;
 import fr.thumbnailsdb.mediaIndexers.MediaIndexer;
 import org.apache.commons.io.FileUtils;
 import org.testng.Assert;
@@ -26,7 +27,7 @@ public class PreloadedDescriptorsTest {
     File folder1 = null;
     MediaIndexer mediaIndexer = null;
     MediaFileDescriptorBuilder mediaFileDescriptorBuilder = null;
-    LSHManager lshManager = null;
+    LSHManagerIF lshManagerIF = null;
 
     @BeforeClass
     public void createTempDir() throws IOException, URISyntaxException {
@@ -41,7 +42,7 @@ public class PreloadedDescriptorsTest {
         mediaFileDescriptorBuilder=new MediaFileDescriptorBuilder();
         dbManagerIF = new DBManager(tmpDir.getCanonicalPath() + "/testDB", mediaFileDescriptorBuilder );
         mediaIndexer = new MediaIndexer(dbManagerIF, mediaFileDescriptorBuilder);
-        lshManager = new LSHManager(dbManagerIF);
+        lshManagerIF = new LSHManager(dbManagerIF);
     }
     @AfterClass
     public void deleteDir() throws IOException {

@@ -5,16 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3e64b3f9-5bcb-408a-be93-7d45372080e5" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/vptree/Node.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/vptree/NodeSorter.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/vptree/TNode.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/vptree/VPTree.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/vptree/VPTreeBuilder.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/vptree/VPTreeSeeker.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.extract/webapps/ROOT.war" afterPath="$PROJECT_DIR$/.extract/webapps/ROOT.war" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.extract/webapps/ROOT/WEB-INF/lib/mediastore-db-1.0.jar" afterPath="$PROJECT_DIR$/.extract/webapps/ROOT/WEB-INF/lib/mediastore-db-1.0.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.extract/.tomcat_executable_archive.timestamp" afterPath="$PROJECT_DIR$/.extract/.tomcat_executable_archive.timestamp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.extract/webapps/ROOT/META-INF/maven/com.mediastore/mediastore-rest/pom.properties" afterPath="$PROJECT_DIR$/.extract/webapps/ROOT/META-INF/maven/com.mediastore/mediastore-rest/pom.properties" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/lsh/LSHManagerIF.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/Main.java" afterPath="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/Main.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/SimilarImageFinder.java" afterPath="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/SimilarImageFinder.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/lsh/LSHManager.java" afterPath="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/lsh/LSHManager.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mediastore-db/src/test/java/fr/thumbnailsdb/DBManagerTest.java" afterPath="$PROJECT_DIR$/mediastore-db/src/test/java/fr/thumbnailsdb/DBManagerTest.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mediastore-db/src/test/java/fr/thumbnailsdb/MediaIndexerTest.java" afterPath="$PROJECT_DIR$/mediastore-db/src/test/java/fr/thumbnailsdb/MediaIndexerTest.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mediastore-db/src/test/java/fr/thumbnailsdb/PreloadedDescriptorsTest.java" afterPath="$PROJECT_DIR$/mediastore-db/src/test/java/fr/thumbnailsdb/PreloadedDescriptorsTest.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mediastore-db/src/test/java/fr/thumbnailsdb/SimilarImageFinderTest.java" afterPath="$PROJECT_DIR$/mediastore-db/src/test/java/fr/thumbnailsdb/SimilarImageFinderTest.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mediastore-rest/src/main/java/rest/RestTest.java" afterPath="$PROJECT_DIR$/mediastore-rest/src/main/java/rest/RestTest.java" />
     </list>
     <ignored path="MediaStore.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -50,14 +50,12 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="PreloadedDescriptors.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/PreloadedDescriptors.java">
+      <file leaf-file-name="LSHManager.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/lsh/LSHManager.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.2125">
-              <caret line="34" column="12" selection-start-line="34" selection-start-column="12" selection-end-line="34" selection-end-column="12" />
-              <folding>
-                <element signature="e#789#820#0" expanded="true" />
-              </folding>
+            <state vertical-scroll-proportion="0.043902438">
+              <caret line="15" column="17" selection-start-line="15" selection-start-column="17" selection-end-line="15" selection-end-column="17" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -123,7 +121,6 @@
         <option value="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/persistentLSH/PersistentLSH.java" />
         <option value="$PROJECT_DIR$/mediastore-db/src/test/java/fr/thumbnailsdb/KbitLSHTest.java" />
         <option value="$PROJECT_DIR$/mediastore-db/src/test/java/fr/thumbnailsdb/PersistentLSHTableTest.java" />
-        <option value="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/lsh/LSHManager.java" />
         <option value="$PROJECT_DIR$/mediastore-db/src/test/java/fr/thumbnailsdb/PersistentLSHTest.java" />
         <option value="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/distance/RMSEDistance.java" />
         <option value="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/bktree/TestBKTree.java" />
@@ -139,6 +136,7 @@
         <option value="$PROJECT_DIR$/mediastore-rest/src/main/java/rest/RestTest.java" />
         <option value="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/dbservices/DBManager.java" />
         <option value="$PROJECT_DIR$/mediastore-db/src/test/java/fr/thumbnailsdb/DBManagerTest.java" />
+        <option value="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/lsh/LSHManager.java" />
       </list>
     </option>
   </component>
@@ -400,6 +398,40 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MediaStore" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MediaStore" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mediastore-db" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="thumbnailsdb" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="lsh" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
     </panes>
@@ -418,6 +450,7 @@
   </component>
   <component name="RecentsManager">
     <key name="ExtractSuperBase.RECENT_KEYS">
+      <recent name="fr.thumbnailsdb.lsh" />
       <recent name="fr.thumbnailsdb.dbservices" />
       <recent name="fr.thumbnailsdb.descriptorbuilders" />
     </key>
@@ -1059,14 +1092,11 @@
       <workItem from="1450444501459" duration="594000" />
       <workItem from="1450946782145" duration="684000" />
       <workItem from="1451814249081" duration="3924000" />
-      <workItem from="1451820658942" duration="78000" />
+      <workItem from="1451820658942" duration="460000" />
     </task>
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="CandidatePriorityQueueTest_and_8_more - 2015.12.07 at 09h 32m 24s.xml">
-      <configuration name="CandidatePriorityQueueTest and 8 more" configurationId="TestNG" />
-    </history-entry>
     <history-entry file="CandidatePriorityQueueTest_and_8_more - 2016.01.03 at 10h 49m 41s.xml">
       <configuration name="CandidatePriorityQueueTest and 8 more" configurationId="TestNG" />
     </history-entry>
@@ -1077,6 +1107,9 @@
       <configuration name="CandidatePriorityQueueTest and 8 more" configurationId="TestNG" />
     </history-entry>
     <history-entry file="CandidatePriorityQueueTest_and_8_more - 2016.01.03 at 11h 42m 49s.xml">
+      <configuration name="CandidatePriorityQueueTest and 8 more" configurationId="TestNG" />
+    </history-entry>
+    <history-entry file="CandidatePriorityQueueTest_and_8_more - 2016.01.03 at 12h 37m 49s.xml">
       <configuration name="CandidatePriorityQueueTest and 8 more" configurationId="TestNG" />
     </history-entry>
     <history-entry file="PersistentLSHTest - 2015.12.05 at 11h 35m 00s.xml">
@@ -1096,7 +1129,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="113804000" />
+    <option name="totallyTimeSpent" value="114186000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="65" y="-4" width="1301" height="772" extended-state="6" />
@@ -1112,21 +1145,21 @@
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Java Enterprise" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3283582" sideWeight="0.50269026" order="9" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3283582" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.34973097" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3432836" sideWeight="0.49730977" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.5933897" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3432836" sideWeight="0.49730977" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3283582" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32985073" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Duplicates" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.02238806" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -1361,13 +1394,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/lsh/LSHManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.61875">
-          <caret line="70" column="47" selection-start-line="70" selection-start-column="47" selection-end-line="70" selection-end-column="47" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/candidates/CandidatePriorityQueue.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.396875">
@@ -1554,6 +1580,14 @@
           <folding>
             <element signature="e#789#820#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/lsh/LSHManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.043902438">
+          <caret line="15" column="17" selection-start-line="15" selection-start-column="17" selection-end-line="15" selection-end-column="17" />
+          <folding />
         </state>
       </provider>
     </entry>
