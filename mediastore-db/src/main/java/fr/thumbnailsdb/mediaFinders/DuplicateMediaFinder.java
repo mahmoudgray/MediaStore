@@ -1,5 +1,6 @@
-package fr.thumbnailsdb;
+package fr.thumbnailsdb.mediaFinders;
 
+import fr.thumbnailsdb.PreloadedDescriptors;
 import fr.thumbnailsdb.dbservices.DBManagerIF;
 import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptorIF;
 import fr.thumbnailsdb.duplicate.DuplicateFileGroup;

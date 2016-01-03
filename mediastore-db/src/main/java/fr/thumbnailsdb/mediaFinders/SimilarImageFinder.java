@@ -1,5 +1,7 @@
-package fr.thumbnailsdb;
+package fr.thumbnailsdb.mediaFinders;
 
+import fr.thumbnailsdb.PreloadedDescriptors;
+import fr.thumbnailsdb.Status;
 import fr.thumbnailsdb.candidates.Candidate;
 import fr.thumbnailsdb.dbservices.DBManagerIF;
 import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptor;

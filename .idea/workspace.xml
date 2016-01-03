@@ -5,14 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3e64b3f9-5bcb-408a-be93-7d45372080e5" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/lsh/LSHManagerIF.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/DuplicateMediaFinder.java" afterPath="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/mediaFinders/DuplicateMediaFinder.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/SimilarImageFinder.java" afterPath="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/mediaFinders/SimilarImageFinder.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/Main.java" afterPath="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/Main.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/SimilarImageFinder.java" afterPath="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/SimilarImageFinder.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/lsh/LSHManager.java" afterPath="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/lsh/LSHManager.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mediastore-db/src/test/java/fr/thumbnailsdb/DBManagerTest.java" afterPath="$PROJECT_DIR$/mediastore-db/src/test/java/fr/thumbnailsdb/DBManagerTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mediastore-db/src/test/java/fr/thumbnailsdb/MediaIndexerTest.java" afterPath="$PROJECT_DIR$/mediastore-db/src/test/java/fr/thumbnailsdb/MediaIndexerTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mediastore-db/src/test/java/fr/thumbnailsdb/PreloadedDescriptorsTest.java" afterPath="$PROJECT_DIR$/mediastore-db/src/test/java/fr/thumbnailsdb/PreloadedDescriptorsTest.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mediastore-db/src/test/java/fr/thumbnailsdb/SimilarImageFinderTest.java" afterPath="$PROJECT_DIR$/mediastore-db/src/test/java/fr/thumbnailsdb/SimilarImageFinderTest.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mediastore-rest/src/main/java/rest/RestTest.java" afterPath="$PROJECT_DIR$/mediastore-rest/src/main/java/rest/RestTest.java" />
     </list>
@@ -50,11 +46,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="LSHManager.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/lsh/LSHManager.java">
+      <file leaf-file-name="PersistentLSH.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/lsh/PersistentLSH.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.043902438">
-              <caret line="15" column="17" selection-start-line="15" selection-start-column="17" selection-end-line="15" selection-end-column="17" />
+            <state vertical-scroll-proportion="0.225">
+              <caret line="68" column="58" selection-start-line="68" selection-start-column="58" selection-end-line="68" selection-end-column="58" />
               <folding />
             </state>
           </provider>
@@ -428,7 +424,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="lsh" />
+              <option name="myItemId" value="mediaFinders" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -1092,7 +1088,7 @@
       <workItem from="1450444501459" duration="594000" />
       <workItem from="1450946782145" duration="684000" />
       <workItem from="1451814249081" duration="3924000" />
-      <workItem from="1451820658942" duration="460000" />
+      <workItem from="1451820658942" duration="984000" />
     </task>
     <servers />
   </component>
@@ -1129,7 +1125,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="114186000" />
+    <option name="totallyTimeSpent" value="114710000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="65" y="-4" width="1301" height="772" extended-state="6" />
@@ -1155,7 +1151,7 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.34973097" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3432836" sideWeight="0.49730977" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3432836" sideWeight="0.49730977" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.5933897" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -1387,13 +1383,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/lsh/PersistentLSH.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.465625">
-          <caret line="68" column="58" selection-start-line="68" selection-start-column="58" selection-end-line="68" selection-end-column="58" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/candidates/CandidatePriorityQueue.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.396875">
@@ -1415,7 +1404,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/SimilarImageFinder.java">
+    <entry file="file://$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/mediaFinders/SimilarImageFinder.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.82439023">
           <caret line="182" column="5" selection-start-line="182" selection-start-column="5" selection-end-line="182" selection-end-column="5" />
@@ -1498,7 +1487,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/DuplicateMediaFinder.java">
+    <entry file="file://$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/mediaFinders/DuplicateMediaFinder.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.140625">
           <caret line="21" column="20" selection-start-line="21" selection-start-column="11" selection-end-line="21" selection-end-column="28" />
@@ -1585,8 +1574,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/lsh/LSHManager.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.043902438">
+        <state vertical-scroll-proportion="0.028125">
           <caret line="15" column="17" selection-start-line="15" selection-start-column="17" selection-end-line="15" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/lsh/PersistentLSH.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.225">
+          <caret line="68" column="58" selection-start-line="68" selection-start-column="58" selection-end-line="68" selection-end-column="58" />
           <folding />
         </state>
       </provider>

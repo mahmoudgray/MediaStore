@@ -5,6 +5,8 @@ import fr.thumbnailsdb.dbservices.DBManagerIF;
 import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptorBuilder;
 import fr.thumbnailsdb.lsh.LSHManager;
 import fr.thumbnailsdb.lsh.LSHManagerIF;
+import fr.thumbnailsdb.mediaFinders.DuplicateMediaFinder;
+import fr.thumbnailsdb.mediaFinders.SimilarImageFinder;
 import fr.thumbnailsdb.mediaIndexers.MediaIndexer;
 
 import java.util.ArrayList;
