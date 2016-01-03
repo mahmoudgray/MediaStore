@@ -61,7 +61,7 @@
 	$(function(){
              	//initialisation du plugin
                 configureGalleryComparator("/rest/hello/findSimilarByPath","/rest/hello/findGallery","/rest/hello/directories",$("#cible"));
-                //lien entre les composants d'affichage et le plugin
+                //lien entre les composants computeDistance'affichage et le plugin
              	$('#sourceForm').submit(function(){
 			$("#source").displaySelectedGallery({"galleryToLoad":$("#InputSource").val()});  
                     return false;

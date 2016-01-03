@@ -1,4 +1,4 @@
-package fr.thumbnailsdb;
+package fr.thumbnailsdb.mediaIndexers;
 
 import java.io.*;
 import java.text.DateFormat;
@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
+import fr.thumbnailsdb.Status;
 import fr.thumbnailsdb.dbservices.DBManager;
 import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptor;
 import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptorBuilder;
@@ -19,7 +20,7 @@ public class MediaIndexer {
     protected boolean debug;
     protected boolean software = true;
     protected DBManager dbManager;
-    protected boolean forceGPSUpdate = Configuration.forceGPS();
+    public boolean forceGPSUpdate = Configuration.forceGPS();
     protected boolean forceHashUpdate = Configuration.forceUpdate();
     protected Logger log = Logger.getLogger();
     protected int newFiles = 0;

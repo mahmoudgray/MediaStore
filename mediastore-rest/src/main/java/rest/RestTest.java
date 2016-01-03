@@ -13,6 +13,7 @@ import fr.thumbnailsdb.duplicate.DuplicateFolderGroup;
 import fr.thumbnailsdb.duplicate.DuplicateFolderList;
 import fr.thumbnailsdb.hash.ImageHash;
 import fr.thumbnailsdb.lsh.LSHManager;
+import fr.thumbnailsdb.mediaIndexers.MediaIndexer;
 import fr.thumbnailsdb.utils.Logger;
 import fr.thumbnailsdb.utils.MetaDataFinder;
 import fr.thumbnailsdb.utils.Utils;

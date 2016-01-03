@@ -1,6 +1,6 @@
 package fr.thumbnailsdb.treewalker;
 
-import fr.thumbnailsdb.MediaIndexer;
+import fr.thumbnailsdb.mediaIndexers.MediaIndexer;
 import fr.thumbnailsdb.utils.Utils;
 
 import java.io.File;

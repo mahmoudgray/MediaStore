@@ -3,6 +3,7 @@ package fr.thumbnailsdb;
 import fr.thumbnailsdb.dbservices.DBManager;
 import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptorBuilder;
 import fr.thumbnailsdb.lsh.LSHManager;
+import fr.thumbnailsdb.mediaIndexers.MediaIndexer;
 
 import java.util.ArrayList;
 

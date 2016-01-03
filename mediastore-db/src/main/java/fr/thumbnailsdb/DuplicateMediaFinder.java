@@ -59,37 +59,36 @@ public class DuplicateMediaFinder {
         Logger.getLogger().log("DuplicateMediaFinder.computeDuplicateFolderSets preloadedDescriptors  V2 " + r.size());
 
         long t0 = System.currentTimeMillis();
-        DuplicateFileGroup dg = new DuplicateFileGroup();
-        String currentMd5 = "";
+        DuplicateFileGroup duplicateFileGroup;
         //The table to maintain the tree of folder-couples and the
         //the number of common files they have
-        DuplicateFolderList dfl = new DuplicateFolderList();
+        DuplicateFolderList duplicateFolderList = new DuplicateFolderList();
         Iterator<String> it = r.keyIterator();
         while (it.hasNext()) {
             List<MediaFileDescriptor> mList = r.get(it.next());
             if (mList.size() > 1) {
-                dg = new DuplicateFileGroup();
+                duplicateFileGroup = new DuplicateFileGroup();
                 Iterator<MediaFileDescriptor> itMedia = mList.iterator();
                 while (itMedia.hasNext()) {
                     MediaFileDescriptor mfd = itMedia.next();
                     int index = mfd.getId();
                     String path = dbManager.getPath(index);
                     mfd.setPath(path);
-                    dg.add(mfd.getSize(), mfd.getPath());
+                    duplicateFileGroup.add(mfd.getSize(), mfd.getPath());
                 }
-                if (dg.size() > 1) {
+                if (duplicateFileGroup.size() > 1) {
                     //ok we have found a tree of duplicate files
                     //let's add their parent folder to the tree
                     //first compute the tree of folders
-                    dfl.addOrIncrement(dg);
+                    duplicateFolderList.addOrIncrement(duplicateFileGroup);
                 }
             }
         }
 
         long t1 = System.currentTimeMillis();
         System.out.println("DuplicateMediaFinder.computeDuplicateFolderSets took "  + (t1-t0) + "  ms");
-        Logger.getLogger().log("DuplicateMediaFinder.computeDuplicateFolderSets has " + dfl.size() + " entries");
-        return dfl;
+        Logger.getLogger().log("DuplicateMediaFinder.computeDuplicateFolderSets has " + duplicateFolderList.size() + " entries");
+        return duplicateFolderList;
     }
-    
+
 }

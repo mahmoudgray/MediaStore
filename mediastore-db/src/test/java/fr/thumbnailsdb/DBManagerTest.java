@@ -4,6 +4,7 @@ import fr.thumbnailsdb.dbservices.DBManager;
 import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptor;
 import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptorBuilder;
 import fr.thumbnailsdb.lsh.LSHManager;
+import fr.thumbnailsdb.mediaIndexers.MediaIndexer;
 import org.apache.commons.io.FileUtils;
 import org.testng.Assert;
 import org.testng.annotations.*;
