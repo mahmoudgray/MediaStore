@@ -1,8 +1,8 @@
 package fr.thumbnailsdb.descriptorbuilders;
 
+import fr.thumbnailsdb.dbservices.DBManagerIF;
 import fr.thumbnailsdb.utils.MetaDataFinder;
 import fr.thumbnailsdb.utils.Utils;
-import fr.thumbnailsdb.dbservices.DBManager;
 import fr.thumbnailsdb.hash.ImageHash;
 import fr.thumbnailsdb.utils.MD5Generator;
 
@@ -17,21 +17,21 @@ import java.sql.SQLException;
  * Created by mohannad on 02/12/15.
  */
 public class MediaFileDescriptorBuilder {
-    protected DBManager dbManager;
+    protected DBManagerIF dbManagerIF;
     protected MD5Generator md5Generator;
 
     public MediaFileDescriptorBuilder() {
         this.md5Generator = new MD5Generator();
     }
-    public MediaFileDescriptorBuilder(DBManager dbManager) {
-        this.dbManager = dbManager;
+    public MediaFileDescriptorBuilder(DBManagerIF dbManagerIF) {
+        this.dbManagerIF = dbManagerIF;
         this.md5Generator = new MD5Generator();
     }
-    public void setDbManager(DBManager dbManager) {
-        this.dbManager = dbManager;
+    public void setDbManager(DBManagerIF dbManagerIF) {
+        this.dbManagerIF = dbManagerIF;
     }
     public MediaFileDescriptorIF getMediaFileDescriptorFromDB(int index) {
-        ResultSet res = dbManager.getFromDatabase(index);
+        ResultSet res = dbManagerIF.getFromDatabase(index);
         try {
             res.next();
             return getCurrentMediaFileDescriptor(res);
@@ -41,7 +41,7 @@ public class MediaFileDescriptorBuilder {
         return null;
     }
     public MediaFileDescriptorIF getMediaFileDescriptorFromDB(String path) {
-        ResultSet res = dbManager.getFromDatabase(path);
+        ResultSet res = dbManagerIF.getFromDatabase(path);
         try {
             res.next();
             return getCurrentMediaFileDescriptor(res);
@@ -59,14 +59,14 @@ public class MediaFileDescriptorBuilder {
             long size = res.getLong("size");
             String hash = res.getString("hash");
 
-            id = new MediaFileDescriptor(path, size, mtime, md5, hash,this.dbManager);
+            id = new MediaFileDescriptor(path, size, mtime, md5, hash,this.dbManagerIF);
             id.setId(res.getInt("id"));
         } catch (SQLException e) {
         }
         return id;
     }
     public MediaFileDescriptorIF buildMediaDescriptor(File f) {
-        MediaFileDescriptorIF id = new MediaFileDescriptor(this.dbManager);
+        MediaFileDescriptorIF id = new MediaFileDescriptor(this.dbManagerIF);
         int[] data;
         String md5;
         try {

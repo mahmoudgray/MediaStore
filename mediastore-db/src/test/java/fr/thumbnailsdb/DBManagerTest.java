@@ -1,6 +1,7 @@
 package fr.thumbnailsdb;
 
 import fr.thumbnailsdb.dbservices.DBManager;
+import fr.thumbnailsdb.dbservices.DBManagerIF;
 import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptorBuilder;
 import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptorIF;
 import fr.thumbnailsdb.lsh.LSHManager;
@@ -18,7 +19,7 @@ import java.util.ArrayList;
 public class DBManagerTest {
 
     File tmpDir = null;
-    DBManager dbManager = null;
+    DBManagerIF dbManagerIF = null;
     File folder1 = null;
     MediaIndexer mediaIndexer = null;
     MediaFileDescriptorBuilder mediaFileDescriptorBuilder = null;
@@ -34,14 +35,14 @@ public class DBManagerTest {
         System.out.println("DBManagerTest.createTempDir Temp Dir " + tmpDir);
         System.out.println("DBManagerTest.createTempDir Folder1  " + folder1);
         mediaFileDescriptorBuilder=new MediaFileDescriptorBuilder();
-        dbManager = new DBManager(tmpDir.getCanonicalPath() + "/testDB", mediaFileDescriptorBuilder );
-        mediaIndexer = new MediaIndexer(dbManager, mediaFileDescriptorBuilder);
-        lshManager = new LSHManager(dbManager);
+        dbManagerIF = new DBManager(tmpDir.getCanonicalPath() + "/testDB", mediaFileDescriptorBuilder );
+        mediaIndexer = new MediaIndexer(dbManagerIF, mediaFileDescriptorBuilder);
+        lshManager = new LSHManager(dbManagerIF);
     }
     @AfterClass
     public void deleteDir() throws IOException {
         lshManager=null;
-        dbManager=null;
+        dbManagerIF =null;
         mediaIndexer=null;
         mediaFileDescriptorBuilder=null;
         FileUtils.deleteDirectory(tmpDir);
@@ -55,13 +56,13 @@ public class DBManagerTest {
     }
     @Test
     public void testDBConnection(){
-        Connection connection = dbManager.getConnection();
+        Connection connection = dbManagerIF.getConnection();
         Assert.assertNotNull(connection);
     }
     @Test(dependsOnMethods={"testDBConnection"})
     public void testAddIndexedPath() throws IOException {
-        dbManager.addIndexPath(folder1.getCanonicalPath());
-        ArrayList<String> indexedPathes = dbManager.getIndexedPaths();
+        dbManagerIF.addIndexPath(folder1.getCanonicalPath());
+        ArrayList<String> indexedPathes = dbManagerIF.getIndexedPaths();
         boolean found =false;
         for( String p : indexedPathes){
             if(p.equals(folder1.getCanonicalPath())){
@@ -75,19 +76,19 @@ public class DBManagerTest {
     public void testSaveToDB() throws IOException{
         File file = folder1.listFiles()[0];
             MediaFileDescriptorIF mediaFileDescriptorIF1 = mediaFileDescriptorBuilder.buildMediaDescriptor(file);
-            dbManager.saveToDB(mediaFileDescriptorIF1);
+            dbManagerIF.saveToDB(mediaFileDescriptorIF1);
             MediaFileDescriptorIF mediaFileDescriptorIF2 = mediaFileDescriptorBuilder.getMediaFileDescriptorFromDB(file.getCanonicalPath());
             Assert.assertTrue(mediaFileDescriptorIF1.getMD5() == mediaFileDescriptorIF2.getMD5());
-            dbManager.deleteFromDatabase(file.getCanonicalPath());
+            dbManagerIF.deleteFromDatabase(file.getCanonicalPath());
             mediaFileDescriptorIF2 = mediaFileDescriptorBuilder.getMediaFileDescriptorFromDB(file.getCanonicalPath());
             Assert.assertNull(mediaFileDescriptorIF2);
-        dbManager.deleteIndexedPath(folder1.getCanonicalPath());
+        dbManagerIF.deleteIndexedPath(folder1.getCanonicalPath());
 
     }
     @Test(dependsOnMethods={"testSaveToDB"})
     public void testDeleteIndexedPath() throws IOException {
-        dbManager.deleteIndexedPath(folder1.getCanonicalPath());
-        ArrayList<String> indexedPathes = dbManager.getIndexedPaths();
+        dbManagerIF.deleteIndexedPath(folder1.getCanonicalPath());
+        ArrayList<String> indexedPathes = dbManagerIF.getIndexedPaths();
         boolean found =false;
         for( String p : indexedPathes){
             if(p.equals(folder1.getCanonicalPath())){

@@ -2,6 +2,7 @@ package fr.thumbnailsdb.hash;
 
 import fr.thumbnailsdb.PreloadedDescriptors;
 import fr.thumbnailsdb.dbservices.DBManager;
+import fr.thumbnailsdb.dbservices.DBManagerIF;
 import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptorBuilder;
 import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptorIF;
 import fr.thumbnailsdb.utils.ImageComparator;
@@ -134,7 +135,7 @@ public class ImageHash {
     public static void testDB() {
         ImageHash imh = new ImageHash();
         MediaFileDescriptorBuilder mediaFileDescriptorBuilder = new MediaFileDescriptorBuilder();
-        DBManager tb = new DBManager(null,mediaFileDescriptorBuilder);
+        DBManagerIF tb = new DBManager(null,mediaFileDescriptorBuilder);
         System.out.println(" Size of DB :  " + tb.size());
         PreloadedDescriptors pl = PreloadedDescriptors.getPreloadedDescriptors(tb);
         Iterator it = pl.iterator();

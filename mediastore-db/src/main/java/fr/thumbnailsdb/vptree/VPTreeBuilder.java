@@ -1,5 +1,6 @@
 package fr.thumbnailsdb.vptree;
 
+import fr.thumbnailsdb.dbservices.DBManagerIF;
 import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptor;
 import fr.thumbnailsdb.dbservices.DBManager;
 import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptorBuilder;
@@ -23,7 +24,7 @@ public class VPTreeBuilder {
     private static final int sample_size = 10;
     private Random generator = new Random(System.currentTimeMillis());
     private final Distance distance;
-    protected DBManager dbManager;
+    protected DBManagerIF dbManagerIF;
 
 
     private Set<Node> nodes = new HashSet<Node>();
@@ -33,9 +34,9 @@ public class VPTreeBuilder {
      *
      * @param distance The class implementing the distance.
      */
-    public VPTreeBuilder(Distance distance , DBManager dbManager ) {
+    public VPTreeBuilder(Distance distance , DBManagerIF dbManagerIF) {
         this.distance = distance;
-        this.dbManager =dbManager;
+        this.dbManagerIF = dbManagerIF;
     }
 
     public Set<Node> getNodes() {
@@ -196,18 +197,18 @@ public class VPTreeBuilder {
 
     protected VPTree getPreloadedDescriptorsVPTree() {
 
-        int size = this.dbManager.size();
+        int size = this.dbManagerIF.size();
         VPTree vpTree = new VPTree();
         ArrayList<MediaFileDescriptorIF> al = new ArrayList<MediaFileDescriptorIF>(size);
 
-        ResultSet res = this.dbManager.getAllInDataBase();
+        ResultSet res = this.dbManagerIF.getAllInDataBase();
             try {
                 while (res.next()) {
                     String path = res.getString("path");
                     String s = res.getString("hash");
                     if (s != null) {
 
-                        MediaFileDescriptorIF imd = new MediaFileDescriptor(this.dbManager);
+                        MediaFileDescriptorIF imd = new MediaFileDescriptor(this.dbManagerIF);
                         imd.setPath(path);
                         imd.setHash(s);
                         //TODO: handle signature here
@@ -228,8 +229,8 @@ public class VPTreeBuilder {
 
     public static void main(String[] args) {
         MediaFileDescriptorBuilder mediaFileDescriptorBuilder = new MediaFileDescriptorBuilder();
-        DBManager dbManager = new DBManager(null, mediaFileDescriptorBuilder);
-        VPTreeBuilder vpt = new VPTreeBuilder(new VPRMSEDistance(),dbManager);
+        DBManagerIF dbManagerIF = new DBManager(null, mediaFileDescriptorBuilder);
+        VPTreeBuilder vpt = new VPTreeBuilder(new VPRMSEDistance(), dbManagerIF);
         vpt.getPreloadedDescriptorsVPTree();
 
     }

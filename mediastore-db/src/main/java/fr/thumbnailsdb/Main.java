@@ -1,6 +1,7 @@
 package fr.thumbnailsdb;
 
 import fr.thumbnailsdb.dbservices.DBManager;
+import fr.thumbnailsdb.dbservices.DBManagerIF;
 import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptorBuilder;
 import fr.thumbnailsdb.lsh.LSHManager;
 import fr.thumbnailsdb.mediaIndexers.MediaIndexer;
@@ -15,7 +16,7 @@ public class Main {
             System.err.println("    " + args[i]);
         }
         MediaFileDescriptorBuilder mediaFileDescriptorBuilder = new MediaFileDescriptorBuilder();
-        DBManager tb = new DBManager(dbPath,mediaFileDescriptorBuilder );
+        DBManagerIF tb = new DBManager(dbPath,mediaFileDescriptorBuilder );
         LSHManager lshManager = new LSHManager(tb);
 
         if ("similar".equals(args[0])) {
@@ -37,7 +38,7 @@ public class Main {
             System.err.println("    " + args[i]);
         }
         MediaFileDescriptorBuilder mediaFileDescriptorBuilder = new MediaFileDescriptorBuilder();
-        DBManager tb = new DBManager(dbPath,mediaFileDescriptorBuilder );
+        DBManagerIF tb = new DBManager(dbPath,mediaFileDescriptorBuilder );
         MediaIndexer tg = new MediaIndexer(tb,mediaFileDescriptorBuilder);
         LSHManager lshManager = new LSHManager(tb);
         if ("index".equals(args[0])) {

@@ -1,7 +1,7 @@
 package fr.thumbnailsdb;
 
 import com.google.common.collect.ArrayListMultimap;
-import fr.thumbnailsdb.dbservices.DBManager;
+import fr.thumbnailsdb.dbservices.DBManagerIF;
 import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptor;
 import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptorIF;
 import fr.thumbnailsdb.utils.ProgressBar;
@@ -29,11 +29,11 @@ public class PreloadedDescriptors {
     public static void setUseFullPath(boolean fullPath){
         useFullPath = fullPath;
     }
-    public static  PreloadedDescriptors getPreloadedDescriptors(DBManager dbManager) {
+    public static  PreloadedDescriptors getPreloadedDescriptors(DBManagerIF dbManagerIF) {
         if (preloadedDescriptors == null) {
             long ti = System.currentTimeMillis();
             Status.getStatus().setStringStatus("Building descriptors list");
-            int dbSize = dbManager.size();
+            int dbSize = dbManagerIF.size();
             ProgressBar pb = new ProgressBar(0, dbSize, dbSize / 100);
             preloadedDescriptors = new PreloadedDescriptors(dbSize, new Comparator<MediaFileDescriptorIF>() {
                 public int compare(MediaFileDescriptorIF o1, MediaFileDescriptorIF o2) {
@@ -43,7 +43,7 @@ public class PreloadedDescriptors {
             int increment = dbSize / 100;
             int processed = 0;
             int processedSinceLastTick = 0;
-            ResultSet res = dbManager.getAllInDataBase();
+            ResultSet res = dbManagerIF.getAllInDataBase();
             try {
                 while (res.next()) {
                     processed++;
@@ -60,7 +60,7 @@ public class PreloadedDescriptors {
                     long size = res.getLong("size");
                     String hash = res.getString("hash");
                     if (path != null && md5 != null) {
-                        MediaFileDescriptorIF imd = new MediaFileDescriptor(dbManager);
+                        MediaFileDescriptorIF imd = new MediaFileDescriptor(dbManagerIF);
                         if (useFullPath) {
                             imd.setPath(path);
                         }
@@ -68,7 +68,7 @@ public class PreloadedDescriptors {
                         imd.setHash(hash);
                         imd.setSize(size);
                         imd.setMd5Digest(md5);
-                        imd.setConnection(dbManager.getConnection());
+                        imd.setConnection(dbManagerIF.getConnection());
                         preloadedDescriptors.add(imd);
                     } else {
                         //TODO : we should clean the data here

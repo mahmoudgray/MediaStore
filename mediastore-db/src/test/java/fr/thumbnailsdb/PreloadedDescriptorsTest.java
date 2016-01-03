@@ -1,6 +1,7 @@
 package fr.thumbnailsdb;
 
 import fr.thumbnailsdb.dbservices.DBManager;
+import fr.thumbnailsdb.dbservices.DBManagerIF;
 import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptorBuilder;
 import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptorIF;
 import fr.thumbnailsdb.lsh.LSHManager;
@@ -21,7 +22,7 @@ import java.util.Iterator;
  */
 public class PreloadedDescriptorsTest {
     File tmpDir = null;
-    DBManager dbManager = null;
+    DBManagerIF dbManagerIF = null;
     File folder1 = null;
     MediaIndexer mediaIndexer = null;
     MediaFileDescriptorBuilder mediaFileDescriptorBuilder = null;
@@ -38,9 +39,9 @@ public class PreloadedDescriptorsTest {
         // in order to force loading full paths
         //PreloadedDescriptors.setUseFullPath(true);
         mediaFileDescriptorBuilder=new MediaFileDescriptorBuilder();
-        dbManager = new DBManager(tmpDir.getCanonicalPath() + "/testDB", mediaFileDescriptorBuilder );
-        mediaIndexer = new MediaIndexer(dbManager, mediaFileDescriptorBuilder);
-        lshManager = new LSHManager(dbManager);
+        dbManagerIF = new DBManager(tmpDir.getCanonicalPath() + "/testDB", mediaFileDescriptorBuilder );
+        mediaIndexer = new MediaIndexer(dbManagerIF, mediaFileDescriptorBuilder);
+        lshManager = new LSHManager(dbManagerIF);
     }
     @AfterClass
     public void deleteDir() throws IOException {
@@ -60,7 +61,7 @@ public class PreloadedDescriptorsTest {
     @Test(dependsOnMethods={"testPreLoadedDescriptorExists"})
     public void testPreloadingOfDescriptors() throws IOException, URISyntaxException {
         mediaIndexer.processMTRoot(folder1.getCanonicalPath());
-        int size = PreloadedDescriptors.getPreloadedDescriptors(dbManager).size();
+        int size = PreloadedDescriptors.getPreloadedDescriptors(dbManagerIF).size();
         Assert.assertTrue(PreloadedDescriptors.preloadedDescriptorsExists());
         Assert.assertEquals(size,9);
     }
@@ -68,7 +69,7 @@ public class PreloadedDescriptorsTest {
     public void testRemovingDescriptor() throws IOException {
         File f = folder1.listFiles()[0];
         MediaFileDescriptorIF mediaFileDescriptorIF = mediaFileDescriptorBuilder.getMediaFileDescriptorFromDB(f.getCanonicalPath());
-        PreloadedDescriptors preloadedDescriptors = PreloadedDescriptors.getPreloadedDescriptors(dbManager );
+        PreloadedDescriptors preloadedDescriptors = PreloadedDescriptors.getPreloadedDescriptors(dbManagerIF);
         preloadedDescriptors.remove(mediaFileDescriptorIF);
         Iterator<MediaFileDescriptorIF> mediaFileDescriptorIterator = preloadedDescriptors.iterator();
         boolean found = false;

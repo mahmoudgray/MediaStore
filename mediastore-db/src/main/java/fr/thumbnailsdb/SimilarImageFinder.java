@@ -1,6 +1,7 @@
 package fr.thumbnailsdb;
 
 import fr.thumbnailsdb.candidates.Candidate;
+import fr.thumbnailsdb.dbservices.DBManagerIF;
 import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptor;
 import fr.thumbnailsdb.dbservices.DBManager;
 import fr.thumbnailsdb.candidates.CandidateIterator;
@@ -23,13 +24,13 @@ public class SimilarImageFinder {
     public static boolean USE_FULL_PATH = false;
 
 
-    protected DBManager dbManager;
+    protected DBManagerIF dbManagerIF;
     protected LSHManager lshManager;
     protected MediaFileDescriptorBuilder mediaFileDescriptorBuilder;
 
 
-    public SimilarImageFinder(DBManager c, MediaFileDescriptorBuilder mediaFileDescriptorBuilder , LSHManager lshManager) {
-        this.dbManager = c;
+    public SimilarImageFinder(DBManagerIF c, MediaFileDescriptorBuilder mediaFileDescriptorBuilder , LSHManager lshManager) {
+        this.dbManagerIF = c;
         this.mediaFileDescriptorBuilder = mediaFileDescriptorBuilder;
         this.lshManager = lshManager;
     }
@@ -91,7 +92,7 @@ public class SimilarImageFinder {
     }
     public ArrayList<MediaFileDescriptorIF> findIdenticalMedia(String source) {
         MediaFileDescriptorIF mediaFileDescriptorIF = mediaFileDescriptorBuilder.buildMediaDescriptor(new File(source));
-        return dbManager.getDuplicatesMD5(mediaFileDescriptorIF);
+        return dbManagerIF.getDuplicatesMD5(mediaFileDescriptorIF);
     }
     public void prettyPrintIdenticalResults(ArrayList<MediaFileDescriptorIF> findIdenticalMedia) {
         Iterator<MediaFileDescriptorIF> it = findIdenticalMedia.iterator();
@@ -112,9 +113,9 @@ public class SimilarImageFinder {
             }
         });
 
-        Iterator<MediaFileDescriptorIF> it = PreloadedDescriptors.getPreloadedDescriptors(dbManager).iterator();
+        Iterator<MediaFileDescriptorIF> it = PreloadedDescriptors.getPreloadedDescriptors(dbManagerIF).iterator();
         Status.getStatus().setStringStatus(Status.FIND_SIMILAR);
-        int size = PreloadedDescriptors.getPreloadedDescriptors(dbManager).size();
+        int size = PreloadedDescriptors.getPreloadedDescriptors(dbManagerIF).size();
         int processed = 0;
         ProgressBar pb = new ProgressBar(0, size, size / 100);
         int increment = size / 100;
@@ -141,7 +142,7 @@ public class SimilarImageFinder {
                 MediaFileDescriptorIF df = queue.peek();
                 if (df.getDistance() > distance) {
                     queue.poll();
-                    MediaFileDescriptorIF imd = new MediaFileDescriptor(this.dbManager);
+                    MediaFileDescriptorIF imd = new MediaFileDescriptor(this.dbManagerIF);
                     imd.setPath(current.getPath());
                     imd.setDistance(distance);
                     imd.setHash(current.getHash());
@@ -150,7 +151,7 @@ public class SimilarImageFinder {
                     queue.add(imd);
                 }
             } else {
-                MediaFileDescriptorIF imd = new MediaFileDescriptor(this.dbManager);
+                MediaFileDescriptorIF imd = new MediaFileDescriptor(this.dbManagerIF);
                 imd.setPath(current.getPath());
                 imd.setDistance(distance);
                 imd.setHash(current.getHash());
@@ -173,18 +174,18 @@ public class SimilarImageFinder {
         });
         return Arrays.asList(arr);
     }
-    public void testFindSimilarImages(DBManager dbManager, String path) {
+    public void testFindSimilarImages(DBManagerIF dbManagerIF, String path) {
         System.out.println("DBManager.test() reading descriptor from disk ");
         System.out.println("DBManager.testFindSimilarImages() Reference Image " + path);
         MediaFileDescriptorIF mediaFileDescriptorIF = mediaFileDescriptorBuilder.buildMediaDescriptor(new File(path));
         MediaFileDescriptorBuilder mediaFileDescriptorBuilder = new MediaFileDescriptorBuilder();
-        LSHManager lshManager = new LSHManager(dbManager);
-        SimilarImageFinder sif = new SimilarImageFinder(dbManager,mediaFileDescriptorBuilder,lshManager );
+        LSHManager lshManager = new LSHManager(dbManagerIF);
+        SimilarImageFinder sif = new SimilarImageFinder(dbManagerIF,mediaFileDescriptorBuilder,lshManager );
         sif.findSimilarImageUsingLSH(mediaFileDescriptorIF,20);
     }
     public static void main(String[] args) {
         MediaFileDescriptorBuilder mediaFileDescriptorBuilder = new MediaFileDescriptorBuilder();
-        DBManager tb = new DBManager(null,mediaFileDescriptorBuilder);
+        DBManagerIF tb = new DBManager(null,mediaFileDescriptorBuilder);
         LSHManager lshManager = new LSHManager(tb);
         SimilarImageFinder si = new SimilarImageFinder(tb,mediaFileDescriptorBuilder,lshManager );
         si.testFindSimilarImages(tb, args[0]);

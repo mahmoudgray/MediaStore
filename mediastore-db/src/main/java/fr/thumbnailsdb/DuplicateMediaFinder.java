@@ -1,6 +1,6 @@
 package fr.thumbnailsdb;
 
-import fr.thumbnailsdb.dbservices.DBManager;
+import fr.thumbnailsdb.dbservices.DBManagerIF;
 import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptorIF;
 import fr.thumbnailsdb.duplicate.DuplicateFileGroup;
 import fr.thumbnailsdb.duplicate.DuplicateFileList;
@@ -12,15 +12,15 @@ import java.util.List;
 
 public class DuplicateMediaFinder {
 
-    protected DBManager dbManager;
+    protected DBManagerIF dbManagerIF;
 
     protected DuplicateFileList duplicateFileList;
 
-    public DuplicateMediaFinder(DBManager c) {
-        this.dbManager = c;
+    public DuplicateMediaFinder(DBManagerIF c) {
+        this.dbManagerIF = c;
     }
     public DuplicateFileList computeDuplicateSets() {
-        PreloadedDescriptors r = PreloadedDescriptors.getPreloadedDescriptors(dbManager);
+        PreloadedDescriptors r = PreloadedDescriptors.getPreloadedDescriptors(dbManagerIF);
         if (duplicateFileList != null) {
             return duplicateFileList;
         }
@@ -34,7 +34,7 @@ public class DuplicateMediaFinder {
             if (md5 != null) {
                 //TODO : this should be done in the DB directly
                 int index = mfd.getId();
-                String path = dbManager.getPath(index);
+                String path = dbManagerIF.getPath(index);
                 if (md5.equals(currentMd5)) {
                     // add to current group
                     dg.add(mfd.getSize(), path);
@@ -55,7 +55,7 @@ public class DuplicateMediaFinder {
         return duplicateFileList;
     }
     public DuplicateFolderList computeDuplicateFolderSets() {
-        PreloadedDescriptors r = PreloadedDescriptors.getPreloadedDescriptors(dbManager);
+        PreloadedDescriptors r = PreloadedDescriptors.getPreloadedDescriptors(dbManagerIF);
         Logger.getLogger().log("DuplicateMediaFinder.computeDuplicateFolderSets preloadedDescriptors  V2 " + r.size());
 
         long t0 = System.currentTimeMillis();
@@ -72,7 +72,7 @@ public class DuplicateMediaFinder {
                 while (itMedia.hasNext()) {
                     MediaFileDescriptorIF mfd = itMedia.next();
                     int index = mfd.getId();
-                    String path = dbManager.getPath(index);
+                    String path = dbManagerIF.getPath(index);
                     mfd.setPath(path);
                     duplicateFileGroup.add(mfd.getSize(), mfd.getPath());
                 }

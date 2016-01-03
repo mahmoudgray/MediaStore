@@ -5,6 +5,7 @@ package fr.thumbnailsdb;
  */
 
 import fr.thumbnailsdb.dbservices.DBManager;
+import fr.thumbnailsdb.dbservices.DBManagerIF;
 import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptorBuilder;
 import fr.thumbnailsdb.lsh.LSHManager;
 import fr.thumbnailsdb.mediaIndexers.MediaIndexer;
@@ -22,7 +23,7 @@ import java.net.URISyntaxException;
 public class MediaIndexerTest {
 
     File tmpDir = null;
-    DBManager dbManager = null;
+    DBManagerIF dbManagerIF = null;
     File folder1 = null;
     MediaIndexer mediaIndexer = null;
     MediaFileDescriptorBuilder mediaFileDescriptorBuilder = null;
@@ -37,14 +38,14 @@ public class MediaIndexerTest {
         System.out.println("MediaIndexerTest.createTempDir Temp Dir " + tmpDir);
         System.out.println("MediaIndexerTest.createTempDir Folder1  " + folder1);
         mediaFileDescriptorBuilder=new MediaFileDescriptorBuilder();
-        dbManager = new DBManager(tmpDir.getCanonicalPath() + "/testDB", mediaFileDescriptorBuilder );
-        mediaIndexer = new MediaIndexer(dbManager, mediaFileDescriptorBuilder);
-        lshManager = new LSHManager(dbManager);
+        dbManagerIF = new DBManager(tmpDir.getCanonicalPath() + "/testDB", mediaFileDescriptorBuilder );
+        mediaIndexer = new MediaIndexer(dbManagerIF, mediaFileDescriptorBuilder);
+        lshManager = new LSHManager(dbManagerIF);
     }
     @AfterClass
     public void deleteDir() throws IOException {
         lshManager=null;
-        dbManager=null;
+        dbManagerIF =null;
         mediaIndexer=null;
         mediaFileDescriptorBuilder=null;
         FileUtils.deleteDirectory(tmpDir);
@@ -59,7 +60,7 @@ public class MediaIndexerTest {
     @Test
     public void testIndexing() throws IOException, URISyntaxException {
         mediaIndexer.processMTRoot(folder1.getCanonicalPath());
-        Assert.assertTrue(dbManager.size()==9);
+        Assert.assertTrue(dbManagerIF.size()==9);
     }
 
 

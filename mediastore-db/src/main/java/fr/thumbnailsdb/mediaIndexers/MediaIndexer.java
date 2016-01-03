@@ -9,6 +9,7 @@ import java.util.concurrent.TimeUnit;
 
 import fr.thumbnailsdb.Status;
 import fr.thumbnailsdb.dbservices.DBManager;
+import fr.thumbnailsdb.dbservices.DBManagerIF;
 import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptorBuilder;
 import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptorIF;
 import fr.thumbnailsdb.hash.ImageHash;
@@ -19,7 +20,7 @@ public class MediaIndexer {
 
     protected boolean debug;
     protected boolean software = true;
-    protected DBManager dbManager;
+    protected DBManagerIF dbManagerIF;
     public boolean forceGPSUpdate = Configuration.forceGPS();
     protected boolean forceHashUpdate = Configuration.forceUpdate();
     protected Logger log = Logger.getLogger();
@@ -38,12 +39,12 @@ public class MediaIndexer {
     protected MD5Generator md5Generator;
 
 
-    public MediaIndexer(DBManager t, MediaFileDescriptorBuilder mediaFileDescriptorBuilder) {
+    public MediaIndexer(DBManagerIF t, MediaFileDescriptorBuilder mediaFileDescriptorBuilder) {
         maxThreads = Configuration.getMaxIndexerThreads();
         System.out.println("MediaIndexer.MediaIndexer Max Threads = " + maxThreads);
         executorService= new ThreadPoolExecutor(maxThreads, maxThreads, 0L, TimeUnit.MILLISECONDS,
                 new LimitedQueue<Runnable>(50));
-        this.dbManager = t;
+        this.dbManagerIF = t;
         this.mediaFileDescriptorBuilder = mediaFileDescriptorBuilder;
         this.md5Generator = new MD5Generator();
     }
@@ -67,14 +68,14 @@ public class MediaIndexer {
                         mf.setLat(latLon[0]);
                         mf.setLon(latLon[1]);
                         Logger.getLogger().err("MediaIndexer : forced update for GPS data for " + f);
-                        this.dbManager.updateToDB(mf);
+                        this.dbManagerIF.updateToDB(mf);
                         update = true;
                     }
                 }
                 if (forceHashUpdate || (mf.getHash() == null)) {
                     if (Utils.isValideImageName(f.getName())) {
                         mf.setHash(new ImageHash().generateSignature(f.getCanonicalPath()));
-                        this.dbManager.updateToDB(mf);
+                        this.dbManagerIF.updateToDB(mf);
                         update = true;
                     }
 
@@ -86,10 +87,10 @@ public class MediaIndexer {
                 if (id != null) {
                     if ((mf != null) && (f.lastModified() != mf.getMtime())) {
                         //we need to update it
-                        this.dbManager.updateToDB(id);
+                        this.dbManagerIF.updateToDB(id);
                         this.fileCreatedUpdated(false, true);
                     } else {
-                        this.dbManager.saveToDB(id);
+                        this.dbManagerIF.saveToDB(id);
                         this.fileCreatedUpdated(true, false);
                     }
                     if (log.isEnabled()) {
@@ -153,7 +154,7 @@ public class MediaIndexer {
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         Date date = new Date();
         try {
-            dbManager.addIndexPath(new File(path).getCanonicalPath());
+            dbManagerIF.addIndexPath(new File(path).getCanonicalPath());
             System.out.println("MediaIndexer.processMTRoot()" + path);
             System.out.println("MediaIndexer.processMTRoot() started at time " + dateFormat.format(date));
             System.out.println("MediaIndexer.processMTRoot() computing number of files...");
@@ -181,14 +182,14 @@ public class MediaIndexer {
         System.out.println("MediaIndexer.processMTRoot() finished at time " + dateFormat.format(date));
         System.out.println("MediaIndexer.processMTRoot() found " + newFiles + " new files");
         System.out.println("MediaIndexer.processMTRoot() updated " + updatedFiles + " files");
-        System.out.println("MediaIndexer.processMTRoot() total " + dbManager.size() + " files");
+        System.out.println("MediaIndexer.processMTRoot() total " + dbManagerIF.size() + " files");
         System.out.println("MediaIndexer.processMTRoot took " + (t1-t0)/1000 + " s");
     }
     public void asyncProcessing(File f) {
         executorService.submit(new RunnableProcess(f));
     }
     public void refreshIndexedPaths() {
-        this.refreshIndexedPaths(dbManager.getIndexedPaths().toArray(new String[]{}));
+        this.refreshIndexedPaths(dbManagerIF.getIndexedPaths().toArray(new String[]{}));
     }
     public void refreshIndexedPaths(String[] al) {
 
@@ -241,7 +242,7 @@ public class MediaIndexer {
             System.exit(0);
         }
         MediaFileDescriptorBuilder mediaFileDescriptorBuilder = new MediaFileDescriptorBuilder();
-        DBManager ts = new DBManager(pathToDB,mediaFileDescriptorBuilder );
+        DBManagerIF ts = new DBManager(pathToDB,mediaFileDescriptorBuilder );
         MediaIndexer tb = new MediaIndexer(ts,mediaFileDescriptorBuilder );
         File fs = new File(source);
             tb.processMTRoot(source);

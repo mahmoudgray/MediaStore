@@ -5,6 +5,7 @@ import com.sun.jersey.multipart.FormDataMultiPart;
 import com.sun.jersey.spi.resource.Singleton;
 import fr.thumbnailsdb.*;
 import fr.thumbnailsdb.dbservices.DBManager;
+import fr.thumbnailsdb.dbservices.DBManagerIF;
 import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptorBuilder;
 import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptorIF;
 import fr.thumbnailsdb.diskmonitor.DiskListener;
@@ -46,7 +47,7 @@ public class RestTest {
     private final String dbFileName = "db.txt";
 
     String bdName;
-    protected DBManager dbManager;
+    protected DBManagerIF dbManagerIF;
     protected SimilarImageFinder similarImageFinder;
     protected DuplicateMediaFinder duplicateMediaFinder;
     protected DiskWatcher diskWatcher;
@@ -62,10 +63,10 @@ public class RestTest {
                 }
                 BufferedReader fr = new BufferedReader(new FileReader(f));
                 while ((bdName = fr.readLine()) != null) {
-                    if (dbManager == null) {
-                        dbManager = new DBManager(bdName,mediaFileDescriptorBuilder );
+                    if (dbManagerIF == null) {
+                        dbManagerIF = new DBManager(bdName,mediaFileDescriptorBuilder );
                     } else {
-                        dbManager.addDB(bdName);
+                        dbManagerIF.addDB(bdName);
                     }
                 }
             } catch (FileNotFoundException e) {
@@ -75,13 +76,13 @@ public class RestTest {
             }
         } else {
             this.mediaFileDescriptorBuilder = new MediaFileDescriptorBuilder();
-            dbManager = new DBManager(null,this.mediaFileDescriptorBuilder);
+            dbManagerIF = new DBManager(null,this.mediaFileDescriptorBuilder);
         }
-        lshManager = new LSHManager(this.dbManager);
-        similarImageFinder = new SimilarImageFinder(dbManager,this.mediaFileDescriptorBuilder,lshManager );
-        duplicateMediaFinder = new DuplicateMediaFinder(dbManager);
+        lshManager = new LSHManager(this.dbManagerIF);
+        similarImageFinder = new SimilarImageFinder(dbManagerIF,this.mediaFileDescriptorBuilder,lshManager );
+        duplicateMediaFinder = new DuplicateMediaFinder(dbManagerIF);
         try {
-            diskWatcher = new DiskWatcher(dbManager.getIndexedPaths().toArray(new String[]{}));
+            diskWatcher = new DiskWatcher(dbManagerIF.getIndexedPaths().toArray(new String[]{}));
             diskWatcher.addListener(new DBDiskUpdater());
             diskWatcher.processEvents();
         } catch (IOException e) {
@@ -96,10 +97,10 @@ public class RestTest {
     @Path("/db/{param}")
     public Response getDBInfo(@PathParam("param") String info) {
         if ("size".equals(info)) {
-            return Response.status(200).entity(dbManager.size() + "").build();
+            return Response.status(200).entity(dbManagerIF.size() + "").build();
         }
         if ("path".equals(info)) {
-            return Response.status(200).entity(dbManager.getIndexedPaths() + "").build();
+            return Response.status(200).entity(dbManagerIF.getIndexedPaths() + "").build();
         }
         if ("status".equals(info)) {
             return Response.status(200).entity("idle").build();
@@ -143,7 +144,7 @@ public class RestTest {
     @Path("/paths")
     @Produces({MediaType.APPLICATION_JSON})
     public Response getPaths() {
-        return Response.status(200).entity(dbManager.getIndexedPaths()).build();
+        return Response.status(200).entity(dbManagerIF.getIndexedPaths()).build();
     }
 
 
@@ -315,7 +316,7 @@ public class RestTest {
     @Path("shrink/")
     public Response shrink(@QueryParam("folder") final java.util.List<String> obj) {
         PreloadedDescriptors.flushPreloadedDescriptors();
-        dbManager.shrink(obj);
+        dbManagerIF.shrink(obj);
         return Response.status(200).entity("Shrink done").build();
     }
 
@@ -325,7 +326,7 @@ public class RestTest {
     public Response update(@QueryParam("folder") String obj) {
         String[] folders = this.parseFolders(obj);
         PreloadedDescriptors.flushPreloadedDescriptors();
-        new MediaIndexer(dbManager,this.mediaFileDescriptorBuilder ).refreshIndexedPaths(folders);
+        new MediaIndexer(dbManagerIF,this.mediaFileDescriptorBuilder ).refreshIndexedPaths(folders);
         return Response.status(200).entity("Update done").build();
     }
 
@@ -336,8 +337,8 @@ public class RestTest {
         String[] folders = this.parseFolders(obj);
 
         PreloadedDescriptors.flushPreloadedDescriptors();
-        dbManager.shrink();
-        MediaIndexer mdi = new MediaIndexer(dbManager,this.mediaFileDescriptorBuilder );
+        dbManagerIF.shrink();
+        MediaIndexer mdi = new MediaIndexer(dbManagerIF,this.mediaFileDescriptorBuilder );
         mdi.refreshIndexedPaths(folders);
         return Response.status(200).entity("Update done").build();
     }
@@ -634,7 +635,7 @@ public class RestTest {
     @Path("getAllGPS/")
     @Produces({MediaType.APPLICATION_JSON})
     public Response getAllGPS() {
-        ArrayList<String> al = dbManager.getAllWithGPS();
+        ArrayList<String> al = dbManagerIF.getAllWithGPS();
         return Response.status(200).entity(al).type(MediaType.APPLICATION_JSON).build();
     }
 
@@ -647,7 +648,7 @@ public class RestTest {
         String[] folders = this.parseFolders(obj);
         Status.getStatus().setStringStatus("Requesting all media with filter : " + filter + " GPS : " + gps);
         long t0 = System.currentTimeMillis();
-        ArrayList<MediaFileDescriptorIF> pd = dbManager.getFromDB(filter, gps);
+        ArrayList<MediaFileDescriptorIF> pd = dbManagerIF.getFromDB(filter, gps);
         long t1 = System.currentTimeMillis();
         System.out.println("RestTest.getAll with filter " + filter + "  took " + (t1 - t0) + " ms");
         Iterator<MediaFileDescriptorIF> it = pd.iterator();
@@ -698,27 +699,27 @@ public class RestTest {
 
         public synchronized void fileCreated(java.nio.file.Path p) {
             Logger.getLogger().log("RestTest$DBDiskUpdater.fileCreated " + p);
-            new MediaIndexer(dbManager,mediaFileDescriptorBuilder ).process(p.toString());
+            new MediaIndexer(dbManagerIF,mediaFileDescriptorBuilder ).process(p.toString());
         }
 
         public synchronized void fileModified(java.nio.file.Path p) {
             Logger.getLogger().log("RestTest$DBDiskUpdater.fileModified " + p);
-            new MediaIndexer(dbManager,mediaFileDescriptorBuilder ).process(p.toString());
+            new MediaIndexer(dbManagerIF,mediaFileDescriptorBuilder ).process(p.toString());
         }
 
         public synchronized void fileDeleted(java.nio.file.Path p) {
             Logger.getLogger().log("RestTest$DBDiskUpdater.fileDeleted " + p);
-            dbManager.deleteFromDatabase(p.toString());
+            dbManagerIF.deleteFromDatabase(p.toString());
         }
 
         public synchronized void folderCreated(java.nio.file.Path p) {
             Logger.getLogger().log("RestTest$DBDiskUpdater.folderCreated " + p);
-            new MediaIndexer(dbManager,mediaFileDescriptorBuilder).process(p.toString());
+            new MediaIndexer(dbManagerIF,mediaFileDescriptorBuilder).process(p.toString());
         }
 
         public synchronized void folderModified(java.nio.file.Path p) {
             Logger.getLogger().log("RestTest$DBDiskUpdater.fileModified " + p);
-            new MediaIndexer(dbManager,mediaFileDescriptorBuilder ).process(p.toString());
+            new MediaIndexer(dbManagerIF,mediaFileDescriptorBuilder ).process(p.toString());
         }
 
         public void folderDeleted(java.nio.file.Path p) {

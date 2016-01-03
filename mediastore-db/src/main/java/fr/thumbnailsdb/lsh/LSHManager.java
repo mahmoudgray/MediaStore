@@ -2,7 +2,7 @@ package fr.thumbnailsdb.lsh;
 
 import fr.thumbnailsdb.candidates.Candidate;
 import fr.thumbnailsdb.Status;
-import fr.thumbnailsdb.dbservices.DBManager;
+import fr.thumbnailsdb.dbservices.DBManagerIF;
 import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptorIF;
 import org.perf4j.LoggingStopWatch;
 
@@ -15,12 +15,12 @@ import java.util.List;
  */
 public class LSHManager {
     protected PersistentLSH lsh;
-    protected DBManager dbManager;
+    protected DBManagerIF dbManagerIF;
 
 
 
-    public LSHManager(DBManager dbManager) {
-        this.dbManager = dbManager;
+    public LSHManager(DBManagerIF dbManagerIF) {
+        this.dbManagerIF = dbManagerIF;
     }
 
     public void buildLSH(boolean force) {
@@ -29,10 +29,10 @@ public class LSHManager {
             Status.getStatus().setStringStatus("Teaching LSH");
             System.out.println("LSHManager.buildLSH forced build or empty lsh size : " + lsh.size());
             lsh.clear();
-            int total = this.dbManager.size();
+            int total = this.dbManagerIF.size();
             System.out.println("LSHManager.buildLSH db.size =" + total);
             int processed = 0;
-            ResultSet res = this.dbManager.getAllInDataBase();
+            ResultSet res = this.dbManagerIF.getAllInDataBase();
 
             try {
                 while (res.next()) {

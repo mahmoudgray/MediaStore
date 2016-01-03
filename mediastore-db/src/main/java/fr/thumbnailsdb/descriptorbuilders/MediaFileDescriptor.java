@@ -1,6 +1,6 @@
 package fr.thumbnailsdb.descriptorbuilders;
 
-import fr.thumbnailsdb.dbservices.DBManager;
+import fr.thumbnailsdb.dbservices.DBManagerIF;
 import fr.thumbnailsdb.hash.ImageHash;
 
 import javax.xml.bind.annotation.XmlElement;
@@ -20,7 +20,7 @@ public class MediaFileDescriptor implements MediaFileDescriptorIF {
     protected String hash;
     protected double lat;
     protected double lon;
-    DBManager dbManager;
+    DBManagerIF dbManagerIF;
 
 
     //id in the database
@@ -32,8 +32,8 @@ public class MediaFileDescriptor implements MediaFileDescriptorIF {
     private double distance;
 
 
-    public MediaFileDescriptor(DBManager dbManager) {
-        this.dbManager=dbManager;
+    public MediaFileDescriptor(DBManagerIF dbManagerIF) {
+        this.dbManagerIF = dbManagerIF;
     }
     /**
      * int[] data will be converted to argb byte[]
@@ -43,16 +43,16 @@ public class MediaFileDescriptor implements MediaFileDescriptorIF {
      * @param mtime
      * @param md5
      * @param hash
-     * @param dbManager
+     * @param dbManagerIF
      */
-    public MediaFileDescriptor(String path, long size, long mtime,  String md5, String hash,DBManager dbManager) {
+    public MediaFileDescriptor(String path, long size, long mtime,  String md5, String hash,DBManagerIF dbManagerIF) {
         super();
         this.path = path;
         this.size = size;
         this.mtime = mtime;
         this.md5Digest = md5;
         this.hash = hash;
-        this.dbManager = dbManager;
+        this.dbManagerIF = dbManagerIF;
     }
     @Override
     public void setId(int id) {
@@ -116,7 +116,7 @@ public class MediaFileDescriptor implements MediaFileDescriptorIF {
     @Override
     public String getPath() {
         if (path==null) {
-             return this.dbManager.getPath(this.id);
+             return this.dbManagerIF.getPath(this.id);
          }
         return path;
     }

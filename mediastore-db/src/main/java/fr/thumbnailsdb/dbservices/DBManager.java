@@ -13,7 +13,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DBManager {
+public class DBManager implements DBManagerIF {
 
     protected static String DEFAULT_DB = "localDB";
     protected static int CURRENT_VERSION = 5;
@@ -35,6 +35,7 @@ public class DBManager {
         System.err.println("DBManager.DBManager() using " + path + " as DB");
         this.addDB(path);
     }
+    @Override
     public void addDB(String path) {
         try {
             this.connection = connectToDB(path);
@@ -60,15 +61,18 @@ public class DBManager {
         }
 
     }
+    @Override
     public Connection connectToDB(String path) throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
         Class.forName("org.h2.Driver").newInstance();
         Connection connection = DriverManager.getConnection("jdbc:h2:" + path + "", "sa", "");
 
         return connection;
     }
+    @Override
     public Connection getConnection() {
         return connection;
     }
+    @Override
     public void checkAndCreateTables() throws SQLException {
 
         DatabaseMetaData dbm = this.connection.getMetaData();
@@ -150,6 +154,7 @@ public class DBManager {
             st.executeUpdate("ALTER TABLE IMAGES ADD lon double");
         }
     }
+    @Override
     public void compact() {
         System.out.println("DBManager.compact " + connection);
         try {
@@ -159,6 +164,7 @@ public class DBManager {
             e.printStackTrace();
         }
     }
+    @Override
     public void addIndexPath(String path) {
         PreparedStatement statement;
         try {
@@ -181,6 +187,7 @@ public class DBManager {
             e.printStackTrace();
         }
     }
+    @Override
     public void deleteIndexedPath(String path){
         PreparedStatement statement;
         try {
@@ -191,6 +198,7 @@ public class DBManager {
             e.printStackTrace();
         }
     }
+    @Override
     public ArrayList<String> getIndexedPaths() {
         Statement sta;
         ResultSet res = null;
@@ -207,6 +215,7 @@ public class DBManager {
         }
         return paths;
     }
+    @Override
     public void updateIndexedPath(String current, String newP) {
         PreparedStatement psmnt;
         try {
@@ -240,6 +249,7 @@ public class DBManager {
      *
      * @param mediaFileDescriptorIF
      */
+    @Override
     public void saveToDB(MediaFileDescriptorIF mediaFileDescriptorIF) {
         if (!dryRun) {
             PreparedStatement psmnt;
@@ -268,6 +278,7 @@ public class DBManager {
             }
         }
     }
+    @Override
     public void updateToDB(MediaFileDescriptorIF mediaFileDescriptorIF) {
         if (!dryRun) {
             PreparedStatement psmnt = null;
@@ -298,6 +309,7 @@ public class DBManager {
             }
          }
      }
+    @Override
     public int size() {
         int count = 0;
         String select = "SELECT COUNT(*) FROM IMAGES";
@@ -313,6 +325,7 @@ public class DBManager {
         }
         return count;
     }
+    @Override
     public boolean isInDataBaseBasedOnName(String path) {
         boolean result = false;
         ResultSet res = getFromDatabase(path);
@@ -326,6 +339,7 @@ public class DBManager {
         return result;
     }
     // some difficult dependence problem in deleteFromdatabase
+    @Override
     public void deleteFromDatabase(String path) {
         Logger.getLogger().log("DBManager.deleteFromDatabase " + path);
         MediaFileDescriptorIF mf = this.mediaFileDescriptorBuilder.getMediaFileDescriptorFromDB(path);
@@ -343,6 +357,7 @@ public class DBManager {
             PreloadedDescriptors.getPreloadedDescriptors(this).remove(mf);
         }
     }
+    @Override
     public int getIndex(String path) {
         ResultSet res = null;
         try {
@@ -359,6 +374,7 @@ public class DBManager {
         }
         return -1;
     }
+    @Override
     public ResultSet getFromDatabase(String path) {
         ResultSet res = null;
         try {
@@ -382,6 +398,7 @@ public class DBManager {
         }
         return res;
     }
+    @Override
     public ResultSet getFromDatabase(int index) {
         ResultSet res = null;
         try {
@@ -398,6 +415,7 @@ public class DBManager {
         }
         return res;
     }
+    @Override
     public long getMTime(String path) {
 
         ResultSet res = null;
@@ -415,6 +433,7 @@ public class DBManager {
         }
         return 0;
     }
+    @Override
     public ArrayList<String> getAllWithGPS() {
         Statement sta;
         ResultSet res = null;
@@ -432,6 +451,7 @@ public class DBManager {
 
         return al;
     }
+    @Override
     public ResultSet getAllInDataBase() {
         Statement sta;
         long t0 = System.currentTimeMillis();
@@ -448,6 +468,7 @@ public class DBManager {
         }
         return null;
     }
+    @Override
     public ArrayList<MediaFileDescriptorIF> getFromDB(String filter, boolean gps) {
         ArrayList<MediaFileDescriptorIF> list = new ArrayList<MediaFileDescriptorIF>();
         String query = null;
@@ -476,6 +497,7 @@ public class DBManager {
         return list;
     }
     // I think it is a dead method
+    @Override
     public String getPath(int[] data) {
         Statement sta;
         ResultSet res = null;
@@ -496,6 +518,7 @@ public class DBManager {
         }
         return p;
     }
+    @Override
     public String getPath(int index) {
         ResultSet res = null;
         String p = null;
@@ -519,6 +542,7 @@ public class DBManager {
         return p;
     }
     // search in db for indexed files with the same md5 of the param
+    @Override
     public ArrayList<MediaFileDescriptorIF> getDuplicatesMD5(MediaFileDescriptorIF mfd) {
         Statement sta;
         ResultSet res = null;
@@ -538,6 +562,7 @@ public class DBManager {
     /**
      * remove incorrect records from the DB
      */
+    @Override
     public void fix() {
         ResultSet all = this.getAllInDataBase();
         MediaFileDescriptorIF id = null;
@@ -566,9 +591,11 @@ public class DBManager {
      * remove outdated records from the DB An outdated record is one which has
      * no corresponding file on the FS
      */
+    @Override
     public void shrink() {
         this.shrink(this.getIndexedPaths());
     }
+    @Override
     public void shrink(List<String> paths) {
         if (Logger.getLogger().isEnabled()) {
             Logger.getLogger().log("DBManager.shrink() BD has " + this.size() + " entries");
@@ -596,6 +623,7 @@ public class DBManager {
         }
 
     }
+    @Override
     public void dump(boolean p) {
         String select = "SELECT paths.path||images.path AS path,id,hash FROM IMAGES, PATHS";
         Statement st;
