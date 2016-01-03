@@ -1,8 +1,8 @@
 package fr.thumbnailsdb;
 
 import fr.thumbnailsdb.dbservices.DBManager;
-import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptor;
 import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptorBuilder;
+import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptorIF;
 import fr.thumbnailsdb.lsh.LSHManager;
 import fr.thumbnailsdb.mediaIndexers.MediaIndexer;
 import org.apache.commons.io.FileUtils;
@@ -74,13 +74,13 @@ public class DBManagerTest {
     @Test(dependsOnMethods={"testAddIndexedPath"})
     public void testSaveToDB() throws IOException{
         File file = folder1.listFiles()[0];
-            MediaFileDescriptor mediaFileDescriptor1 = mediaFileDescriptorBuilder.buildMediaDescriptor(file);
-            dbManager.saveToDB(mediaFileDescriptor1);
-            MediaFileDescriptor mediaFileDescriptor2 = mediaFileDescriptorBuilder.getMediaFileDescriptorFromDB(file.getCanonicalPath());
-            Assert.assertTrue(mediaFileDescriptor1.getMD5() == mediaFileDescriptor2.getMD5());
+            MediaFileDescriptorIF mediaFileDescriptorIF1 = mediaFileDescriptorBuilder.buildMediaDescriptor(file);
+            dbManager.saveToDB(mediaFileDescriptorIF1);
+            MediaFileDescriptorIF mediaFileDescriptorIF2 = mediaFileDescriptorBuilder.getMediaFileDescriptorFromDB(file.getCanonicalPath());
+            Assert.assertTrue(mediaFileDescriptorIF1.getMD5() == mediaFileDescriptorIF2.getMD5());
             dbManager.deleteFromDatabase(file.getCanonicalPath());
-            mediaFileDescriptor2 = mediaFileDescriptorBuilder.getMediaFileDescriptorFromDB(file.getCanonicalPath());
-            Assert.assertNull(mediaFileDescriptor2);
+            mediaFileDescriptorIF2 = mediaFileDescriptorBuilder.getMediaFileDescriptorFromDB(file.getCanonicalPath());
+            Assert.assertNull(mediaFileDescriptorIF2);
         dbManager.deleteIndexedPath(folder1.getCanonicalPath());
 
     }

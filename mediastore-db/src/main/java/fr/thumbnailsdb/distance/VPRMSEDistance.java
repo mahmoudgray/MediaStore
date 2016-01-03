@@ -1,6 +1,7 @@
 package fr.thumbnailsdb.distance;
 
-import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptor;;
+;
+import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptorIF;
 import fr.thumbnailsdb.utils.ImageComparator;
 
 
@@ -15,8 +16,8 @@ public class VPRMSEDistance implements Distance {
 
     @Override
     public double getDistance(Object x, Object y) {
-        MediaFileDescriptor mf1 = (MediaFileDescriptor) x;
-        MediaFileDescriptor mf2 = (MediaFileDescriptor) y ;
+        MediaFileDescriptorIF mf1 = (MediaFileDescriptorIF) x;
+        MediaFileDescriptorIF mf2 = (MediaFileDescriptorIF) y ;
         return ImageComparator.compareUsingHammingDistance(mf1.getHash(),mf2.getHash());
     }
 }

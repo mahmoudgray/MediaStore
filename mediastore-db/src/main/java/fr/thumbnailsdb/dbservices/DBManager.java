@@ -1,8 +1,8 @@
 package fr.thumbnailsdb.dbservices;
 
 import fr.thumbnailsdb.*;
-import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptor;
 import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptorBuilder;
+import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptorIF;
 import fr.thumbnailsdb.lsh.PersistentLSH;
 import fr.thumbnailsdb.utils.Configuration;
 import fr.thumbnailsdb.utils.Logger;
@@ -238,52 +238,52 @@ public class DBManager {
      * Save the descriptor to the db
      * DO NOT check that the key is not used
      *
-     * @param mediaFileDescriptor
+     * @param mediaFileDescriptorIF
      */
-    public void saveToDB(MediaFileDescriptor mediaFileDescriptor) {
+    public void saveToDB(MediaFileDescriptorIF mediaFileDescriptorIF) {
         if (!dryRun) {
             PreparedStatement psmnt;
             try {
                 psmnt = this.connection.prepareStatement("insert into IMAGES(path, path_id, size, mtime, md5, hash, lat, lon) "
                         + "values(?,?,?,?,?,?,?,?)");
                 //we need to change the path to remove the root directory
-                String[] decomposedPath = this.decomposePath(mediaFileDescriptor.getPath());
+                String[] decomposedPath = this.decomposePath(mediaFileDescriptorIF.getPath());
                 psmnt.setString(1, decomposedPath[1]);
                 psmnt.setInt(2, this.getIndexedPaths().indexOf(decomposedPath[0]) + 1);
-                psmnt.setLong(3, mediaFileDescriptor.getSize());
-                psmnt.setLong(4, mediaFileDescriptor.getMtime());
-                psmnt.setString(5, mediaFileDescriptor.getMD5());
-                psmnt.setString(6, mediaFileDescriptor.getHash());
-                psmnt.setDouble(7, mediaFileDescriptor.getLat());
-                psmnt.setDouble(8, mediaFileDescriptor.getLon());
+                psmnt.setLong(3, mediaFileDescriptorIF.getSize());
+                psmnt.setLong(4, mediaFileDescriptorIF.getMtime());
+                psmnt.setString(5, mediaFileDescriptorIF.getMD5());
+                psmnt.setString(6, mediaFileDescriptorIF.getHash());
+                psmnt.setDouble(7, mediaFileDescriptorIF.getLat());
+                psmnt.setDouble(8, mediaFileDescriptorIF.getLon());
                 psmnt.execute();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
             if (PreloadedDescriptors.preloadedDescriptorsExists()) {
-                Logger.getLogger().log("MediaIndexer.generateAndSave Adding to preloaded descriptors " + mediaFileDescriptor);
-                mediaFileDescriptor.setConnection(connection);
-                mediaFileDescriptor.setId(getIndex(mediaFileDescriptor.getPath()));
-                PreloadedDescriptors.getPreloadedDescriptors(this).add(mediaFileDescriptor);
+                Logger.getLogger().log("MediaIndexer.generateAndSave Adding to preloaded descriptors " + mediaFileDescriptorIF);
+                mediaFileDescriptorIF.setConnection(connection);
+                mediaFileDescriptorIF.setId(getIndex(mediaFileDescriptorIF.getPath()));
+                PreloadedDescriptors.getPreloadedDescriptors(this).add(mediaFileDescriptorIF);
             }
         }
     }
-    public void updateToDB(MediaFileDescriptor mediaFileDescriptor) {
+    public void updateToDB(MediaFileDescriptorIF mediaFileDescriptorIF) {
         if (!dryRun) {
             PreparedStatement psmnt = null;
             try {
                 Statement st;
                 psmnt = this.connection.prepareStatement("UPDATE IMAGES SET path=?, path_id=?, size=?, mtime=?, hash=?, md5=? , lat=?, lon=? WHERE path=? AND (FROM PATHS SELECT path_id WHERE path=?)");
                 //we need to change the path to remove the root directory
-                String[] decomposedPath = this.decomposePath(mediaFileDescriptor.getPath());
+                String[] decomposedPath = this.decomposePath(mediaFileDescriptorIF.getPath());
                 psmnt.setString(1, decomposedPath[1]);
                 psmnt.setInt(2, this.getIndexedPaths().indexOf(decomposedPath[0]) + 1);
-                psmnt.setLong(3, mediaFileDescriptor.getSize());
-                psmnt.setLong(4, mediaFileDescriptor.getMtime());
-                psmnt.setString(5, mediaFileDescriptor.getHash());
-                psmnt.setString(6, mediaFileDescriptor.getMD5());
-                psmnt.setDouble(7, mediaFileDescriptor.getLat());
-                psmnt.setDouble(8, mediaFileDescriptor.getLon());
+                psmnt.setLong(3, mediaFileDescriptorIF.getSize());
+                psmnt.setLong(4, mediaFileDescriptorIF.getMtime());
+                psmnt.setString(5, mediaFileDescriptorIF.getHash());
+                psmnt.setString(6, mediaFileDescriptorIF.getMD5());
+                psmnt.setDouble(7, mediaFileDescriptorIF.getLat());
+                psmnt.setDouble(8, mediaFileDescriptorIF.getLon());
                 psmnt.setString(9, decomposedPath[1]);
                 psmnt.setString(10, decomposedPath[0]);
                 psmnt.execute();
@@ -291,10 +291,10 @@ public class DBManager {
                 e.printStackTrace();
             }
             if (PreloadedDescriptors.preloadedDescriptorsExists()) {
-                mediaFileDescriptor.setConnection(this.connection);
-                mediaFileDescriptor.setId(getIndex(mediaFileDescriptor.getPath()));
-                PreloadedDescriptors.getPreloadedDescriptors(this).remove(mediaFileDescriptor);
-                PreloadedDescriptors.getPreloadedDescriptors(this).add(mediaFileDescriptor);
+                mediaFileDescriptorIF.setConnection(this.connection);
+                mediaFileDescriptorIF.setId(getIndex(mediaFileDescriptorIF.getPath()));
+                PreloadedDescriptors.getPreloadedDescriptors(this).remove(mediaFileDescriptorIF);
+                PreloadedDescriptors.getPreloadedDescriptors(this).add(mediaFileDescriptorIF);
             }
          }
      }
@@ -328,7 +328,7 @@ public class DBManager {
     // some difficult dependence problem in deleteFromdatabase
     public void deleteFromDatabase(String path) {
         Logger.getLogger().log("DBManager.deleteFromDatabase " + path);
-        MediaFileDescriptor mf = this.mediaFileDescriptorBuilder.getMediaFileDescriptorFromDB(path);
+        MediaFileDescriptorIF mf = this.mediaFileDescriptorBuilder.getMediaFileDescriptorFromDB(path);
         ResultSet res = this.getFromDatabase(path);
         try {
             while (res.next()) {
@@ -448,8 +448,8 @@ public class DBManager {
         }
         return null;
     }
-    public ArrayList<MediaFileDescriptor> getFromDB(String filter, boolean gps) {
-        ArrayList<MediaFileDescriptor> list = new ArrayList<MediaFileDescriptor>();
+    public ArrayList<MediaFileDescriptorIF> getFromDB(String filter, boolean gps) {
+        ArrayList<MediaFileDescriptorIF> list = new ArrayList<MediaFileDescriptorIF>();
         String query = null;
         if (!gps) {
             query = "FROM IMAGES, PATHS " +
@@ -519,10 +519,10 @@ public class DBManager {
         return p;
     }
     // search in db for indexed files with the same md5 of the param
-    public ArrayList<MediaFileDescriptor> getDuplicatesMD5(MediaFileDescriptor mfd) {
+    public ArrayList<MediaFileDescriptorIF> getDuplicatesMD5(MediaFileDescriptorIF mfd) {
         Statement sta;
         ResultSet res = null;
-        ArrayList<MediaFileDescriptor> results = new ArrayList<MediaFileDescriptor>();
+        ArrayList<MediaFileDescriptorIF> results = new ArrayList<MediaFileDescriptorIF>();
         try {
             sta = this.connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
             res = sta
@@ -540,7 +540,7 @@ public class DBManager {
      */
     public void fix() {
         ResultSet all = this.getAllInDataBase();
-        MediaFileDescriptor id = null;
+        MediaFileDescriptorIF id = null;
         System.err.println("DBManager.fix() BD has " + this.size() + " entries");
         try {
             while (all.next()) {
@@ -576,7 +576,7 @@ public class DBManager {
         for (String path : paths) {
             Logger.getLogger().log("DBManager.shrink() processing path " + path);
             ResultSet all = this.getAllInDataBase();
-            MediaFileDescriptor id = null;
+            MediaFileDescriptorIF id = null;
             try {
                 int i = 0;
                 while (all.next()) {

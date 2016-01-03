@@ -11,7 +11,7 @@ import java.sql.Connection;
 
 
 @XmlRootElement
-public class MediaFileDescriptor implements Serializable, Comparable<MediaFileDescriptor> {
+public class MediaFileDescriptor implements MediaFileDescriptorIF {
     @XmlElement
     protected String path;
     protected long size;
@@ -54,60 +54,77 @@ public class MediaFileDescriptor implements Serializable, Comparable<MediaFileDe
         this.hash = hash;
         this.dbManager = dbManager;
     }
+    @Override
     public void setId(int id) {
         this.id = id;
     }
+    @Override
     public int getId() {
         return id;
     }
+    @Override
     public void setLat(double lat) {
 
         this.lat = lat;
     }
+    @Override
     public void setLon(double lon) {
         this.lon = lon;
     }
+    @Override
     public double getLat() {
 
         return lat;
     }
+    @Override
     public double getLon() {
         return lon;
     }
+    @Override
     public double getDistance() {
         return distance;
     }
+    @Override
     public void setDistance(double distance) {
         this.distance = distance;
     }
+    @Override
     public void setPath(String path) {
         this.path = path;
     }
+    @Override
     public String getHash() {
         return hash;
     }
+    @Override
     public void setHash(String hash) {
         this.hash = hash;
     }
+    @Override
     public void setSize(long size) {
         this.size = size;
 
     }
+    @Override
     public void setMtime(long mtime) {
         this.mtime = mtime;
     }
+    @Override
     public void setMd5Digest(String md5Digest) {
         this.md5Digest = md5Digest;
     }
+    @Override
     public String getPath() {
         if (path==null) {
              return this.dbManager.getPath(this.id);
          }
         return path;
     }
+    @Override
     public long getSize() {
         return size;
     }
+    @Override
     public long getMtime() {
         return mtime;
     }
@@ -116,6 +133,7 @@ public class MediaFileDescriptor implements Serializable, Comparable<MediaFileDe
      * corresponding byte[]
      * @return
      */
+    @Override
     public byte[] getSignatureAsByte() {
           BufferedImage bf = ImageHash.signatureToImage(this.hash);
         int[] data = new int[bf.getWidth()*bf.getHeight()];
@@ -133,15 +151,19 @@ public class MediaFileDescriptor implements Serializable, Comparable<MediaFileDe
         }
         return ba.toByteArray();
     }
+    @Override
     public BufferedImage getSignatureAsImage() {
         return ImageHash.signatureToImage(this.hash);
     }
+    @Override
     public String getMD5() {
         return md5Digest;
     }
+    @Override
     public void setConnection(Connection connection) {
         this.connection = connection;
     }
+    @Override
     public Connection getConnection() {
 
         return connection;
@@ -152,16 +174,19 @@ public class MediaFileDescriptor implements Serializable, Comparable<MediaFileDe
     }
     @Override
     public boolean equals(Object obj) {
-        if (!(obj instanceof MediaFileDescriptor)) return false;
-        MediaFileDescriptor target = (MediaFileDescriptor) obj;
+        if (!(obj instanceof MediaFileDescriptorIF)) return false;
+        MediaFileDescriptorIF target = (MediaFileDescriptorIF) obj;
         if ((this.path==null) || (target.getPath()==null))  {
              return (this.id == target.getId());
         }  else {
              return this.path==target.getPath();
         }
     }
-    public int compareTo(MediaFileDescriptor o) {
-        return this.md5Digest.compareTo(o.md5Digest);
-        //return 0;  //To change body of implemented methods use File | Settings | File Templates.
+
+    @Override
+    public int compareTo(MediaFileDescriptorIF o) {
+        return this.md5Digest.compareTo(o.getMD5());
     }
+
+
 }

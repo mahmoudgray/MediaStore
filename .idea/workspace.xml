@@ -5,8 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3e64b3f9-5bcb-408a-be93-7d45372080e5" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.extract/logs/access_log.2015-12-02" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/MediaIndexer.java" afterPath="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/mediaIndexers/MediaIndexer.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/descriptorbuilders/MediaFileDescriptorIF.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.extract/webapps/ROOT.war" afterPath="$PROJECT_DIR$/.extract/webapps/ROOT.war" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.extract/webapps/ROOT/WEB-INF/classes/rest/RestTest$DBDiskUpdater.class" afterPath="$PROJECT_DIR$/.extract/webapps/ROOT/WEB-INF/classes/rest/RestTest$DBDiskUpdater.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.extract/webapps/ROOT/WEB-INF/classes/rest/RestTest$SimilarImage.class" afterPath="$PROJECT_DIR$/.extract/webapps/ROOT/WEB-INF/classes/rest/RestTest$SimilarImage.class" />
@@ -14,25 +13,23 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.extract/webapps/ROOT/WEB-INF/lib/mediastore-db-1.0.jar" afterPath="$PROJECT_DIR$/.extract/webapps/ROOT/WEB-INF/lib/mediastore-db-1.0.jar" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.extract/.tomcat_executable_archive.timestamp" afterPath="$PROJECT_DIR$/.extract/.tomcat_executable_archive.timestamp" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.extract/webapps/ROOT/META-INF/maven/com.mediastore/mediastore-rest/pom.properties" afterPath="$PROJECT_DIR$/.extract/webapps/ROOT/META-INF/maven/com.mediastore/mediastore-rest/pom.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.extract/webapps/ROOT/index.html" afterPath="$PROJECT_DIR$/.extract/webapps/ROOT/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.extract/webapps/ROOT/interface3/index.html" afterPath="$PROJECT_DIR$/.extract/webapps/ROOT/interface3/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MediaStore.iml" afterPath="$PROJECT_DIR$/MediaStore.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mediastore-db/pom.xml" afterPath="$PROJECT_DIR$/mediastore-db/pom.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/DuplicateMediaFinder.java" afterPath="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/DuplicateMediaFinder.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/Main.java" afterPath="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/Main.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/treewalker/FileProcessor.java" afterPath="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/treewalker/FileProcessor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/treewalker/TreeWalker.java" afterPath="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/treewalker/TreeWalker.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/PreloadedDescriptors.java" afterPath="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/PreloadedDescriptors.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/SimilarImageFinder.java" afterPath="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/SimilarImageFinder.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/dbservices/DBManager.java" afterPath="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/dbservices/DBManager.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/descriptorbuilders/MediaFileDescriptor.java" afterPath="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/descriptorbuilders/MediaFileDescriptor.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/descriptorbuilders/MediaFileDescriptorBuilder.java" afterPath="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/descriptorbuilders/MediaFileDescriptorBuilder.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/distance/RMSEDistance.java" afterPath="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/distance/RMSEDistance.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/distance/VPRMSEDistance.java" afterPath="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/distance/VPRMSEDistance.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/hash/ImageHash.java" afterPath="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/hash/ImageHash.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/lsh/LSHManager.java" afterPath="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/lsh/LSHManager.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/mediaIndexers/MediaIndexer.java" afterPath="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/mediaIndexers/MediaIndexer.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/utils/ImageComparator.java" afterPath="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/utils/ImageComparator.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/vptree/VPTreeBuilder.java" afterPath="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/vptree/VPTreeBuilder.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mediastore-db/src/test/java/fr/thumbnailsdb/DBManagerTest.java" afterPath="$PROJECT_DIR$/mediastore-db/src/test/java/fr/thumbnailsdb/DBManagerTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mediastore-db/src/test/java/fr/thumbnailsdb/MediaIndexerTest.java" afterPath="$PROJECT_DIR$/mediastore-db/src/test/java/fr/thumbnailsdb/MediaIndexerTest.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mediastore-db/src/test/java/fr/thumbnailsdb/PreloadedDescriptorsTest.java" afterPath="$PROJECT_DIR$/mediastore-db/src/test/java/fr/thumbnailsdb/PreloadedDescriptorsTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mediastore-db/src/test/java/fr/thumbnailsdb/SimilarImageFinderTest.java" afterPath="$PROJECT_DIR$/mediastore-db/src/test/java/fr/thumbnailsdb/SimilarImageFinderTest.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mediastore-rest/src/main/java/rest/RestTest.java" afterPath="$PROJECT_DIR$/mediastore-rest/src/main/java/rest/RestTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mediastore-rest/src/main/webapp/index.html" afterPath="$PROJECT_DIR$/mediastore-rest/src/main/webapp/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mediastore-rest/src/main/webapp/interface3/index.html" afterPath="$PROJECT_DIR$/mediastore-rest/src/main/webapp/interface3/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pom.xml" afterPath="$PROJECT_DIR$/pom.xml" />
     </list>
     <ignored path="MediaStore.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -67,12 +64,90 @@
     <favorites_list name="MediaStore" />
   </component>
   <component name="FileEditorManager">
-    <leaf />
+    <leaf>
+      <file leaf-file-name="MediaFileDescriptor.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/descriptorbuilders/MediaFileDescriptor.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="187" column="52" selection-start-line="187" selection-start-column="52" selection-end-line="187" selection-end-column="52" />
+              <folding>
+                <element signature="e#4612#4613#0" expanded="true" />
+                <element signature="e#4671#4672#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="RestTest.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/mediastore-rest/src/main/java/rest/RestTest.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.590625">
+              <caret line="174" column="125" selection-start-line="174" selection-start-column="125" selection-end-line="174" selection-end-column="125" />
+              <folding>
+                <element signature="method#getDuplicateFolder#0;class#RestTest#0" expanded="false" />
+                <element signature="method#getDuplicateFolderGroup#0;class#RestTest#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DuplicateMediaFinder.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/DuplicateMediaFinder.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="21" column="20" selection-start-line="21" selection-start-column="11" selection-end-line="21" selection-end-column="28" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DuplicateFileList.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/duplicate/DuplicateFileList.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ImageProvider.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/mediastore-rest/src/main/java/rest/ImageProvider.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="19" column="6" selection-start-line="19" selection-start-column="6" selection-end-line="19" selection-end-column="6" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MediaFileDescriptorIF.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/descriptorbuilders/MediaFileDescriptorIF.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="9" column="17" selection-start-line="9" selection-start-column="17" selection-end-line="9" selection-end-column="17" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="PreloadedDescriptors.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/PreloadedDescriptors.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="26" column="68" selection-start-line="26" selection-start-column="68" selection-end-line="26" selection-end-column="68" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Class" />
+        <option value="Interface" />
       </list>
     </option>
   </component>
@@ -92,7 +167,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/PreloadedDescriptors.java" />
         <option value="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/ThumbnailGenerator.java" />
         <option value="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/utils/ImageProcessor.java" />
         <option value="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/ImageComparator.java" />
@@ -119,7 +193,6 @@
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/Candidate.java" />
         <option value="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/MediaFileDescriptor.java" />
-        <option value="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/descriptorbuilders/MediaFileDescriptor.java" />
         <option value="$PROJECT_DIR$/mediastore-rest/src/main/webapp/index.html" />
         <option value="$PROJECT_DIR$/mediastore-db/src/test/java/fr/thumbnailsdb/CandidatePriorityQueueTest.java" />
         <option value="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/candidates/CandidatePriorityQueue.java" />
@@ -140,9 +213,11 @@
         <option value="$PROJECT_DIR$/mediastore-db/src/test/java/fr/thumbnailsdb/MediaIndexerTest.java" />
         <option value="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/SimilarImageFinder.java" />
         <option value="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/Main.java" />
-        <option value="$PROJECT_DIR$/mediastore-rest/src/main/java/rest/RestTest.java" />
         <option value="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/DuplicateMediaFinder.java" />
         <option value="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/mediaIndexers/MediaIndexer.java" />
+        <option value="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/PreloadedDescriptors.java" />
+        <option value="$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/descriptorbuilders/MediaFileDescriptor.java" />
+        <option value="$PROJECT_DIR$/mediastore-rest/src/main/java/rest/RestTest.java" />
       </list>
     </option>
   </component>
@@ -229,7 +304,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="mediastore-db" />
+              <option name="myItemId" value="mediastore-rest" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -243,7 +318,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="mediastore-db" />
+              <option name="myItemId" value="mediastore-rest" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -251,7 +326,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="test" />
+              <option name="myItemId" value="main" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -265,7 +340,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="mediastore-db" />
+              <option name="myItemId" value="mediastore-rest" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -273,7 +348,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="test" />
+              <option name="myItemId" value="main" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -281,7 +356,39 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="thumbnailsdb" />
+              <option name="myItemId" value="rest" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MediaStore" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MediaStore" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mediastore-db" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MediaStore" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MediaStore" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mediastore-db" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -367,7 +474,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="mediaIndexers" />
+              <option name="myItemId" value="descriptorbuilders" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -389,6 +496,9 @@
     <property name="js-jscs-nodeInterpreter" value="/usr/local/bin/node" />
   </component>
   <component name="RecentsManager">
+    <key name="ExtractSuperBase.RECENT_KEYS">
+      <recent name="fr.thumbnailsdb.descriptorbuilders" />
+    </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="fr.thumbnailsdb" />
       <recent name="fr.thumbnailsdb.utils" />
@@ -1026,14 +1136,11 @@
       <workItem from="1449562997943" duration="765000" />
       <workItem from="1450444501459" duration="594000" />
       <workItem from="1450946782145" duration="684000" />
-      <workItem from="1451814249081" duration="348000" />
+      <workItem from="1451814249081" duration="2924000" />
     </task>
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="CandidatePriorityQueueTest_and_7_more - 2015.12.05 at 11h 52m 50s.xml">
-      <configuration name="CandidatePriorityQueueTest and 7 more" configurationId="TestNG" />
-    </history-entry>
     <history-entry file="CandidatePriorityQueueTest_and_7_more - 2015.12.05 at 12h 19m 16s.xml">
       <configuration name="CandidatePriorityQueueTest and 7 more" configurationId="TestNG" />
     </history-entry>
@@ -1044,6 +1151,9 @@
       <configuration name="CandidatePriorityQueueTest and 8 more" configurationId="TestNG" />
     </history-entry>
     <history-entry file="CandidatePriorityQueueTest_and_8_more - 2016.01.03 at 10h 49m 41s.xml">
+      <configuration name="CandidatePriorityQueueTest and 8 more" configurationId="TestNG" />
+    </history-entry>
+    <history-entry file="CandidatePriorityQueueTest_and_8_more - 2016.01.03 at 11h 04m 33s.xml">
       <configuration name="CandidatePriorityQueueTest and 8 more" configurationId="TestNG" />
     </history-entry>
     <history-entry file="PersistentLSHTest - 2015.12.05 at 11h 35m 00s.xml">
@@ -1063,11 +1173,11 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="110150000" />
+    <option name="totallyTimeSpent" value="112726000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="65" y="-4" width="1301" height="772" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -1088,7 +1198,7 @@
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.34973097" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.34973097" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3432836" sideWeight="0.49730977" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.5933897" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
@@ -1153,34 +1263,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/diskmonitor/DiskWatcher.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="99" column="33" selection-start-line="99" selection-start-column="33" selection-end-line="99" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/utils/LimitedQueue.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3">
-          <caret line="7" column="25" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mediastore-db/src/test/java/fr/thumbnailsdb/PreloadedDescriptorsTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5285714">
-          <caret line="52" column="5" selection-start-line="52" selection-start-column="5" selection-end-line="52" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/PreloadedDescriptors.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.64285713">
-          <caret line="25" column="5" selection-start-line="25" selection-start-column="5" selection-end-line="25" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/utils/MD5Generator.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1297,13 +1379,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-0.20626631">
           <caret line="120" column="26" selection-start-line="120" selection-start-column="26" selection-end-line="120" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/descriptorbuilders/MediaFileDescriptor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.1328125">
-          <caret line="31" column="11" selection-start-line="31" selection-start-column="11" selection-end-line="31" selection-end-column="11" />
         </state>
       </provider>
     </entry>
@@ -1468,27 +1543,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/duplicate/DuplicateFileGroup.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.1390625">
-          <caret line="12" column="13" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/DuplicateMediaFinder.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.26875">
-          <caret line="64" column="47" selection-start-line="64" selection-start-column="47" selection-end-line="64" selection-end-column="47" />
-          <folding>
-            <element signature="method#computeDuplicateSets#0;class#DuplicateMediaFinder#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/duplicate/DuplicateFolderList.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.534375">
           <caret line="23" column="0" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
+          <folding>
+            <element signature="method#DuplicateFolderList#0;class#DuplicateFolderList#0" expanded="false" />
+            <element signature="method#addOrIncrement#0;class#DuplicateFolderList#0" expanded="false" />
+            <element signature="method#getDetails#0;class#DuplicateFolderList#0" expanded="false" />
+            <element signature="docComment;method#asSortedCollection#0;class#DuplicateFolderList#0" expanded="false" />
+            <element signature="method#asSortedCollection#0;class#DuplicateFolderList#0" expanded="false" />
+            <element signature="method#match#0;class#DuplicateFolderList#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1500,22 +1566,81 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mediastore-rest/src/main/java/rest/RestTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="4.134375">
-          <caret line="195" column="71" selection-start-line="195" selection-start-column="71" selection-end-line="195" selection-end-column="71" />
-          <folding>
-            <element signature="method#getDuplicateFolder#0;class#RestTest#0" expanded="false" />
-            <element signature="method#getDuplicateFolderGroup#0;class#RestTest#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/mediaIndexers/MediaIndexer.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.128125">
           <caret line="22" column="10" selection-start-line="22" selection-start-column="10" selection-end-line="22" selection-end-column="10" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/PreloadedDescriptors.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="26" column="68" selection-start-line="26" selection-start-column="68" selection-end-line="26" selection-end-column="68" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/descriptorbuilders/MediaFileDescriptorIF.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="9" column="17" selection-start-line="9" selection-start-column="17" selection-end-line="9" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/descriptorbuilders/MediaFileDescriptor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="187" column="52" selection-start-line="187" selection-start-column="52" selection-end-line="187" selection-end-column="52" />
+          <folding>
+            <element signature="e#4612#4613#0" expanded="true" />
+            <element signature="e#4671#4672#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mediastore-rest/src/main/java/rest/ImageProvider.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="19" column="6" selection-start-line="19" selection-start-column="6" selection-end-line="19" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/duplicate/DuplicateFileGroup.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.209375">
+          <caret line="12" column="13" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/DuplicateMediaFinder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="21" column="20" selection-start-line="21" selection-start-column="11" selection-end-line="21" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mediastore-db/src/main/java/fr/thumbnailsdb/duplicate/DuplicateFileList.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mediastore-rest/src/main/java/rest/RestTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.590625">
+          <caret line="174" column="125" selection-start-line="174" selection-start-column="125" selection-end-line="174" selection-end-column="125" />
+          <folding>
+            <element signature="method#getDuplicateFolder#0;class#RestTest#0" expanded="false" />
+            <element signature="method#getDuplicateFolderGroup#0;class#RestTest#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>

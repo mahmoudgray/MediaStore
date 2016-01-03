@@ -1,8 +1,8 @@
 package fr.thumbnailsdb;
 
 import fr.thumbnailsdb.dbservices.DBManager;
-import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptor;
 import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptorBuilder;
+import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptorIF;
 import fr.thumbnailsdb.lsh.LSHManager;
 import fr.thumbnailsdb.mediaIndexers.MediaIndexer;
 import org.apache.commons.io.FileUtils;
@@ -67,14 +67,14 @@ public class PreloadedDescriptorsTest {
     @Test(dependsOnMethods={"testPreloadingOfDescriptors"})
     public void testRemovingDescriptor() throws IOException {
         File f = folder1.listFiles()[0];
-        MediaFileDescriptor mediaFileDescriptor = mediaFileDescriptorBuilder.getMediaFileDescriptorFromDB(f.getCanonicalPath());
+        MediaFileDescriptorIF mediaFileDescriptorIF = mediaFileDescriptorBuilder.getMediaFileDescriptorFromDB(f.getCanonicalPath());
         PreloadedDescriptors preloadedDescriptors = PreloadedDescriptors.getPreloadedDescriptors(dbManager );
-        preloadedDescriptors.remove(mediaFileDescriptor);
-        Iterator<MediaFileDescriptor> mediaFileDescriptorIterator = preloadedDescriptors.iterator();
+        preloadedDescriptors.remove(mediaFileDescriptorIF);
+        Iterator<MediaFileDescriptorIF> mediaFileDescriptorIterator = preloadedDescriptors.iterator();
         boolean found = false;
         while (mediaFileDescriptorIterator.hasNext()){
-            MediaFileDescriptor m = mediaFileDescriptorIterator.next();
-            if(mediaFileDescriptor.equals(m)){
+            MediaFileDescriptorIF m = mediaFileDescriptorIterator.next();
+            if(mediaFileDescriptorIF.equals(m)){
                 found=true;
                 break;
             }

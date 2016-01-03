@@ -1,7 +1,7 @@
 package fr.thumbnailsdb;
 
 import fr.thumbnailsdb.dbservices.DBManager;
-import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptor;
+import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptorIF;
 import fr.thumbnailsdb.duplicate.DuplicateFileGroup;
 import fr.thumbnailsdb.duplicate.DuplicateFileList;
 import fr.thumbnailsdb.duplicate.DuplicateFolderList;
@@ -27,9 +27,9 @@ public class DuplicateMediaFinder {
         duplicateFileList = new DuplicateFileList();
         DuplicateFileGroup dg = new DuplicateFileGroup();
         String currentMd5 = "";
-        Iterator<MediaFileDescriptor> it = r.iterator();
+        Iterator<MediaFileDescriptorIF> it = r.iterator();
         while (it.hasNext()) {
-            MediaFileDescriptor mfd = it.next();
+            MediaFileDescriptorIF mfd = it.next();
             String md5 = mfd.getMD5();
             if (md5 != null) {
                 //TODO : this should be done in the DB directly
@@ -65,12 +65,12 @@ public class DuplicateMediaFinder {
         DuplicateFolderList duplicateFolderList = new DuplicateFolderList();
         Iterator<String> it = r.keyIterator();
         while (it.hasNext()) {
-            List<MediaFileDescriptor> mList = r.get(it.next());
+            List<MediaFileDescriptorIF> mList = r.get(it.next());
             if (mList.size() > 1) {
                 duplicateFileGroup = new DuplicateFileGroup();
-                Iterator<MediaFileDescriptor> itMedia = mList.iterator();
+                Iterator<MediaFileDescriptorIF> itMedia = mList.iterator();
                 while (itMedia.hasNext()) {
-                    MediaFileDescriptor mfd = itMedia.next();
+                    MediaFileDescriptorIF mfd = itMedia.next();
                     int index = mfd.getId();
                     String path = dbManager.getPath(index);
                     mfd.setPath(path);

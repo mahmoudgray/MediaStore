@@ -5,8 +5,8 @@ import com.sun.jersey.multipart.FormDataMultiPart;
 import com.sun.jersey.spi.resource.Singleton;
 import fr.thumbnailsdb.*;
 import fr.thumbnailsdb.dbservices.DBManager;
-import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptor;
 import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptorBuilder;
+import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptorIF;
 import fr.thumbnailsdb.diskmonitor.DiskListener;
 import fr.thumbnailsdb.diskmonitor.DiskWatcher;
 import fr.thumbnailsdb.duplicate.DuplicateFolderGroup;
@@ -170,10 +170,10 @@ public class RestTest {
     @Produces({MediaType.APPLICATION_JSON})
     public Response getDuplicate(@QueryParam("max") String max, @QueryParam("folder") final String obj) {
         String[] folders = this.parseFolders(obj);
-
         System.out.println("RestTest.getDuplicate " + obj);
         Status.getStatus().setStringStatus("Requesting duplicate media");
-        Collection dc = (Collection) duplicateMediaFinder.computeDuplicateSets();
+        Collection dc = (Collection) duplicateMediaFinder.computeDuplicateSets().toCollection(Integer.parseInt(max), folders);
+        //(Collection) duplicateMediaFinder.computeDuplicateSets();
         Status.getStatus().setStringStatus(Status.IDLE);
         return Response.status(200).entity(dc).build();
     }
@@ -268,7 +268,7 @@ public class RestTest {
         System.out.println("Signature : imageID " + imageId);
         BufferedInputStream source = null;
 
-        MediaFileDescriptor mdf = this.mediaFileDescriptorBuilder.getMediaFileDescriptorFromDB(imageId);
+        MediaFileDescriptorIF mdf = this.mediaFileDescriptorBuilder.getMediaFileDescriptorFromDB(imageId);
 
         final InputStream bigInputStream =
                 new ByteArrayInputStream(mdf.getSignatureAsByte());
@@ -411,7 +411,7 @@ public class RestTest {
             URL url = new URL(sUrl);
             InputStream in = new BufferedInputStream(url.openStream());
             File temp = streamToFile(in);
-            MediaFileDescriptor initialImage = this.mediaFileDescriptorBuilder.buildMediaDescriptor(temp);
+            MediaFileDescriptorIF initialImage = this.mediaFileDescriptorBuilder.buildMediaDescriptor(temp);
 
             JSONObject responseDetailsJson = computeSimilar(temp, initialImage);
             return Response.status(200).entity(responseDetailsJson).type(MediaType.APPLICATION_JSON).build();
@@ -457,15 +457,15 @@ public class RestTest {
     @Produces({MediaType.APPLICATION_JSON})
     public Response findSimilar(InputStream stream) {
         File temp = null;
-        MediaFileDescriptor initialImage = null;
+        MediaFileDescriptorIF initialImage = null;
         temp = streamToFile(stream);
         initialImage = this.mediaFileDescriptorBuilder.buildMediaDescriptor(temp);
         JSONObject responseDetailsJson = computeSimilar(temp, initialImage);
         return Response.status(200).entity(responseDetailsJson).type(MediaType.APPLICATION_JSON).build();
     }
 
-    private JSONObject computeSimilar( File temp, MediaFileDescriptor initialImage) {
-        Collection<MediaFileDescriptor> c;
+    private JSONObject computeSimilar( File temp, MediaFileDescriptorIF initialImage) {
+        Collection<MediaFileDescriptorIF> c;
         ArrayList<SimilarImage> al;
         long t1 = System.currentTimeMillis();
         c = similarImageFinder.findSimilarImages(temp.getAbsolutePath(), 20);
@@ -475,7 +475,7 @@ public class RestTest {
         int[] status = this.lshManager.getLSHStatus();
 
         al = new ArrayList<SimilarImage>(c.size());
-        for (MediaFileDescriptor mdf : c) {
+        for (MediaFileDescriptorIF mdf : c) {
 
             String path = mdf.getPath();
 
@@ -554,7 +554,7 @@ public class RestTest {
     @Produces({MediaType.APPLICATION_JSON})
     public Response findGPS(FormDataMultiPart multipart) {
         BodyPartEntity bpe = (BodyPartEntity) multipart.getBodyParts().get(0).getEntity();
-        Collection<MediaFileDescriptor> c = null;
+        Collection<MediaFileDescriptorIF> c = null;
         ArrayList<SimilarImage> al = null;
         File temp = null;
         try {
@@ -647,16 +647,16 @@ public class RestTest {
         String[] folders = this.parseFolders(obj);
         Status.getStatus().setStringStatus("Requesting all media with filter : " + filter + " GPS : " + gps);
         long t0 = System.currentTimeMillis();
-        ArrayList<MediaFileDescriptor> pd = dbManager.getFromDB(filter, gps);
+        ArrayList<MediaFileDescriptorIF> pd = dbManager.getFromDB(filter, gps);
         long t1 = System.currentTimeMillis();
         System.out.println("RestTest.getAll with filter " + filter + "  took " + (t1 - t0) + " ms");
-        Iterator<MediaFileDescriptor> it = pd.iterator();
+        Iterator<MediaFileDescriptorIF> it = pd.iterator();
         JSONArray mJSONArray = new JSONArray(pd.size());
         int i = 0;
         while (it.hasNext() && i < 10000) {
             i++;
             JSONObject json = new JSONObject();
-            MediaFileDescriptor mfd = it.next();
+            MediaFileDescriptorIF mfd = it.next();
             //   if (mfd.getPath().contains(filter)) {
             try {
                 json.put("path", mfd.getPath());

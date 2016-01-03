@@ -30,7 +30,7 @@ public class MediaFileDescriptorBuilder {
     public void setDbManager(DBManager dbManager) {
         this.dbManager = dbManager;
     }
-    public MediaFileDescriptor getMediaFileDescriptorFromDB(int index) {
+    public MediaFileDescriptorIF getMediaFileDescriptorFromDB(int index) {
         ResultSet res = dbManager.getFromDatabase(index);
         try {
             res.next();
@@ -40,7 +40,7 @@ public class MediaFileDescriptorBuilder {
         }
         return null;
     }
-    public MediaFileDescriptor getMediaFileDescriptorFromDB(String path) {
+    public MediaFileDescriptorIF getMediaFileDescriptorFromDB(String path) {
         ResultSet res = dbManager.getFromDatabase(path);
         try {
             res.next();
@@ -50,8 +50,8 @@ public class MediaFileDescriptorBuilder {
         }
         return null;
     }
-    public MediaFileDescriptor getCurrentMediaFileDescriptor(ResultSet res) {
-        MediaFileDescriptor id = null;
+    public MediaFileDescriptorIF getCurrentMediaFileDescriptor(ResultSet res) {
+        MediaFileDescriptorIF id = null;
         try {
             String path = res.getString("path");
             String md5 = res.getString("md5");
@@ -65,8 +65,8 @@ public class MediaFileDescriptorBuilder {
         }
         return id;
     }
-    public MediaFileDescriptor buildMediaDescriptor(File f) {
-        MediaFileDescriptor id = new MediaFileDescriptor(this.dbManager);
+    public MediaFileDescriptorIF buildMediaDescriptor(File f) {
+        MediaFileDescriptorIF id = new MediaFileDescriptor(this.dbManager);
         int[] data;
         String md5;
         try {

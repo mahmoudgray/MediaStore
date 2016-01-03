@@ -1,6 +1,6 @@
 package fr.thumbnailsdb.utils;
 
-import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptor;
+import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptorIF;
 import fr.thumbnailsdb.mediaIndexers.MediaIndexer;
 import fr.thumbnailsdb.dbservices.DBManager;
 import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptorBuilder;
@@ -182,8 +182,8 @@ public class ImageComparator {
         System.out.println("--------------");
 
 
-        MediaFileDescriptor id1 = mediaFileDescriptorBuilder.buildMediaDescriptor(new File(path));
-        MediaFileDescriptor id4 = mediaFileDescriptorBuilder.buildMediaDescriptor(new File(path4));
+        MediaFileDescriptorIF id1 = mediaFileDescriptorBuilder.buildMediaDescriptor(new File(path));
+        MediaFileDescriptorIF id4 = mediaFileDescriptorBuilder.buildMediaDescriptor(new File(path4));
 //        System.out.println("ImageComparator.main() Comparison of VERY MODIFIED thumbnails using ARGB RMSE " + ImageComparator.compareARGBUsingRMSE(id1.getData(), id4.getData()));
 
     }

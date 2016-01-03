@@ -9,8 +9,8 @@ import java.util.concurrent.TimeUnit;
 
 import fr.thumbnailsdb.Status;
 import fr.thumbnailsdb.dbservices.DBManager;
-import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptor;
 import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptorBuilder;
+import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptorIF;
 import fr.thumbnailsdb.hash.ImageHash;
 import fr.thumbnailsdb.utils.*;
 import fr.thumbnailsdb.treewalker.TreeWalker;
@@ -51,7 +51,7 @@ public class MediaIndexer {
         System.out.print(".");
         currentProgressSize+=f.length()/1024;
         try {
-            MediaFileDescriptor mf = mediaFileDescriptorBuilder.getMediaFileDescriptorFromDB(f.getCanonicalPath());
+            MediaFileDescriptorIF mf = mediaFileDescriptorBuilder.getMediaFileDescriptorFromDB(f.getCanonicalPath());
             Logger.getLogger().err("MediaIndexer.generateAndSave " + f + " descriptor: " + mf);
             if ((mf != null) && (f.lastModified() == mf.getMtime())) {
                 //Descriptor exists with same mtime
@@ -82,7 +82,7 @@ public class MediaIndexer {
                 this.fileCreatedUpdated(false, update);
             } else {
                 Logger.getLogger().err("MediaIndexer.generateAndSave building descriptor");
-                MediaFileDescriptor id = mediaFileDescriptorBuilder.buildMediaDescriptor(f);
+                MediaFileDescriptorIF id = mediaFileDescriptorBuilder.buildMediaDescriptor(f);
                 if (id != null) {
                     if ((mf != null) && (f.lastModified() != mf.getMtime())) {
                         //we need to update it

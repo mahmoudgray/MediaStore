@@ -1,10 +1,9 @@
 package fr.thumbnailsdb.lsh;
 
 import fr.thumbnailsdb.candidates.Candidate;
-import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptor;
 import fr.thumbnailsdb.Status;
 import fr.thumbnailsdb.dbservices.DBManager;
-import fr.thumbnailsdb.lsh.PersistentLSH;
+import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptorIF;
 import org.perf4j.LoggingStopWatch;
 
 import java.sql.ResultSet;
@@ -64,11 +63,11 @@ public class LSHManager {
     public void clear(){
         lsh.clear();
     }
-    public List<Candidate> findCandidatesUsingLSH(MediaFileDescriptor mediaFileDescriptor) {
+    public List<Candidate> findCandidatesUsingLSH(MediaFileDescriptorIF mediaFileDescriptorIF) {
         if (lsh == null) {
             buildLSH(false);
         }
-        List<Candidate> result = lsh.lookupCandidatesMT(mediaFileDescriptor.getHash());
+        List<Candidate> result = lsh.lookupCandidatesMT(mediaFileDescriptorIF.getHash());
         System.out.println("Found " + result.size() + " candidates out of " + lsh.size());
         LoggingStopWatch watch = null;
         return result;

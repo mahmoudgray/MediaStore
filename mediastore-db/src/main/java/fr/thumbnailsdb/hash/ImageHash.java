@@ -1,9 +1,9 @@
 package fr.thumbnailsdb.hash;
 
-import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptor;
 import fr.thumbnailsdb.PreloadedDescriptors;
 import fr.thumbnailsdb.dbservices.DBManager;
 import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptorBuilder;
+import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptorIF;
 import fr.thumbnailsdb.utils.ImageComparator;
 import fr.thumbnailsdb.utils.Logger;
 
@@ -139,7 +139,7 @@ public class ImageHash {
         PreloadedDescriptors pl = PreloadedDescriptors.getPreloadedDescriptors(tb);
         Iterator it = pl.iterator();
         while (it.hasNext()) {
-            MediaFileDescriptor mf = (MediaFileDescriptor) it.next();
+            MediaFileDescriptorIF mf = (MediaFileDescriptorIF) it.next();
             String path = tb.getPath(mf.getId());
             mf.setPath(path);
             try {

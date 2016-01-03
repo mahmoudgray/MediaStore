@@ -1,6 +1,6 @@
 package fr.thumbnailsdb.distance;
 
-import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptor;
+import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptorIF;
 
 /**
  * Created with IntelliJ IDEA.
@@ -12,8 +12,8 @@ import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptor;
 public class RMSEDistance implements Distance {
 
     public double getDistance(Object object1, Object object2) {
-        MediaFileDescriptor mf1 = (MediaFileDescriptor) object1;
-        MediaFileDescriptor mf2 = (MediaFileDescriptor) object2 ;
+        MediaFileDescriptorIF mf1 = (MediaFileDescriptorIF) object1;
+        MediaFileDescriptorIF mf2 = (MediaFileDescriptorIF) object2 ;
         //TODO fixe for hash
         return 0;
     }

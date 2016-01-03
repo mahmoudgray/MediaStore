@@ -6,6 +6,7 @@ import fr.thumbnailsdb.dbservices.DBManager;
 import fr.thumbnailsdb.candidates.CandidateIterator;
 import fr.thumbnailsdb.candidates.CandidatePriorityQueue;
 import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptorBuilder;
+import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptorIF;
 import fr.thumbnailsdb.lsh.LSHManager;
 import fr.thumbnailsdb.utils.Configuration;
 import fr.thumbnailsdb.utils.ImageComparator;
@@ -32,16 +33,16 @@ public class SimilarImageFinder {
         this.mediaFileDescriptorBuilder = mediaFileDescriptorBuilder;
         this.lshManager = lshManager;
     }
-    public Collection<MediaFileDescriptor> findSimilarImages(String source, int max) {
-        MediaFileDescriptor mediaFileDescriptor = mediaFileDescriptorBuilder.buildMediaDescriptor(new File(source));
-        if (mediaFileDescriptor==null) {
+    public Collection<MediaFileDescriptorIF> findSimilarImages(String source, int max) {
+        MediaFileDescriptorIF mediaFileDescriptorIF = mediaFileDescriptorBuilder.buildMediaDescriptor(new File(source));
+        if (mediaFileDescriptorIF ==null) {
             System.err.println("Error cannot load image "  + source);
         }
-        Collection<MediaFileDescriptor> result = this.findSimilarImageUsingLSH(mediaFileDescriptor, max);
+        Collection<MediaFileDescriptorIF> result = this.findSimilarImageUsingLSH(mediaFileDescriptorIF, max);
         return result;
     }
-    protected Collection<MediaFileDescriptor> findSimilarImageUsingLSH(MediaFileDescriptor sourceMediaFileDescriptor, int max) {
-        List<Candidate> candidateList = this.lshManager.findCandidatesUsingLSH(sourceMediaFileDescriptor);
+    protected Collection<MediaFileDescriptorIF> findSimilarImageUsingLSH(MediaFileDescriptorIF sourceMediaFileDescriptorIF, int max) {
+        List<Candidate> candidateList = this.lshManager.findCandidatesUsingLSH(sourceMediaFileDescriptorIF);
         Iterator<Candidate> lshIterator = candidateList.iterator();
         LoggingStopWatch watch = null;
         if (Configuration.timing()) {
@@ -50,7 +51,7 @@ public class SimilarImageFinder {
         }
         Status.getStatus().setStringStatus(Status.FIND_SIMILAR + " using LSH");
         CandidatePriorityQueue candidatePriorityQueue = new CandidatePriorityQueue(max);
-        String sourceHash=sourceMediaFileDescriptor.getHash();
+        String sourceHash= sourceMediaFileDescriptorIF.getHash();
         while (lshIterator.hasNext()) {
             Candidate candidate = lshIterator.next();
             String candidateHash = candidate.getHash();
@@ -62,19 +63,19 @@ public class SimilarImageFinder {
         }
         Status.getStatus().setStringStatus(Status.IDLE);
         CandidateIterator candidateIterator = candidatePriorityQueue.iterator();
-        ArrayList<MediaFileDescriptor> finalCandidatesList = new ArrayList<>() ;
+        ArrayList<MediaFileDescriptorIF> finalCandidatesList = new ArrayList<>() ;
         while (candidateIterator.hasNext()) {
              Candidate c= candidateIterator.next();
-             MediaFileDescriptor mDescriptor = mediaFileDescriptorBuilder.getMediaFileDescriptorFromDB(c.getIndex());
+             MediaFileDescriptorIF mDescriptor = mediaFileDescriptorBuilder.getMediaFileDescriptorFromDB(c.getIndex());
             if (mDescriptor!=null) {
                  mDescriptor.setDistance(candidateIterator.distance());
                  finalCandidatesList.add(mDescriptor);
             }
         }
-            Collections.sort(finalCandidatesList,new Comparator<MediaFileDescriptor>(){
+            Collections.sort(finalCandidatesList,new Comparator<MediaFileDescriptorIF>(){
 //
 
-            public int compare(MediaFileDescriptor o1, MediaFileDescriptor o2) {
+            public int compare(MediaFileDescriptorIF o1, MediaFileDescriptorIF o2) {
                 double e1 = o1.getDistance();
                 double e2 = o2.getDistance();
                 return Double.compare(e1, e2);
@@ -88,22 +89,22 @@ public class SimilarImageFinder {
         return finalCandidatesList;
 
     }
-    public ArrayList<MediaFileDescriptor> findIdenticalMedia(String source) {
-        MediaFileDescriptor mediaFileDescriptor = mediaFileDescriptorBuilder.buildMediaDescriptor(new File(source));
-        return dbManager.getDuplicatesMD5(mediaFileDescriptor);
+    public ArrayList<MediaFileDescriptorIF> findIdenticalMedia(String source) {
+        MediaFileDescriptorIF mediaFileDescriptorIF = mediaFileDescriptorBuilder.buildMediaDescriptor(new File(source));
+        return dbManager.getDuplicatesMD5(mediaFileDescriptorIF);
     }
-    public void prettyPrintIdenticalResults(ArrayList<MediaFileDescriptor> findIdenticalMedia) {
-        Iterator<MediaFileDescriptor> it = findIdenticalMedia.iterator();
+    public void prettyPrintIdenticalResults(ArrayList<MediaFileDescriptorIF> findIdenticalMedia) {
+        Iterator<MediaFileDescriptorIF> it = findIdenticalMedia.iterator();
         while (it.hasNext()) {
-            MediaFileDescriptor mediaFileDescriptor = it.next();
-            System.out.println(mediaFileDescriptor.getPath() + " " + mediaFileDescriptor.getSize());
+            MediaFileDescriptorIF mediaFileDescriptorIF = it.next();
+            System.out.println(mediaFileDescriptorIF.getPath() + " " + mediaFileDescriptorIF.getSize());
         }
     }
-    protected Collection<MediaFileDescriptor> findSimilarImage(MediaFileDescriptor mediaFileDescriptor, int max) {
+    protected Collection<MediaFileDescriptorIF> findSimilarImage(MediaFileDescriptorIF mediaFileDescriptorIF, int max) {
 
-        PriorityQueue<MediaFileDescriptor> queue = new PriorityQueue<MediaFileDescriptor>(max, new Comparator<MediaFileDescriptor>() {
+        PriorityQueue<MediaFileDescriptorIF> queue = new PriorityQueue<MediaFileDescriptorIF>(max, new Comparator<MediaFileDescriptorIF>() {
             //	@Override
-            public int compare(MediaFileDescriptor o1, MediaFileDescriptor o2) {
+            public int compare(MediaFileDescriptorIF o1, MediaFileDescriptorIF o2) {
                 double e1 = o1.getDistance();
                 double e2 = o2.getDistance();
                 //Sorted in reverse order
@@ -111,7 +112,7 @@ public class SimilarImageFinder {
             }
         });
 
-        Iterator<MediaFileDescriptor> it = PreloadedDescriptors.getPreloadedDescriptors(dbManager).iterator();
+        Iterator<MediaFileDescriptorIF> it = PreloadedDescriptors.getPreloadedDescriptors(dbManager).iterator();
         Status.getStatus().setStringStatus(Status.FIND_SIMILAR);
         int size = PreloadedDescriptors.getPreloadedDescriptors(dbManager).size();
         int processed = 0;
@@ -121,12 +122,12 @@ public class SimilarImageFinder {
         int processedSinceLastTick = 0;
 
         while (it.hasNext()) {
-            MediaFileDescriptor current = it.next();
+            MediaFileDescriptorIF current = it.next();
             String sig = current.getHash();
             if (sig == null) {
                 continue;
             }
-            double distance = ImageComparator.compareUsingHammingDistance(mediaFileDescriptor.getHash(), sig);
+            double distance = ImageComparator.compareUsingHammingDistance(mediaFileDescriptorIF.getHash(), sig);
             processed++;
             processedSinceLastTick++;
 
@@ -137,10 +138,10 @@ public class SimilarImageFinder {
             }
 
             if (queue.size() == max) {
-                MediaFileDescriptor df = queue.peek();
+                MediaFileDescriptorIF df = queue.peek();
                 if (df.getDistance() > distance) {
                     queue.poll();
-                    MediaFileDescriptor imd = new MediaFileDescriptor(this.dbManager);
+                    MediaFileDescriptorIF imd = new MediaFileDescriptor(this.dbManager);
                     imd.setPath(current.getPath());
                     imd.setDistance(distance);
                     imd.setHash(current.getHash());
@@ -149,7 +150,7 @@ public class SimilarImageFinder {
                     queue.add(imd);
                 }
             } else {
-                MediaFileDescriptor imd = new MediaFileDescriptor(this.dbManager);
+                MediaFileDescriptorIF imd = new MediaFileDescriptor(this.dbManager);
                 imd.setPath(current.getPath());
                 imd.setDistance(distance);
                 imd.setHash(current.getHash());
@@ -162,9 +163,9 @@ public class SimilarImageFinder {
         System.out.println("SimilarImageFinder.findSimilarImage resulting queue has size " + queue.size());
         Status.getStatus().setStringStatus(Status.IDLE);
 
-        MediaFileDescriptor[] arr = queue.toArray(new MediaFileDescriptor[]{});
-        Arrays.sort(arr, new Comparator<MediaFileDescriptor>() {
-            public int compare(MediaFileDescriptor o1, MediaFileDescriptor o2) {
+        MediaFileDescriptorIF[] arr = queue.toArray(new MediaFileDescriptorIF[]{});
+        Arrays.sort(arr, new Comparator<MediaFileDescriptorIF>() {
+            public int compare(MediaFileDescriptorIF o1, MediaFileDescriptorIF o2) {
                 double e1 = o1.getDistance();
                 double e2 = o2.getDistance();
                 return Double.compare(e1, e2);
@@ -175,11 +176,11 @@ public class SimilarImageFinder {
     public void testFindSimilarImages(DBManager dbManager, String path) {
         System.out.println("DBManager.test() reading descriptor from disk ");
         System.out.println("DBManager.testFindSimilarImages() Reference Image " + path);
-        MediaFileDescriptor mediaFileDescriptor = mediaFileDescriptorBuilder.buildMediaDescriptor(new File(path));
+        MediaFileDescriptorIF mediaFileDescriptorIF = mediaFileDescriptorBuilder.buildMediaDescriptor(new File(path));
         MediaFileDescriptorBuilder mediaFileDescriptorBuilder = new MediaFileDescriptorBuilder();
         LSHManager lshManager = new LSHManager(dbManager);
         SimilarImageFinder sif = new SimilarImageFinder(dbManager,mediaFileDescriptorBuilder,lshManager );
-        sif.findSimilarImageUsingLSH(mediaFileDescriptor,20);
+        sif.findSimilarImageUsingLSH(mediaFileDescriptorIF,20);
     }
     public static void main(String[] args) {
         MediaFileDescriptorBuilder mediaFileDescriptorBuilder = new MediaFileDescriptorBuilder();

@@ -3,6 +3,7 @@ package fr.thumbnailsdb;
 import com.google.common.collect.ArrayListMultimap;
 import fr.thumbnailsdb.dbservices.DBManager;
 import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptor;
+import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptorIF;
 import fr.thumbnailsdb.utils.ProgressBar;
 
 
@@ -15,7 +16,7 @@ import java.util.*;
  */
 public class PreloadedDescriptors {
 
-    private ArrayListMultimap<String, MediaFileDescriptor> list;
+    private ArrayListMultimap<String, MediaFileDescriptorIF> list;
     private Comparator comp;
     private static PreloadedDescriptors preloadedDescriptors;
     private static boolean useFullPath = false;
@@ -23,7 +24,7 @@ public class PreloadedDescriptors {
 
     private PreloadedDescriptors(int size, Comparator comp) {
         this.comp = comp;
-        this.list = ArrayListMultimap.<String, MediaFileDescriptor>create(size, 10);
+        this.list = ArrayListMultimap.<String, MediaFileDescriptorIF>create(size, 10);
     }
     public static void setUseFullPath(boolean fullPath){
         useFullPath = fullPath;
@@ -34,8 +35,8 @@ public class PreloadedDescriptors {
             Status.getStatus().setStringStatus("Building descriptors list");
             int dbSize = dbManager.size();
             ProgressBar pb = new ProgressBar(0, dbSize, dbSize / 100);
-            preloadedDescriptors = new PreloadedDescriptors(dbSize, new Comparator<MediaFileDescriptor>() {
-                public int compare(MediaFileDescriptor o1, MediaFileDescriptor o2) {
+            preloadedDescriptors = new PreloadedDescriptors(dbSize, new Comparator<MediaFileDescriptorIF>() {
+                public int compare(MediaFileDescriptorIF o1, MediaFileDescriptorIF o2) {
                     return o1.getMD5().compareTo(o2.getMD5());
                 }
             });
@@ -59,7 +60,7 @@ public class PreloadedDescriptors {
                     long size = res.getLong("size");
                     String hash = res.getString("hash");
                     if (path != null && md5 != null) {
-                        MediaFileDescriptor imd = new MediaFileDescriptor(dbManager);
+                        MediaFileDescriptorIF imd = new MediaFileDescriptor(dbManager);
                         if (useFullPath) {
                             imd.setPath(path);
                         }
@@ -96,14 +97,14 @@ public class PreloadedDescriptors {
             preloadedDescriptors = null;
         }
     }
-    public void add(MediaFileDescriptor t) {
+    public void add(MediaFileDescriptorIF t) {
         this.list.put(t.getMD5(),t);
     }
-    public void remove(MediaFileDescriptor t){
+    public void remove(MediaFileDescriptorIF t){
         list.remove(t.getMD5() ,t);
     }
-    public void removeAll(MediaFileDescriptor mediaFileDescriptor){
-        this.list.removeAll(mediaFileDescriptor.getMD5());
+    public void removeAll(MediaFileDescriptorIF mediaFileDescriptorIF){
+        this.list.removeAll(mediaFileDescriptorIF.getMD5());
     }
     public int size() {
         return list.size();
@@ -117,7 +118,7 @@ public class PreloadedDescriptors {
     public Iterator keyIterator() {
         return list.keySet().iterator();
     }
-    public List<MediaFileDescriptor> get(String key) {
+    public List<MediaFileDescriptorIF> get(String key) {
         return list.get(key);
     }
     public void sort() {

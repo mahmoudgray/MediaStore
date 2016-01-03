@@ -3,6 +3,7 @@ package fr.thumbnailsdb.vptree;
 import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptor;
 import fr.thumbnailsdb.dbservices.DBManager;
 import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptorBuilder;
+import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptorIF;
 import fr.thumbnailsdb.distance.VPRMSEDistance;
 import java.io.Serializable;
 import java.sql.ResultSet;
@@ -197,7 +198,7 @@ public class VPTreeBuilder {
 
         int size = this.dbManager.size();
         VPTree vpTree = new VPTree();
-        ArrayList<MediaFileDescriptor> al = new ArrayList<MediaFileDescriptor>(size);
+        ArrayList<MediaFileDescriptorIF> al = new ArrayList<MediaFileDescriptorIF>(size);
 
         ResultSet res = this.dbManager.getAllInDataBase();
             try {
@@ -206,7 +207,7 @@ public class VPTreeBuilder {
                     String s = res.getString("hash");
                     if (s != null) {
 
-                        MediaFileDescriptor imd = new MediaFileDescriptor(this.dbManager);
+                        MediaFileDescriptorIF imd = new MediaFileDescriptor(this.dbManager);
                         imd.setPath(path);
                         imd.setHash(s);
                         //TODO: handle signature here
