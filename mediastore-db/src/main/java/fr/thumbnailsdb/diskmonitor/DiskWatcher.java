@@ -57,10 +57,6 @@ public class DiskWatcher {
     }
 
 
-//    public void addPath(String s) throws IOException {
-//        registerAll(Paths.get(s));
-//    }
-
     private void register(Path dir) throws IOException {
         WatchEvent.Kind<?>[] events = {ENTRY_CREATE, ENTRY_DELETE, ENTRY_MODIFY};
         String OS = System.getProperty("os.name").toLowerCase();
@@ -133,9 +129,6 @@ public class DiskWatcher {
             return;
         }
         Path name = FileSystems.getDefault().getPath(path, ev.context().toString());
-        //Path name = new Path(//ev.context().toAbsolutePath();
-        //   System.out.println(new String(new byte[] {47,104,111,109,101,47,1,117,101,116,47,119,111,114,107,115,112,97,99,101,115,47,114,101,99,104,101,114,99,104,101,101,102,102,105,99,97,99,101,105,109,97,103,101,115,115,105,109,105,108,97,105,114,101,115,47,77,101,100,105,97,83,116,111,114,101}));
-
         if (kind == OVERFLOW) {
             return;
         }
@@ -145,14 +138,10 @@ public class DiskWatcher {
         if (kind == ENTRY_MODIFY) {
             processModification(name);
         }
-
         // if directory is created, and watching recursively, then
         // register it and its sub-directories
         if (kind == ENTRY_CREATE) {
-            //   System.out.println("DiskWatcher.processEvent ENTRY_CREATE " + name);
             try {
-                //  new File(name.toAbsolutePath());
-
                 if (Files.isDirectory(name)) {
                     this.fireEvent(name, FOLDER_CREATED);
                     registerAll(name);
@@ -163,7 +152,6 @@ public class DiskWatcher {
                 // ignore to keep sample readbale
             }
         }
-
         if (kind == ENTRY_DELETE) {
             try {
                 if (Files.isDirectory(name, NOFOLLOW_LINKS)) {
@@ -192,10 +180,8 @@ public class DiskWatcher {
 
     protected void processModification(Path path) {
         if (path != null) {
-            //  System.out.println("processModification : modification in progress for " + path);
             currentModification.put(path, System.currentTimeMillis());
         } else {
-            //  System.out.println("processModification : MODIFY_TIMEOUT reached");
             Iterator<Path> it = currentModification.keySet().iterator();
             while (it.hasNext()) {
                 Path p = it.next();
@@ -208,8 +194,6 @@ public class DiskWatcher {
                     } else {
                         this.fireEvent(p, FILE_MODIFIED);
                     }
-//                            System.out.println("processModification : " + p + " modifications OVER");
-                    //currentModification.remove(p);
                     it.remove();
                 }
             }
@@ -263,7 +247,8 @@ public class DiskWatcher {
 
 
     public static void main(String[] args) throws IOException {
-        DiskWatcher dw = new DiskWatcher(args);
+        String arg [] = {"./"};
+        DiskWatcher dw = new DiskWatcher(arg);
         dw.addListener(new ConsoleDiskListener());
         dw.processEvents();
     }
