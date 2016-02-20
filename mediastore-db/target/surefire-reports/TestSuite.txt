@@ -1,0 +1,7 @@
+-------------------------------------------------------------------------------
+Test set: TestSuite
+-------------------------------------------------------------------------------
+Tests run: 25, Failures: 1, Errors: 0, Skipped: 3, Time elapsed: 4.784 sec <<< FAILURE!
+createTempDir(fr.thumbnailsdb.DiskWatcherTest)  Time elapsed: 0.008 sec  <<< FAILURE!
+java.lang.NullPointerException
+	at fr.thumbnailsdb.DiskWatcherTest.createTempDir(DiskWatcherTest.java:41)

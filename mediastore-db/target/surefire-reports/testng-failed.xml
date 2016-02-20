@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite verbose="0" name="Failed suite [Command line suite]">
+  <test name="Command line test(failed)" preserve-order="false">
+    <classes>
+      <class name="fr.thumbnailsdb.DiskWatcherTest">
+        <methods>
+          <include name="testCreateFile"/>
+          <include name="createTempDir"/>
+          <include name="testDeleteFile"/>
+        </methods>
+      </class>
+      <class name="fr.thumbnailsdb.PersistentLSHTest">
+        <methods>
+          <include name="init"/>
+          <include name="clean"/>
+        </methods>
+      </class>
+      <class name="fr.thumbnailsdb.DBManagerTest">
+        <methods>
+          <include name="deleteDir"/>
+          <include name="createTempDir"/>
+        </methods>
+      </class>
+      <class name="fr.thumbnailsdb.PreloadedDescriptorsTest">
+        <methods>
+          <include name="deleteDir"/>
+          <include name="createTempDir"/>
+        </methods>
+      </class>
+      <class name="fr.thumbnailsdb.CandidatePriorityQueueTest">
+        <methods>
+          <include name="clear"/>
+          <include name="init"/>
+        </methods>
+      </class>
+      <class name="fr.thumbnailsdb.MediaIndexerTest">
+        <methods>
+          <include name="createTempDir"/>
+          <include name="deleteDir"/>
+        </methods>
+      </class>
+      <class name="fr.thumbnailsdb.SimilarImageFinderTest">
+        <methods>
+          <include name="deleteDir"/>
+          <include name="createTempDir"/>
+        </methods>
+      </class>
+    </classes>
+  </test>
+</suite>

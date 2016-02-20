@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results skipped="2" failed="0" total="23" passed="21">
+  <reporter-output>
+  </reporter-output>
+  <suite name="Command line suite" duration-ms="4288" started-at="2016-02-20T17:24:26Z" finished-at="2016-02-20T17:24:30Z">
+    <groups>
+    </groups>
+    <test name="Command line test" duration-ms="4288" started-at="2016-02-20T17:24:26Z" finished-at="2016-02-20T17:24:30Z">
+      <class name="fr.thumbnailsdb.PreloadedDescriptorsTest">
+        <test-method status="PASS" signature="createTempDir()" name="createTempDir" is-config="true" duration-ms="460" started-at="2016-02-20T17:24:27Z" finished-at="2016-02-20T17:24:28Z">
+        </test-method>
+        <test-method status="PASS" signature="testPreLoadedDescriptorExists()" name="testPreLoadedDescriptorExists" duration-ms="1" started-at="2016-02-20T17:24:28Z" finished-at="2016-02-20T17:24:28Z">
+        </test-method>
+        <test-method status="PASS" signature="testPreloadingOfDescriptors()" name="testPreloadingOfDescriptors" duration-ms="630" started-at="2016-02-20T17:24:28Z" depends-on-methods="fr.thumbnailsdb.PreloadedDescriptorsTest.testPreLoadedDescriptorExists" finished-at="2016-02-20T17:24:28Z">
+        </test-method>
+        <test-method status="PASS" signature="testPreloadedDescriptorFlush()" name="testPreloadedDescriptorFlush" duration-ms="0" started-at="2016-02-20T17:24:28Z" depends-on-methods="fr.thumbnailsdb.PreloadedDescriptorsTest.testPreloadingOfDescriptors" finished-at="2016-02-20T17:24:28Z">
+        </test-method>
+        <test-method status="PASS" signature="testRemovingDescriptor()" name="testRemovingDescriptor" duration-ms="17" started-at="2016-02-20T17:24:28Z" depends-on-methods="fr.thumbnailsdb.PreloadedDescriptorsTest.testPreloadingOfDescriptors" finished-at="2016-02-20T17:24:28Z">
+        </test-method>
+        <test-method status="PASS" signature="deleteDir()" name="deleteDir" is-config="true" duration-ms="7" started-at="2016-02-20T17:24:28Z" finished-at="2016-02-20T17:24:28Z">
+        </test-method>
+      </class>
+      <class name="fr.thumbnailsdb.KbitLSHTest">
+        <test-method status="PASS" signature="testHash()" name="testHash" duration-ms="0" started-at="2016-02-20T17:24:28Z" finished-at="2016-02-20T17:24:28Z">
+        </test-method>
+      </class>
+      <class name="fr.thumbnailsdb.PersistentLSHTest">
+        <test-method status="PASS" signature="init()" name="init" is-config="true" duration-ms="152" started-at="2016-02-20T17:24:27Z" finished-at="2016-02-20T17:24:27Z">
+        </test-method>
+        <test-method status="PASS" signature="testExists()" name="testExists" duration-ms="0" started-at="2016-02-20T17:24:27Z" finished-at="2016-02-20T17:24:27Z">
+        </test-method>
+        <test-method status="PASS" signature="testAdd()" name="testAdd" duration-ms="255" started-at="2016-02-20T17:24:27Z" depends-on-methods="fr.thumbnailsdb.PersistentLSHTest.testExists" finished-at="2016-02-20T17:24:27Z">
+        </test-method>
+        <test-method status="PASS" signature="testLookupCandidates()" name="testLookupCandidates" duration-ms="4" started-at="2016-02-20T17:24:27Z" depends-on-methods="fr.thumbnailsdb.PersistentLSHTest.testAdd" finished-at="2016-02-20T17:24:27Z">
+        </test-method>
+        <test-method status="PASS" signature="testClear()" name="testClear" duration-ms="94" started-at="2016-02-20T17:24:27Z" depends-on-methods="fr.thumbnailsdb.PersistentLSHTest.testLookupCandidates" finished-at="2016-02-20T17:24:27Z">
+        </test-method>
+        <test-method status="PASS" signature="clean()" name="clean" is-config="true" duration-ms="0" started-at="2016-02-20T17:24:27Z" finished-at="2016-02-20T17:24:27Z">
+        </test-method>
+      </class>
+      <class name="fr.thumbnailsdb.FixedBitSetTest">
+        <test-method status="PASS" signature="testHashFormate()" name="testHashFormate" duration-ms="0" started-at="2016-02-20T17:24:28Z" finished-at="2016-02-20T17:24:28Z">
+        </test-method>
+        <test-method status="PASS" signature="testHashToBitSitConversion()" name="testHashToBitSitConversion" duration-ms="0" started-at="2016-02-20T17:24:28Z" finished-at="2016-02-20T17:24:28Z">
+        </test-method>
+      </class>
+      <class name="fr.thumbnailsdb.DiskWatcherTest">
+        <test-method status="FAIL" signature="createTempDir()" name="createTempDir" is-config="true" duration-ms="0" started-at="2016-02-20T17:24:27Z" finished-at="2016-02-20T17:24:27Z">
+          <exception class="java.lang.NullPointerException">
+            <full-stacktrace>
+              <![CDATA[java.lang.NullPointerException
+	at fr.thumbnailsdb.DiskWatcherTest.createTempDir(DiskWatcherTest.java:41)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.testng.internal.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:80)
+	at org.testng.internal.Invoker.invokeConfigurationMethod(Invoker.java:525)
+	at org.testng.internal.Invoker.invokeConfigurations(Invoker.java:202)
+	at org.testng.internal.Invoker.invokeConfigurations(Invoker.java:130)
+	at org.testng.internal.TestMethodWorker.invokeBeforeClassMethods(TestMethodWorker.java:173)
+	at org.testng.internal.TestMethodWorker.run(TestMethodWorker.java:105)
+	at org.testng.TestRunner.runWorkers(TestRunner.java:1178)
+	at org.testng.TestRunner.privateRun(TestRunner.java:757)
+	at org.testng.TestRunner.run(TestRunner.java:608)
+	at org.testng.SuiteRunner.runTest(SuiteRunner.java:334)
+	at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:329)
+	at org.testng.SuiteRunner.privateRun(SuiteRunner.java:291)
+	at org.testng.SuiteRunner.run(SuiteRunner.java:240)
+	at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)
+	at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:86)
+	at org.testng.TestNG.runSuitesSequentially(TestNG.java:1158)
+	at org.testng.TestNG.runSuitesLocally(TestNG.java:1083)
+	at org.testng.TestNG.run(TestNG.java:999)
+	at org.apache.maven.surefire.testng.TestNGExecutor.run(TestNGExecutor.java:70)
+	at org.apache.maven.surefire.testng.TestNGDirectoryTestSuite.executeMulti(TestNGDirectoryTestSuite.java:158)
+	at org.apache.maven.surefire.testng.TestNGDirectoryTestSuite.execute(TestNGDirectoryTestSuite.java:98)
+	at org.apache.maven.surefire.testng.TestNGProvider.invoke(TestNGProvider.java:111)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.apache.maven.surefire.util.ReflectionUtils.invokeMethodWithArray(ReflectionUtils.java:164)
+	at org.apache.maven.surefire.booter.ProviderFactory$ProviderProxy.invoke(ProviderFactory.java:110)
+	at org.apache.maven.surefire.booter.SurefireStarter.invokeProvider(SurefireStarter.java:175)
+	at org.apache.maven.surefire.booter.SurefireStarter.runSuitesInProcessWhenForked(SurefireStarter.java:107)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:68)
+]]>
+            </full-stacktrace>
+          </exception>
+        </test-method>
+        <test-method status="SKIP" signature="testCreateFile()" name="testCreateFile" duration-ms="0" started-at="2016-02-20T17:24:27Z" finished-at="2016-02-20T17:24:27Z">
+        </test-method>
+        <test-method status="SKIP" signature="testDeleteFile()" name="testDeleteFile" duration-ms="0" started-at="2016-02-20T17:24:27Z" depends-on-methods="fr.thumbnailsdb.DiskWatcherTest.testCreateFile" finished-at="2016-02-20T17:24:27Z">
+        </test-method>
+        <test-method status="SKIP" signature="deleteDir()" name="deleteDir" is-config="true" duration-ms="0" started-at="2016-02-20T17:24:27Z" finished-at="2016-02-20T17:24:27Z">
+        </test-method>
+      </class>
+      <class name="fr.thumbnailsdb.CandidatePriorityQueueTest">
+        <test-method status="PASS" signature="init()" name="init" is-config="true" duration-ms="17" started-at="2016-02-20T17:24:26Z" finished-at="2016-02-20T17:24:26Z">
+        </test-method>
+        <test-method status="PASS" signature="testAdd()" name="testAdd" duration-ms="6" started-at="2016-02-20T17:24:26Z" finished-at="2016-02-20T17:24:26Z">
+        </test-method>
+        <test-method status="PASS" signature="testPeek()" name="testPeek" duration-ms="1" started-at="2016-02-20T17:24:26Z" depends-on-methods="fr.thumbnailsdb.CandidatePriorityQueueTest.testAdd" finished-at="2016-02-20T17:24:26Z">
+        </test-method>
+        <test-method status="PASS" signature="clear()" name="clear" is-config="true" duration-ms="0" started-at="2016-02-20T17:24:26Z" finished-at="2016-02-20T17:24:26Z">
+        </test-method>
+      </class>
+      <class name="fr.thumbnailsdb.MediaIndexerTest">
+        <test-method status="PASS" signature="createTempDir()" name="createTempDir" is-config="true" duration-ms="117" started-at="2016-02-20T17:24:28Z" finished-at="2016-02-20T17:24:29Z">
+        </test-method>
+        <test-method status="PASS" signature="testIndexing()" name="testIndexing" duration-ms="306" started-at="2016-02-20T17:24:29Z" finished-at="2016-02-20T17:24:29Z">
+        </test-method>
+        <test-method status="PASS" signature="deleteDir()" name="deleteDir" is-config="true" duration-ms="1" started-at="2016-02-20T17:24:29Z" finished-at="2016-02-20T17:24:29Z">
+        </test-method>
+      </class>
+      <class name="fr.thumbnailsdb.DBManagerTest">
+        <test-method status="PASS" signature="createTempDir()" name="createTempDir" is-config="true" duration-ms="441" started-at="2016-02-20T17:24:26Z" finished-at="2016-02-20T17:24:27Z">
+        </test-method>
+        <test-method status="PASS" signature="testDBConnection()" name="testDBConnection" duration-ms="1" started-at="2016-02-20T17:24:27Z" finished-at="2016-02-20T17:24:27Z">
+        </test-method>
+        <test-method status="PASS" signature="testAddIndexedPath()" name="testAddIndexedPath" duration-ms="3" started-at="2016-02-20T17:24:27Z" depends-on-methods="fr.thumbnailsdb.DBManagerTest.testDBConnection" finished-at="2016-02-20T17:24:27Z">
+        </test-method>
+        <test-method status="PASS" signature="testSaveToDB()" name="testSaveToDB" duration-ms="248" started-at="2016-02-20T17:24:27Z" depends-on-methods="fr.thumbnailsdb.DBManagerTest.testAddIndexedPath" finished-at="2016-02-20T17:24:27Z">
+        </test-method>
+        <test-method status="PASS" signature="testDeleteIndexedPath()" name="testDeleteIndexedPath" duration-ms="0" started-at="2016-02-20T17:24:27Z" depends-on-methods="fr.thumbnailsdb.DBManagerTest.testSaveToDB" finished-at="2016-02-20T17:24:27Z">
+        </test-method>
+        <test-method status="PASS" signature="deleteDir()" name="deleteDir" is-config="true" duration-ms="2" started-at="2016-02-20T17:24:27Z" finished-at="2016-02-20T17:24:27Z">
+        </test-method>
+      </class>
+      <class name="fr.thumbnailsdb.SimilarImageFinderTest">
+        <test-method status="PASS" signature="createTempDir()" name="createTempDir" is-config="true" duration-ms="480" started-at="2016-02-20T17:24:29Z" finished-at="2016-02-20T17:24:29Z">
+        </test-method>
+        <test-method status="PASS" signature="testIdenticalImage()" name="testIdenticalImage" duration-ms="380" started-at="2016-02-20T17:24:29Z" finished-at="2016-02-20T17:24:30Z">
+        </test-method>
+        <test-method status="PASS" signature="testSimilarImage()" name="testSimilarImage" duration-ms="614" started-at="2016-02-20T17:24:30Z" finished-at="2016-02-20T17:24:30Z">
+        </test-method>
+        <test-method status="PASS" signature="deleteDir()" name="deleteDir" is-config="true" duration-ms="10" started-at="2016-02-20T17:24:30Z" finished-at="2016-02-20T17:24:30Z">
+        </test-method>
+      </class>
+      <class name="fr.thumbnailsdb.CandidateTest">
+        <test-method status="PASS" signature="candidateEqualityTest()" name="candidateEqualityTest" duration-ms="0" started-at="2016-02-20T17:24:28Z" finished-at="2016-02-20T17:24:28Z">
+        </test-method>
+      </class>
+    </test>
+  </suite>
+</testng-results>
