@@ -1,49 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite hostname="mohannad-pc" name="fr.thumbnailsdb.CandidatePriorityQueueTest" tests="23" failures="0" timestamp="20 Feb 2016 16:24:30 GMT" time="4.288" errors="0">
-  <testcase name="@BeforeClass createTempDir" time="0.0" classname="fr.thumbnailsdb.DiskWatcherTest">
-    <failure type="java.lang.NullPointerException">
-      <![CDATA[java.lang.NullPointerException
-	at fr.thumbnailsdb.DiskWatcherTest.createTempDir(DiskWatcherTest.java:41)
-	at org.apache.maven.surefire.testng.TestNGExecutor.run(TestNGExecutor.java:70)
-	at org.apache.maven.surefire.testng.TestNGDirectoryTestSuite.executeMulti(TestNGDirectoryTestSuite.java:158)
-	at org.apache.maven.surefire.testng.TestNGDirectoryTestSuite.execute(TestNGDirectoryTestSuite.java:98)
-	at org.apache.maven.surefire.testng.TestNGProvider.invoke(TestNGProvider.java:111)
-	at org.apache.maven.surefire.util.ReflectionUtils.invokeMethodWithArray(ReflectionUtils.java:164)
-	at org.apache.maven.surefire.booter.ProviderFactory$ProviderProxy.invoke(ProviderFactory.java:110)
-	at org.apache.maven.surefire.booter.SurefireStarter.invokeProvider(SurefireStarter.java:175)
-	at org.apache.maven.surefire.booter.SurefireStarter.runSuitesInProcessWhenForked(SurefireStarter.java:107)
-	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:68)
-... Removed 26 stack frames]]>
-    </failure>
-  </testcase>
-  <testcase name="@AfterClass deleteDir" time="0.0" classname="fr.thumbnailsdb.DiskWatcherTest">
-    <skipped/>
-  </testcase>
-  <testcase name="testAdd" time="0.006" classname="fr.thumbnailsdb.CandidatePriorityQueueTest"/>
+<testsuite hostname="mohannad-pc" name="fr.thumbnailsdb.CandidatePriorityQueueTest" tests="23" failures="0" timestamp="20 Feb 2016 16:59:54 GMT" time="8.229" errors="0">
+  <testcase name="testAdd" time="0.005" classname="fr.thumbnailsdb.CandidatePriorityQueueTest"/>
   <testcase name="testPeek" time="0.001" classname="fr.thumbnailsdb.CandidatePriorityQueueTest"/>
-  <testcase name="testDBConnection" time="0.001" classname="fr.thumbnailsdb.DBManagerTest"/>
-  <testcase name="testAddIndexedPath" time="0.003" classname="fr.thumbnailsdb.DBManagerTest"/>
-  <testcase name="testSaveToDB" time="0.248" classname="fr.thumbnailsdb.DBManagerTest"/>
+  <testcase name="testDBConnection" time="0.0" classname="fr.thumbnailsdb.DBManagerTest"/>
+  <testcase name="testAddIndexedPath" time="0.004" classname="fr.thumbnailsdb.DBManagerTest"/>
+  <testcase name="testSaveToDB" time="0.231" classname="fr.thumbnailsdb.DBManagerTest"/>
   <testcase name="testDeleteIndexedPath" time="0.0" classname="fr.thumbnailsdb.DBManagerTest"/>
-  <testcase name="testCreateFile" time="0.0" classname="fr.thumbnailsdb.DiskWatcherTest">
-    <skipped/>
-  </testcase>
-  <testcase name="testDeleteFile" time="0.0" classname="fr.thumbnailsdb.DiskWatcherTest">
-    <skipped/>
-  </testcase>
+  <testcase name="testCreateFile" time="2.004" classname="fr.thumbnailsdb.DiskWatcherTest"/>
+  <testcase name="testDeleteFile" time="2.001" classname="fr.thumbnailsdb.DiskWatcherTest"/>
   <testcase name="testExists" time="0.0" classname="fr.thumbnailsdb.PersistentLSHTest"/>
-  <testcase name="testAdd" time="0.255" classname="fr.thumbnailsdb.PersistentLSHTest"/>
+  <testcase name="testAdd" time="0.243" classname="fr.thumbnailsdb.PersistentLSHTest"/>
   <testcase name="testLookupCandidates" time="0.004" classname="fr.thumbnailsdb.PersistentLSHTest"/>
-  <testcase name="testClear" time="0.094" classname="fr.thumbnailsdb.PersistentLSHTest"/>
-  <testcase name="testPreLoadedDescriptorExists" time="0.001" classname="fr.thumbnailsdb.PreloadedDescriptorsTest"/>
-  <testcase name="testPreloadingOfDescriptors" time="0.63" classname="fr.thumbnailsdb.PreloadedDescriptorsTest"/>
-  <testcase name="testPreloadedDescriptorFlush" time="0.0" classname="fr.thumbnailsdb.PreloadedDescriptorsTest"/>
-  <testcase name="testRemovingDescriptor" time="0.017" classname="fr.thumbnailsdb.PreloadedDescriptorsTest"/>
-  <testcase name="candidateEqualityTest" time="0.0" classname="fr.thumbnailsdb.CandidateTest"/>
+  <testcase name="testClear" time="0.131" classname="fr.thumbnailsdb.PersistentLSHTest"/>
+  <testcase name="testPreLoadedDescriptorExists" time="0.0" classname="fr.thumbnailsdb.PreloadedDescriptorsTest"/>
+  <testcase name="testPreloadingOfDescriptors" time="0.647" classname="fr.thumbnailsdb.PreloadedDescriptorsTest"/>
+  <testcase name="testPreloadedDescriptorFlush" time="0.001" classname="fr.thumbnailsdb.PreloadedDescriptorsTest"/>
+  <testcase name="testRemovingDescriptor" time="0.015" classname="fr.thumbnailsdb.PreloadedDescriptorsTest"/>
+  <testcase name="candidateEqualityTest" time="0.001" classname="fr.thumbnailsdb.CandidateTest"/>
   <testcase name="testHashFormate" time="0.0" classname="fr.thumbnailsdb.FixedBitSetTest"/>
   <testcase name="testHashToBitSitConversion" time="0.0" classname="fr.thumbnailsdb.FixedBitSetTest"/>
-  <testcase name="testHash" time="0.0" classname="fr.thumbnailsdb.KbitLSHTest"/>
-  <testcase name="testIndexing" time="0.306" classname="fr.thumbnailsdb.MediaIndexerTest"/>
-  <testcase name="testIdenticalImage" time="0.38" classname="fr.thumbnailsdb.SimilarImageFinderTest"/>
-  <testcase name="testSimilarImage" time="0.614" classname="fr.thumbnailsdb.SimilarImageFinderTest"/>
+  <testcase name="testHash" time="0.001" classname="fr.thumbnailsdb.KbitLSHTest"/>
+  <testcase name="testIndexing" time="0.334" classname="fr.thumbnailsdb.MediaIndexerTest"/>
+  <testcase name="testIdenticalImage" time="0.384" classname="fr.thumbnailsdb.SimilarImageFinderTest"/>
+  <testcase name="testSimilarImage" time="0.576" classname="fr.thumbnailsdb.SimilarImageFinderTest"/>
 </testsuite>

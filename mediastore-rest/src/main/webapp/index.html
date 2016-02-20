@@ -1,374 +1,76 @@
-<!DOCTYPE html>
-
-<html lang="en" style="height:100%">
+<html ng-app="mediastore">
 <head>
-<meta charset="utf-8"/>
-<link rel="stylesheet"
-      href="js/jquery-ui.css"/>
-<link href="js/nailthumb/jquery.nailthumb.1.1.css" type="text/css" rel="stylesheet"/>
-<link rel="stylesheet" href="css/bootstrap.min.css"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <title>Media Store</title>
+    <style>
+        .my-drop-zone { border: dotted 3px lightgray; }
+        .nv-file-over { border: dotted 3px red; } /* Default class applied to drop zones on over */
+        .another-file-over-class { border: dotted 3px green; }
 
-<script src="js/jquery-1.8.2.js"></script>
-<script src="js/jquery-ui.js"></script>
-<script src="js/jquery.form.js"></script>
-<script src="js/thumbstore.js"></script>
-<script src="js/jquery.iframe-transport.js"></script>
-
-<script src="js/customCanvas.js"></script>
-
-<script src="js/nailthumb/jquery.nailthumb.1.1.js"></script>
-<script src="js/mustache.js"></script>
-<script src="js/canvasjs/canvasjs.min.js"></script>
-<script src="js/jquery.ay-table-sort.js"></script>
-
-<!--<script src="js/jquery.exif.js"></script>-->
-
-<!--<script type="text/javascript" src="galleriffic-2.0/js/jquery.galleriffic.js"></script>-->
-<!--<link rel="stylesheet" href="galleriffic-2.0/css/galleriffic-1.css" type="text/css"/>-->
+        html, body { height: 100%; }
+        /**
+        canvas {
+            background-color: #f3f3f3;
+            -webkit-box-shadow: 3px 3px 3px 0 #e3e3e3;
+            -moz-box-shadow: 3px 3px 3px 0 #e3e3e3;
+            box-shadow: 3px 3px 3px 0 #e3e3e3;
+            border: 1px solid #c3c3c3;
+            height: 100px;
+            margin: 6px 0 0 6px;
+        }**/
+    </style>
 
 
-<style>
-    table {
-        table-layout: auto;
-        border-collapse: collapse;
-        width: 100%;
-    }
 
-    thead {
-        background: #b9c9fe;
-    }
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <!-- Bootstrap-->
+    <!--<link rel="stylesheet" href="lib/bootstrap/bootstrap.min.css" />-->
+    <!--<link rel="stylesheet" href="lib/css/bootstrap.min.css"/>-->
 
-    td, th {
-        padding: 5px;
-    }
-
-    tbody tr {
-        border-top: 1px solid #fff;
-        background: #e8edff;
-    }
-
-    th.size {
-        width: 10%;
-        text-align: center
-    }
-
-    td.files {
-        text-align: center
-    }
-
-    .authorship {
-        margin-top: 20px;
-    }
-
-    th.files {
-        width: 10%;
-    }
-
-    .paths {
-        font-size: 12px;
-    }
-
-    tbody {
-        border-top: 5px solid #fff;
-    }
-
-    thead th {
-        text-align: left;
-        cursor: pointer;
-    }
-
-    th.ay-sort-asc span {
-        background: url("js/images/sort_up.png") right center no-repeat;
-        padding-right: 25px;
-        background-size: 15px 15px;
-    }
-
-    th.ay-sort-desc span {
-        background: url("js/images/sort_down.png") right center no-repeat;
-        padding-right: 25px;
-        background-size: 15px 15px;
-    }
-
-</style>
+    <!--AngularJS-->
+    <script src="lib/angular/angular.min.js"></script>
+    <script src="lib/angular/angular-route.js"></script>
+    <script src="lib/angular/angular-file-upload.min.js"></script>
 
 
-<script type="text/javascript"
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCJYZeuZ4jmifhLj-u4YrBIFv8X7K7dHe8&sensor=false">
-</script>
+    <!--JQuery-->
+    <script src="lib/jquery/jquery-2.1.4.min.js"></script>
+    <script src="lib/canvas/canvasjs.min.js"></script>
+    <script src="lib/canvas/jquery.canvasjs.min.js"></script>
+    <!--<script src="lib/bootstrap/bootstrap.min.js"></script>-->
 
-
-<style>
-    .ui-progressbar .ui-progressbar-value {
-        background-image: url(js/images/pbar-ani.gif);
-    }
-
-    .cls {
-        /*clear: both;*/
-        /*float : left;*/
-        display: inline-block;
-        width: 33%;
-        height:35%;
-
-    }
-
-    .cls:nth-child(odd) {
-        background-color: #eee;
-    }
-
-    .cls:nth-child(even) {
-        background-color: #fff;
-    }
-
-    .flt {
-        float: left;
-    }
-
-    .square {
-        width: 100px;
-        height: 100px;
-    }
-
-    .horiz {
-        width: 150px;
-        height: 90px;
-    }
-
-    .vert {
-        width: 100px;
-        height: 130px;
-    }
-
-    .nailthumb-image-titles-bigger span.nailthumb-title {
-        background: none repeat scroll 0 0 rgba(0, 125, 0, 0.5);
-        font-size: 15px;
-        height: 30px;
-    }
-
-    .description {
-        padding-bottom: 10px;
-        word-wrap: break-word;
-        width: 90%;
-    }
-
-        /*remove border of thead tabs*/
-    .ui-widget-content {
-        border: none;
-    }
-
-        /* selected row input table*/
-    table.hover-table {
-        border-collapse: collapse;
-    }
-
-    .hover-table tr {
-        background-color: #e8edff;
-        border-top: 1px solid #fff;
-    }
-
-    .hover-table tr:hover {
-        background-color: #b9c9fe;
-    }
-
-    .hover-table  th {
-        background-color: #9aaffe;
-    }
-
-    .hover-table  th, #example td {
-        padding: 3px 5px;
-    }
-
-    .hover-table  td:hover {
-        cursor: pointer;
-    }
-
-    .hover-table  thead {
-        background-color: #b9c9fe;
-    }
-
-    .signatureDiv {
-        margin-left:10px;
-        float:left;
-    }
-
-    .caption {
-        background-color: #c3c3c3;
-    }
-
-    .thumbnails{
-        height:85%;
-    }
-
-    .smallImage {
-        height:auto;
-        width:auto;
-        max-width:100px;
-        max-height:100px
-    }
-
-</style>
-
-
-<script src="bootstrap/js/bootstrap.js"/>
-
-<script>
-
-    //global variables
-
-    jQuery.ajaxSettings.traditional = true;
-
-    $(function () {
-        $("#tabs").tabs({     cache:true,
-                    show:function (event, ui) {
-                        if (ui.index == 4) {
-                            initialize();
-                            google.maps.event.trigger(map, 'resize');
-                        }
-                    }
-                }
-        );
-    })
-    ;
-    $(function () {
-        $("#progressbar").progressbar({
-            value:59
-        });
-    });
-    $(document).ready(function() {
-        $('.textarea').keydown(function() {
-            if (event.keyCode == 13) {
-                this.form.submit();
-                return false;
-            }
-        });
-    });
-
-
-//    $(function(){
-//        $.ay.tableSort({target: $('table'), debug: true});
-//    });
-
-</script>
+    <!--Mediastore-->
+    <script src="mediastore/app/app.js"></script>
+    <script src="mediastore/common/services/folderService.js"></script>
+    <script src="mediastore/common/services/services.js"></script>
+    <script src="mediastore/common/directives/folderDirective.js"></script>
+    <script src="mediastore/common/directives/ngThumbDirective.js"></script>
+    <script src="mediastore/common/controllers/thumbnailCtrl.js"></script>
+    <script src="mediastore/common/controllers/thumbstoreCtrl.js"></script>
+    <script src="mediastore/common/controllers/duplicateFoldersCtrl.js"></script>
+    <script src="mediastore/common/controllers/dragNdropCtrl.js"></script>
+    <script src="mediastore/common/controllers/duplicateMediasCtrl.js"></script>
 </head>
-<body style="height:100%; overflow-y:hidden">
-
-
+<body>
 <div id="header" style="padding:0; height:5%">
-    <iframe src="thumbstore_status.html" height="30"
+    <iframe src="" height="30"
             style="width:100%; border: 0; padding: 0; overflow-x: hidden; display: block" class="frame"></iframe>
-
 </div>
 
-
-<ul class="nav nav-tabs" data-tabs="tabs">
-    <!--<li class="active"><a data-toggle="tab" href="dbManager.html">DBManager controle</a></li>-->
-    <li class="active"><a data-toggle="tab" href="#tabs-1">ThumbStore controle</a></li>
-
-    <li><a data-toggle="tab" href="#tabs-2">Duplicate media</a></li>
-    <li><a data-toggle="tab" href="#tabs-folder">Duplicate folders</a></li>
-    <li><a data-toggle="tab" href="#tabs-all">All</a></li>
-
-    <!--<li><a data-toggle="tab" href="drag.html">Drag'n'Drop</a></li>-->
-    <li><a data-toggle="tab" href="#tabs-drag">Drag'n'Drop</a></li>
-    <li><a data-toggle="tab" href="#tabs-gps">GPS</a></li>
-    <li><a data-toggle="tab" href="#tabs-gallery">Gallery</a></li>
-
+<ul class="nav nav-tabs">
+    <li role="presentation" class="active"><a href="#/">ThumbStore Controle</a></li>
+    <li role="presentation"><a href="#/duplicate-medias">Duplicate Medias</a></li>
+    <li role="presentation"><a href="#/duplicate-folders">Duplicate Folders</a></li>
+    <li role="presentation"><a href="#/thumbnail-list">All</a></li>
+    <li role="presentation"><a href="#/thumbnail-drag">Drag'n'Drop</a></li>
+    <li role="presentation"><a href="#/thumbnail-gps">GPS</a></li>
+    <li role="presentation"><a href="#/thumbnail-gallery">Gallery</a></li>
 </ul>
 
-
-<!--<div id="tabs" style="height:95%; width:100%; position:relative; padding:0">-->
-<!--<ul>-->
-<!--<li><a href="dbManager.html">DBManager controle</a></li>-->
-<!--<li><a href="#tabs-2">Duplicate media</a></li>-->
-<!--<li><a href="#tabs-folder">Duplicate folders</a></li>-->
-<!--<li><a href="drag.html">Drag'n'Drop</a></li>-->
-<!--<li><a href="grid.html">GPS</a></li>-->
-
-<!--</ul>-->
-
-<div class="tab-content" style="height:100%">
-    <div class="tab-pane active" id="tabs-1" style="margin-left:10px">
-        <!--<a href="dbManager.html"></a>-->
-    </div>
-
-    <div class="tab-pane" id="tabs-2">
-        <form name="myform" action="rest/hello/identical" method="POST">
-            <div align="center">
-                <br> <br> <input class="textarea" type=text size="25" value="5" name="max">
-                <br> <a href="javascript: getDuplicate()">Search</a>
-            </div>
-        </form>
-
-
-        <!--<div id="accordion"></div>-->
-        <div style="width:98%;float:left">
-            <table class="hover-table" id="duplicate-file-table"></table>
-        </div>
-        <!--<span id="duplicate_result"></span>-->
-    </div>
-
-    <div class="tab-pane" id="tabs-folder" style="position: relative;height: 80%">
-
-        <form name="input_duplicate_folders" action="javascript:getDuplicateFolder()">
-
-            <input type="submit" value="Get Folders" style="margin-left:10px">
-        </form>
-
-        <div class="container"
-             style=" overflow-y: scroll;height:60%; width:100%;padding:0">
-            <!--<div style="width:65%;float:left">-->
-            <div>
-                <table class="hover-table" id="duplicate-folder-table"></table>
-            </div>
-        </div>
-
-        <!--<div id="duplicate-folders-details" style="width:35% ; height : 75% ;-->
-        <!--position : fixed; top:25%; left : 65% ; overflow-y: auto; background-color : #d5cfcc">-->
-        <div id="duplicate-folders-details" style="width:100% ; height : 45% ;
-         overflow-y: auto; background-color : #d5cfcc;  border: solid 1px black;">
-
-            <table class="hover-table" id="duplicate-folder-details-table"></table>
-
-        </div>
-
-    </div>
-    <div class="tab-pane" id="tabs-all" style="height:100%">
-        <form name="input_duplicate_folders" action="javascript:getAll()">
-            <input class="textarea" type=text size="25" value="" name="filter" style="margin-bottom: 0px; margin-left:10px">
-            <input type="submit" value="Get All">
-            <input type="checkbox" name="gps" value="gpOnly"> GPS only
-        </form>
-        <div class="container"
-             style=" overflow-y: scroll;height:75%; width:100%;padding:0">
-            <div>
-                <table class="hover-table" id="all-table"></table>
-            </div>
-        </div>
-
-    </div>
-
-    <div class="tab-pane " id="tabs-drag" style="height:89%;">
-    </div>
-    <div class="tab-pane " id="tabs-gps">
-    </div>
-
-    <div class="tab-pane" id="tabs-gallery">
-
-        <form name="input_path_gallery" action="javascript:getGallery()">
-            <input class="textarea" type=text size="25" value="" name="filter_path" style="margin-bottom: 0px; margin-left:10px">
-            <input type="submit" value="Get">
-
-        </form>
-           <div name="gallery" id="gallery"></div>
-    </div>
-
-</div>
-
-<script>
-    $('#tabs-1').load('thumbstore.html');
-    $('#tabs-drag').load('drag.html');
-  //  $('#tabs-gps').load('grid.html');
-</script>
-
+<div ng-view></div>
 
 </body>
 </html>

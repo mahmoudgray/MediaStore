@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="25" failures="1" name="TestSuite" time="4.784" errors="0" skipped="3">
+<testsuite tests="23" failures="0" name="TestSuite" time="8.682" errors="0" skipped="0">
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="sun.boot.library.path" value="/usr/lib/jvm/java-8-oracle/jre/lib/amd64"/>
@@ -62,36 +62,24 @@
   <testcase classname="fr.thumbnailsdb.CandidatePriorityQueueTest" name="testAdd" time="0.004"/>
   <testcase classname="fr.thumbnailsdb.CandidatePriorityQueueTest" name="testPeek" time="0"/>
   <testcase classname="fr.thumbnailsdb.DBManagerTest" name="testDBConnection" time="0"/>
-  <testcase classname="fr.thumbnailsdb.DBManagerTest" name="testAddIndexedPath" time="0.004"/>
-  <testcase classname="fr.thumbnailsdb.DBManagerTest" name="testSaveToDB" time="0.248"/>
+  <testcase classname="fr.thumbnailsdb.DBManagerTest" name="testAddIndexedPath" time="0.003"/>
+  <testcase classname="fr.thumbnailsdb.DBManagerTest" name="testSaveToDB" time="0.231"/>
   <testcase classname="fr.thumbnailsdb.DBManagerTest" name="testDeleteIndexedPath" time="0.001"/>
-  <testcase classname="fr.thumbnailsdb.DiskWatcherTest" name="createTempDir" time="0.008">
-    <failure type="java.lang.NullPointerException">java.lang.NullPointerException
-	at fr.thumbnailsdb.DiskWatcherTest.createTempDir(DiskWatcherTest.java:41)
-</failure>
-  </testcase>
-  <testcase classname="fr.thumbnailsdb.DiskWatcherTest" name="testCreateFile" time="0">
-    <skipped/>
-  </testcase>
-  <testcase classname="fr.thumbnailsdb.DiskWatcherTest" name="testDeleteFile" time="0">
-    <skipped/>
-  </testcase>
-  <testcase classname="fr.thumbnailsdb.DiskWatcherTest" name="deleteDir" time="0">
-    <skipped/>
-  </testcase>
-  <testcase classname="fr.thumbnailsdb.PersistentLSHTest" name="testExists" time="0"/>
-  <testcase classname="fr.thumbnailsdb.PersistentLSHTest" name="testAdd" time="0.255"/>
-  <testcase classname="fr.thumbnailsdb.PersistentLSHTest" name="testLookupCandidates" time="0.004"/>
-  <testcase classname="fr.thumbnailsdb.PersistentLSHTest" name="testClear" time="0.094"/>
+  <testcase classname="fr.thumbnailsdb.DiskWatcherTest" name="testCreateFile" time="2.004"/>
+  <testcase classname="fr.thumbnailsdb.DiskWatcherTest" name="testDeleteFile" time="2.002"/>
+  <testcase classname="fr.thumbnailsdb.PersistentLSHTest" name="testExists" time="0.001"/>
+  <testcase classname="fr.thumbnailsdb.PersistentLSHTest" name="testAdd" time="0.243"/>
+  <testcase classname="fr.thumbnailsdb.PersistentLSHTest" name="testLookupCandidates" time="0.005"/>
+  <testcase classname="fr.thumbnailsdb.PersistentLSHTest" name="testClear" time="0.132"/>
   <testcase classname="fr.thumbnailsdb.PreloadedDescriptorsTest" name="testPreLoadedDescriptorExists" time="0"/>
-  <testcase classname="fr.thumbnailsdb.PreloadedDescriptorsTest" name="testPreloadingOfDescriptors" time="0.632"/>
-  <testcase classname="fr.thumbnailsdb.PreloadedDescriptorsTest" name="testPreloadedDescriptorFlush" time="0"/>
-  <testcase classname="fr.thumbnailsdb.PreloadedDescriptorsTest" name="testRemovingDescriptor" time="0.016"/>
+  <testcase classname="fr.thumbnailsdb.PreloadedDescriptorsTest" name="testPreloadingOfDescriptors" time="0.647"/>
+  <testcase classname="fr.thumbnailsdb.PreloadedDescriptorsTest" name="testPreloadedDescriptorFlush" time="0.001"/>
+  <testcase classname="fr.thumbnailsdb.PreloadedDescriptorsTest" name="testRemovingDescriptor" time="0.015"/>
   <testcase classname="fr.thumbnailsdb.CandidateTest" name="candidateEqualityTest" time="0.001"/>
   <testcase classname="fr.thumbnailsdb.FixedBitSetTest" name="testHashFormate" time="0.001"/>
   <testcase classname="fr.thumbnailsdb.FixedBitSetTest" name="testHashToBitSitConversion" time="0"/>
   <testcase classname="fr.thumbnailsdb.KbitLSHTest" name="testHash" time="0"/>
-  <testcase classname="fr.thumbnailsdb.MediaIndexerTest" name="testIndexing" time="0.306"/>
-  <testcase classname="fr.thumbnailsdb.SimilarImageFinderTest" name="testIdenticalImage" time="0.381"/>
-  <testcase classname="fr.thumbnailsdb.SimilarImageFinderTest" name="testSimilarImage" time="0.615"/>
+  <testcase classname="fr.thumbnailsdb.MediaIndexerTest" name="testIndexing" time="0.334"/>
+  <testcase classname="fr.thumbnailsdb.SimilarImageFinderTest" name="testIdenticalImage" time="0.379"/>
+  <testcase classname="fr.thumbnailsdb.SimilarImageFinderTest" name="testSimilarImage" time="0.576"/>
 </testsuite>
