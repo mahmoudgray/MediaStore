@@ -7,7 +7,6 @@ import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptorIF;
 import fr.thumbnailsdb.lsh.LSHManager;
 import fr.thumbnailsdb.lsh.LSHManagerIF;
 import fr.thumbnailsdb.mediaIndexers.MediaIndexer;
-import org.apache.commons.io.FileUtils;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -46,11 +45,15 @@ public class PreloadedDescriptorsTest {
     }
     @AfterClass
     public void deleteDir() throws IOException {
-        FileUtils.deleteDirectory(tmpDir);
+        //FileUtils.deleteDirectory(tmpDir);
+        tmpDir.delete();
         try{
-            FileUtils.deleteDirectory(new File("lsh"));
-            FileUtils.deleteDirectory(new File("lsh.p"));
-            FileUtils.deleteDirectory(new File("lsh.t"));
+            //FileUtils.deleteDirectory(new File("lsh"));
+            (new File("lsh")).delete();
+            // FileUtils.deleteDirectory(new File("lsh.p"));
+            (new File("lsh.p")).delete();
+            // FileUtils.deleteDirectory(new File("lsh.t"));
+            (new File("lsh.t")).delete();
         } catch (Exception e) {
 
         }

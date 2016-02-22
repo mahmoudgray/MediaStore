@@ -2,7 +2,6 @@ package fr.thumbnailsdb;
 
 import fr.thumbnailsdb.candidates.Candidate;
 import fr.thumbnailsdb.lsh.PersistentLSH;
-import fr.thumbnailsdb.lsh.PersistentLSHTable;
 import org.apache.commons.io.FileUtils;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
@@ -10,8 +9,6 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.List;
 
 /**

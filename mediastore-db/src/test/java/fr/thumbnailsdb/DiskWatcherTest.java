@@ -1,18 +1,15 @@
 package fr.thumbnailsdb;
 
-import fr.thumbnailsdb.dbservices.DBManager;
-import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptorBuilder;
 import fr.thumbnailsdb.diskmonitor.DiskListener;
 import fr.thumbnailsdb.diskmonitor.DiskWatcher;
-import fr.thumbnailsdb.lsh.LSHManager;
-import fr.thumbnailsdb.mediaIndexers.MediaIndexer;
 import org.apache.commons.io.FileUtils;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
