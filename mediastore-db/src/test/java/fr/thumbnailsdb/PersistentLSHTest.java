@@ -62,9 +62,9 @@ public class PersistentLSHTest {
         persistentLSH = null;
         input = null;
         try{
-            FileUtils.deleteDirectory(new File("lsh"));
-            FileUtils.deleteDirectory(new File("lsh.p"));
-            FileUtils.deleteDirectory(new File("lsh.t"));
+            (new File("lsh")).delete();
+            (new File("lsh.p")).delete();
+            (new File("lsh.t")).delete();
         } catch (Exception e) {
 
         }

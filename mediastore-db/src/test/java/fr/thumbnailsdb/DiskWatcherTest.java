@@ -47,7 +47,7 @@ public class DiskWatcherTest implements DiskListener {
     }
     @AfterClass
     public void deleteDir() throws IOException {
-        FileUtils.deleteDirectory(tmpDir);
+        tmpDir.delete();
         dw.removeListener(this);
         dw=null;
         this.event=null;
