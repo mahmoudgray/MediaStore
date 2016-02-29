@@ -4,10 +4,12 @@ import fr.thumbnailsdb.candidates.Candidate;
 import fr.thumbnailsdb.Status;
 import fr.thumbnailsdb.dbservices.DBManagerIF;
 import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptorIF;
+import fr.thumbnailsdb.utils.Utils;
 import org.perf4j.LoggingStopWatch;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.BitSet;
 import java.util.List;
 
 /**
@@ -43,9 +45,15 @@ public class LSHManager implements LSHManagerIF {
                         processed=0;
                     }
                     int index = res.getInt("ID");
-                    String s = res.getString("hash");
-                    if (s != null) {
-                        lsh.add(s, index);
+                    long hash [] = new long [2];
+
+                    hash[0] = res.getLong("hash0");
+                    hash[1] = res.getLong("hash1");
+                    //hash[2] = res.getInt("hash2");
+                    //hash[3] = res.getInt("hash3");
+
+                    if (hash.length>0) {
+                        lsh.add(BitSet.valueOf(hash), index);
                     }
                 }
             } catch (SQLException e) {

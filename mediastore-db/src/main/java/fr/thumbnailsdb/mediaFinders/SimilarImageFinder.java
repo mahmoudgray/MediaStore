@@ -55,10 +55,10 @@ public class SimilarImageFinder {
         }
         Status.getStatus().setStringStatus(Status.FIND_SIMILAR + " using LSH");
         CandidatePriorityQueue candidatePriorityQueue = new CandidatePriorityQueue(max);
-        String sourceHash= sourceMediaFileDescriptorIF.getHash();
+        BitSet sourceHash= sourceMediaFileDescriptorIF.getHash();
         while (lshIterator.hasNext()) {
             Candidate candidate = lshIterator.next();
-            String candidateHash = candidate.getHash();
+            BitSet candidateHash = candidate.getHash();
             if (candidateHash == null) {
                 continue;
             }
@@ -127,7 +127,7 @@ public class SimilarImageFinder {
 
         while (it.hasNext()) {
             MediaFileDescriptorIF current = it.next();
-            String sig = current.getHash();
+            BitSet sig = current.getHash();
             if (sig == null) {
                 continue;
             }
@@ -177,6 +177,8 @@ public class SimilarImageFinder {
         });
         return Arrays.asList(arr);
     }
+
+    /*
     public void testFindSimilarImages(DBManagerIF dbManagerIF, String path) {
         System.out.println("DBManager.test() reading descriptor from disk ");
         System.out.println("DBManager.testFindSimilarImages() Reference Image " + path);
@@ -186,6 +188,7 @@ public class SimilarImageFinder {
         SimilarImageFinder sif = new SimilarImageFinder(dbManagerIF,mediaFileDescriptorBuilder, lshManagerIF);
         sif.findSimilarImageUsingLSH(mediaFileDescriptorIF,20);
     }
+
     public static void main(String[] args) {
         MediaFileDescriptorBuilder mediaFileDescriptorBuilder = new MediaFileDescriptorBuilder();
         DBManagerIF tb = new DBManager(null,mediaFileDescriptorBuilder);
@@ -193,5 +196,6 @@ public class SimilarImageFinder {
         SimilarImageFinder si = new SimilarImageFinder(tb,mediaFileDescriptorBuilder, lshManagerIF);
         si.testFindSimilarImages(tb, args[0]);
     }
+    */
 
 }

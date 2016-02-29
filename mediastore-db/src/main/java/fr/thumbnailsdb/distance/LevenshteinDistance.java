@@ -2,6 +2,8 @@ package fr.thumbnailsdb.distance;
 
 import fr.thumbnailsdb.distance.Distance;
 
+import java.util.BitSet;
+
 /**
  * http://en.wikipedia.org/wiki/Levenshtein_distance 
  */
@@ -9,21 +11,21 @@ public class LevenshteinDistance implements Distance {
 
 	public double getDistance(Object object1, Object object2) {
 		
-		String string1 = (String) object1;
-		String string2 = (String) object2;
+		BitSet string1 = (BitSet) object1;
+        BitSet string2 = (BitSet) object2;
 		
 		int distance[][]; // distance matrix
         int n; // length of first string
         int m; // length of second string
         int i; // iterates through first string
         int j; // iterates through second string
-        char s_i; // ith character of first string
-        char t_j; // jth character of second string
+        boolean s_i; // ith character of first string
+        boolean t_j; // jth character of second string
         int cost; // cost
 
         // Step 1
-        n = string1.length();
-        m = string2.length();
+        n = 100;
+        m = 100;
         if (n == 0)
             return m;
         if (m == 0)
@@ -39,12 +41,12 @@ public class LevenshteinDistance implements Distance {
         // Step 3
         for (i = 1; i <= n; i++)
         {
-            s_i = string1.charAt (i - 1);
+            s_i = string1.get (i - 1);
 
             // Step 4
             for (j = 1; j <= m; j++)
             {
-                t_j = string2.charAt(j - 1);
+                t_j = string2.get(j - 1);
 
                 // Step 5
                 if (s_i == t_j)

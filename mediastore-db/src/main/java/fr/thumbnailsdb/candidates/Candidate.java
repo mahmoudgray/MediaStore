@@ -3,6 +3,7 @@ package fr.thumbnailsdb.candidates;
 import fr.thumbnailsdb.utils.FixedBitSet;
 
 import java.io.Serializable;
+import java.util.BitSet;
 
 
 /**
@@ -12,20 +13,20 @@ import java.io.Serializable;
 public class Candidate implements Serializable, Comparable {
 
     protected int index;
-    protected FixedBitSet hash;
+    protected BitSet hash;
 
     public Candidate() {
 
     }
-    public Candidate(int i, String s) {
+    public Candidate(int i, BitSet s) {
         this.index=i;
-        this.hash= new FixedBitSet(s);
+        this.hash=s;// new FixedBitSet(s);
     }
     public int getIndex() {
         return this.index;
     }
-    public String getHash() {
-        return this.hash.toString();
+    public BitSet getHash() {
+        return this.hash;
     }
     @Override
     public boolean equals(Object o) {

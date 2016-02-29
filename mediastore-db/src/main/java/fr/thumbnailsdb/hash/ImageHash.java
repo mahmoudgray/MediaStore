@@ -12,14 +12,19 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.BitSet;
 import java.util.Iterator;
 
 
 public class ImageHash {
     private static int WIDTH = 10;
     private static int HEIGHT = 10;
+    private static Boolean fnDebug = false;
+    private static Boolean logDCT = false;
+
     public static BufferedImage downScaleImageToGray(BufferedImage bi, int nw, int nh) throws IOException {
         if (Logger.getLogger().isEnabled()) {
             Logger.getLogger().log("ImageHash.downScaleImageToGray()  original image is " + bi.getWidth() + "x"
@@ -86,34 +91,36 @@ public class ImageHash {
         }
         return (int) (total / data1.length);
     }
-    public static String generateSignature(BufferedImage source) throws IOException {
+    public static BitSet generateSignature(BufferedImage source) throws IOException {
         BufferedImage bf = downScaleImageToGray(source, WIDTH, HEIGHT);
-        String signature = "";
+        BitSet signature = new BitSet();
         int[] data1 = new int[bf.getWidth() * bf.getHeight()];
         bf.getRGB(0, 0, bf.getWidth(), bf.getHeight(), data1, 0, bf.getWidth());
         int mean = meanValue(bf);
         for (int i = 0; i < data1.length; i++) {
             if (data1[i] > mean) {
-                signature += "1";
+                //signature += "1";
+                signature.set(i,true);
             } else {
-                signature += "0";
+                //signature += "0";
+                signature.set(i,false);
             }
         }
         return signature;
     }
-    public static String generateSignature(String path) throws IOException {
+    public static BitSet generateSignature(String path) throws IOException {
         BufferedImage bf = ImageIO.read(new File(path));
         return generateSignature(bf);
     }
-    public static String generateSignature(InputStream in) throws IOException {
+    public static BitSet generateSignature(InputStream in) throws IOException {
         BufferedImage bf = ImageIO.read(in);
         return generateSignature(bf);
     }
-    public static BufferedImage signatureToImage(String signature) {
+    public static BufferedImage signatureToImage(BitSet signature) {
         final BufferedImage bf = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_BYTE_GRAY);
         int[] data = new int[WIDTH * HEIGHT];
         for (int i = 0; i < data.length; i++) {
-            if (signature.charAt(i) == '0') {
+            if (!signature.get(i)) {
                 data[i] = Color.white.getRGB();
             } else {
                 data[i] = Color.black.getRGB();
@@ -161,7 +168,7 @@ public class ImageHash {
             System.err.println("Usage : java  " + ImageHash.class + " <paths>");
             System.exit(-1);
         }
-        String signature;
+        BitSet signature;
         for (String s : args) {
             try {
                 System.out.print("Signature for " + s + "   ");
@@ -174,9 +181,9 @@ public class ImageHash {
         }
         if (args.length > 2) {
             try {
-                String sig1 = imh.generateSignature(args[0]);
-                String sig2 = imh.generateSignature(args[1]);
-                String sig3 = imh.generateSignature(args[2]);
+                BitSet sig1 = imh.generateSignature(args[0]);
+                BitSet sig2 = imh.generateSignature(args[1]);
+                BitSet sig3 = imh.generateSignature(args[2]);
                 System.out.println("Hamming distance " + args[0] + "<->" + args[1] + "  : " + ImageComparator.compareUsingHammingDistance(sig1, sig2));
                 System.out.println("Hamming distance " + args[0] + "<->" + args[2] + "  : " + ImageComparator.compareUsingHammingDistance(sig1, sig3));
             } catch (IOException e) {
@@ -184,6 +191,73 @@ public class ImageHash {
             }
         }
     }
+
+    public static BitSet pHashImageUsingDCT(BufferedImage img) throws IOException {
+        if (fnDebug)
+            System.out.println("*** > pHash.pHashImageUsingDCT() : pHash signature computation of image");
+
+        int size = 50;
+        int sizeDCT = 10;
+        BufferedImage bi = downScaleImageToGray(img, size, size);
+
+        double CosX[][] = new double[sizeDCT][size];
+        double norm = 1./Math.sqrt(size);
+
+        for (int u = 0; u < sizeDCT; u++) {
+            for (int x = 0; x < size; x++) {
+                CosX[u][x] = norm * Math.cos(Math.PI * u / (2. * size) * (2. * x + 1.));
+            }
+        }
+
+        double biDCT[][] = new double[sizeDCT][sizeDCT];
+        double mean = 0;
+
+        for (int u = 0; u < sizeDCT; u++) {
+            for (int v = 0; v < sizeDCT; v++) {
+                biDCT[u][v] = 0;
+                for (int x = 0; x < size; x++) {
+                    for (int y = 0; y < size; y++) {
+                        biDCT[u][v] += CosX[u][x] * CosX[v][y] * bi.getRGB(y, x);
+                    }
+                }
+                mean += biDCT[u][v];
+            }
+        }
+
+        mean = (mean - biDCT[0][0])/(size*size);
+
+        if (logDCT) {
+            String strDCT = "";
+            for (int u = 0; u < sizeDCT; u++) {
+                for (int v = 0; v < sizeDCT; v++) {
+                    strDCT += (biDCT[u][v] + " ");
+                }
+                strDCT += "\n";
+            }
+            FileWriter fileDCT = new FileWriter(new File("./src/DCT.log"));
+            fileDCT.write(strDCT);
+            fileDCT.close();
+        }
+
+        BitSet signature = new BitSet();
+        int i = 0;
+
+        for (int u = 0; u < sizeDCT; u++) {
+            for (int v = 0; v < sizeDCT; v++) {
+                if (biDCT[u][v] > mean) {
+                    signature.set(i, true);
+                } else {
+                    signature.set(i, false);
+                }
+                i++;
+            }
+        }
+
+        return signature;
+    }
+
+
+
     public static void main(String[] args) {
 //                       testHash(args);
         testDB();

@@ -33,7 +33,6 @@ public class DuplicateMediaFinder {
             MediaFileDescriptorIF mfd = it.next();
             String md5 = mfd.getMD5();
             if (md5 != null) {
-                //TODO : this should be done in the DB directly
                 int index = mfd.getId();
                 String path = dbManagerIF.getPath(index);
                 if (md5.equals(currentMd5)) {
@@ -78,9 +77,6 @@ public class DuplicateMediaFinder {
                     duplicateFileGroup.add(mfd.getSize(), mfd.getPath());
                 }
                 if (duplicateFileGroup.size() > 1) {
-                    //ok we have found a tree of duplicate files
-                    //let's add their parent folder to the tree
-                    //first compute the tree of folders
                     duplicateFolderList.addOrIncrement(duplicateFileGroup);
                 }
             }

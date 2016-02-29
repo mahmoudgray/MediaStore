@@ -78,7 +78,6 @@ public class MediaIndexer {
                         this.dbManagerIF.updateToDB(mf);
                         update = true;
                     }
-
                 }
                 this.fileCreatedUpdated(false, update);
             } else {

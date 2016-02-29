@@ -32,14 +32,14 @@ public class TreeWalker {
         }
     }
 
+    /*
     public static void main(String[] args) {
         MediaFileDescriptorBuilder mediaFileDescriptorBuilder = new MediaFileDescriptorBuilder();
         DBManagerIF dbManagerIF = new DBManager(null , mediaFileDescriptorBuilder);
         TreeWalker t = new TreeWalker( new MediaIndexer(null,mediaFileDescriptorBuilder ));
-        t.walk("/Users/fhuet/Documents/workspaces/imagessimilaires/MediaStore");
-
-
+        t.walk("/Users/mohannad/Documents/workspaces/imagessimilaires/MediaStore");
     }
+    */
 
 
 

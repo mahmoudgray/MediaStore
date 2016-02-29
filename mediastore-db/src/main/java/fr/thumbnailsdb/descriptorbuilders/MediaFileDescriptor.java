@@ -8,6 +8,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.sql.Connection;
+import java.util.BitSet;
 
 
 @XmlRootElement
@@ -17,7 +18,7 @@ public class MediaFileDescriptor implements MediaFileDescriptorIF {
     protected long size;
     protected long mtime;
     protected String md5Digest;
-    protected String hash;
+    protected BitSet hash;
     protected double lat;
     protected double lon;
     DBManagerIF dbManagerIF;
@@ -45,7 +46,7 @@ public class MediaFileDescriptor implements MediaFileDescriptorIF {
      * @param hash
      * @param dbManagerIF
      */
-    public MediaFileDescriptor(String path, long size, long mtime,  String md5, String hash,DBManagerIF dbManagerIF) {
+    public MediaFileDescriptor(String path, long size, long mtime,  String md5, BitSet hash,DBManagerIF dbManagerIF) {
         super();
         this.path = path;
         this.size = size;
@@ -93,11 +94,11 @@ public class MediaFileDescriptor implements MediaFileDescriptorIF {
         this.path = path;
     }
     @Override
-    public String getHash() {
+    public BitSet getHash() {
         return hash;
     }
     @Override
-    public void setHash(String hash) {
+    public void setHash(BitSet hash) {
         this.hash = hash;
     }
     @Override

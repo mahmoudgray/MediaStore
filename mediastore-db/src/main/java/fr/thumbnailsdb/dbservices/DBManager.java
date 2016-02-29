@@ -11,6 +11,7 @@ import fr.thumbnailsdb.utils.Utils;
 import java.io.File;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.BitSet;
 import java.util.List;
 
 public class DBManager implements DBManagerIF {
@@ -83,7 +84,7 @@ public class DBManager implements DBManagerIF {
             // Table exists
         } else {
             Logger.getLogger().log("DBManager.checkAndCreateTables() table IMAGES does not exist, should create it");
-            String table = "CREATE TABLE IMAGES(id  bigint identity(1,1),path varchar(256), path_id int, size long, mtime long, md5 varchar(256), hash varchar(100),  lat double, lon double);";
+            String table = "CREATE TABLE IMAGES(id  bigint identity(1,1),path varchar(256), path_id int, size long, mtime long, md5 varchar(256), hash0 long,hash1 long, lat double, lon double);";
             //"CREATE TABLE IMAGES(id  bigint identity(1,1),path varchar(256), size long, mtime long, md5 varchar(256), hash varchar(100),  lat double, lon double)";
             Statement st = this.connection.createStatement();
             st.execute(table);
@@ -254,8 +255,8 @@ public class DBManager implements DBManagerIF {
         if (!dryRun) {
             PreparedStatement psmnt;
             try {
-                psmnt = this.connection.prepareStatement("insert into IMAGES(path, path_id, size, mtime, md5, hash, lat, lon) "
-                        + "values(?,?,?,?,?,?,?,?)");
+                psmnt = this.connection.prepareStatement("insert into IMAGES(path, path_id, size, mtime, md5, hash0, hash1, lat, lon) "
+                        + "values(?,?,?,?,?,?,?,?,?)");
                 //we need to change the path to remove the root directory
                 String[] decomposedPath = this.decomposePath(mediaFileDescriptorIF.getPath());
                 psmnt.setString(1, decomposedPath[1]);
@@ -263,9 +264,14 @@ public class DBManager implements DBManagerIF {
                 psmnt.setLong(3, mediaFileDescriptorIF.getSize());
                 psmnt.setLong(4, mediaFileDescriptorIF.getMtime());
                 psmnt.setString(5, mediaFileDescriptorIF.getMD5());
-                psmnt.setString(6, mediaFileDescriptorIF.getHash());
-                psmnt.setDouble(7, mediaFileDescriptorIF.getLat());
-                psmnt.setDouble(8, mediaFileDescriptorIF.getLon());
+                BitSet bitSet = mediaFileDescriptorIF.getHash();
+
+                long hash [] = bitSet.toLongArray(); //Utils.bitSetToInts(bitSet);
+                psmnt.setLong(6,hash[0] );
+                psmnt.setLong(7,hash[1] );
+
+                psmnt.setDouble(8, mediaFileDescriptorIF.getLat());
+                psmnt.setDouble(9, mediaFileDescriptorIF.getLon());
                 psmnt.execute();
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -284,19 +290,26 @@ public class DBManager implements DBManagerIF {
             PreparedStatement psmnt = null;
             try {
                 Statement st;
-                psmnt = this.connection.prepareStatement("UPDATE IMAGES SET path=?, path_id=?, size=?, mtime=?, hash=?, md5=? , lat=?, lon=? WHERE path=? AND (FROM PATHS SELECT path_id WHERE path=?)");
+                psmnt = this.connection.prepareStatement("UPDATE IMAGES SET path=?, path_id=?, size=?, mtime=?, hash0=?,hash1=?, md5=? , lat=?, lon=? WHERE path=? AND (FROM PATHS SELECT path_id WHERE path=?)");
                 //we need to change the path to remove the root directory
                 String[] decomposedPath = this.decomposePath(mediaFileDescriptorIF.getPath());
                 psmnt.setString(1, decomposedPath[1]);
                 psmnt.setInt(2, this.getIndexedPaths().indexOf(decomposedPath[0]) + 1);
                 psmnt.setLong(3, mediaFileDescriptorIF.getSize());
                 psmnt.setLong(4, mediaFileDescriptorIF.getMtime());
-                psmnt.setString(5, mediaFileDescriptorIF.getHash());
-                psmnt.setString(6, mediaFileDescriptorIF.getMD5());
-                psmnt.setDouble(7, mediaFileDescriptorIF.getLat());
-                psmnt.setDouble(8, mediaFileDescriptorIF.getLon());
-                psmnt.setString(9, decomposedPath[1]);
-                psmnt.setString(10, decomposedPath[0]);
+
+                BitSet bitSet = mediaFileDescriptorIF.getHash();
+                //int hash [] = Utils.bitSetToInts(bitSet);
+                long hash [] = bitSet.toLongArray();
+
+                psmnt.setLong(5, hash [0]);
+                psmnt.setLong(6, hash [1]);
+
+                psmnt.setString(7, mediaFileDescriptorIF.getMD5());
+                psmnt.setDouble(8, mediaFileDescriptorIF.getLat());
+                psmnt.setDouble(9, mediaFileDescriptorIF.getLon());
+                psmnt.setString(10, decomposedPath[1]);
+                psmnt.setString(11, decomposedPath[0]);
                 psmnt.execute();
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -362,7 +375,7 @@ public class DBManager implements DBManagerIF {
         ResultSet res = null;
         try {
             PreparedStatement psmnt = this.connection.prepareStatement("FROM IMAGES, PATHS " +
-                    "SELECT paths.path||images.path as path,id,size,mtime,md5,hash,lat,lon WHERE (paths.path||images.path)=? AND images.path_ID=paths.path_ID", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+                    "SELECT paths.path||images.path as path,id,size,mtime,md5,hash0,hash1,lat,lon WHERE (paths.path||images.path)=? AND images.path_ID=paths.path_ID", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
             psmnt.setString(1, path);
             //		st = connection.createStatement();
             psmnt.execute();
@@ -383,7 +396,7 @@ public class DBManager implements DBManagerIF {
             String[] decomposedPath = this.decomposePath(path);
             if (decomposedPath == null) {
                 psmnt = this.connection.prepareStatement("FROM IMAGES, PATHS " +
-                        "SELECT paths.path||images.path as fpath,id,size,mtime,md5,hash,lat,lon WHERE (paths.path||images.path)=? AND images.path_ID=paths.path_ID", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+                        "SELECT paths.path||images.path as fpath,id,size,mtime,md5,hash0,hash1,lat,lon WHERE (paths.path||images.path)=? AND images.path_ID=paths.path_ID", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
                 psmnt.setString(1, path);
             } else {
                 psmnt = this.connection.prepareStatement("SELECT * FROM IMAGES WHERE path=?", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
@@ -405,7 +418,7 @@ public class DBManager implements DBManagerIF {
             PreparedStatement psmnt = this.connection.prepareStatement(
                     //"SELECT * FROM IMAGES WHERE id=?"
                     "FROM IMAGES, PATHS\n" +
-                            "SELECT paths.path||images.path as path,id,size,mtime,md5,hash,lat,lon   WHERE images.id=? AND images.path_ID=paths.path_ID"
+                            "SELECT paths.path||images.path as path,id,size,mtime,md5,hash0,hash1,lat,lon   WHERE images.id=? AND images.path_ID=paths.path_ID"
                     , ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
             psmnt.setInt(1, index);
             psmnt.execute();
@@ -458,7 +471,7 @@ public class DBManager implements DBManagerIF {
         try {
             sta = this.connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
             return sta.executeQuery("FROM IMAGES, PATHS " +
-                    "SELECT PATHS.path||IMAGES.path as path, id, size, mtime, md5, hash, lat,lon WHERE " +
+                    "SELECT PATHS.path||IMAGES.path as path, id, size, mtime, md5,hash0,hash1, lat,lon WHERE " +
                     " paths.path_id=images.path_id ");
         } catch (SQLException e) {
             e.printStackTrace();
@@ -474,11 +487,11 @@ public class DBManager implements DBManagerIF {
         String query = null;
         if (!gps) {
             query = "FROM IMAGES, PATHS " +
-                    "SELECT paths.path||images.path as path,size,mtime,md5,hash,lat,lon WHERE" +
+                    "SELECT paths.path||images.path as path,size,mtime,md5,hash0,hash1,lat,lon WHERE" +
                     " paths.path_id=images.path_id AND (LCASE(paths.path||images.path)) LIKE LCASE(\'%" + filter + "%\')";
         } else {
             query = "FROM IMAGES, PATHS " +
-                    "SELECT paths.path||images.path as path,size,mtime,md5,hash,lat,lon WHERE " +
+                    "SELECT paths.path||images.path as path,size,mtime,md5,hash0,hash1,lat,lon WHERE " +
                     " paths.path_id=images.path_id AND (LCASE(paths.path||images.path)) LIKE LCASE(\'%" + filter + "%\') " +
                     "AND  (lat <> 0 OR lon <>0))";
         }
@@ -496,7 +509,7 @@ public class DBManager implements DBManagerIF {
         }
         return list;
     }
-    // I think it is a dead method
+
     @Override
     public String getPath(int[] data) {
         Statement sta;

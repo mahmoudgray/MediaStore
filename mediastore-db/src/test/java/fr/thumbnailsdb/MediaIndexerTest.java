@@ -10,6 +10,7 @@ import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptorBuilder;
 import fr.thumbnailsdb.lsh.LSHManager;
 import fr.thumbnailsdb.lsh.LSHManagerIF;
 import fr.thumbnailsdb.mediaIndexers.MediaIndexer;
+import org.apache.commons.io.FileUtils;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -48,15 +49,11 @@ public class MediaIndexerTest {
         dbManagerIF =null;
         mediaIndexer=null;
         mediaFileDescriptorBuilder=null;
-       // FileUtils.deleteDirectory(tmpDir);
-        tmpDir.delete();
+        FileUtils.deleteDirectory(tmpDir);
         try{
-            //FileUtils.deleteDirectory(new File("lsh"));
-            (new File("lsh")).delete();
-           // FileUtils.deleteDirectory(new File("lsh.p"));
-            (new File("lsh.p")).delete();
-           // FileUtils.deleteDirectory(new File("lsh.t"));
-            (new File("lsh.t")).delete();
+            FileUtils.deleteDirectory(new File("lsh"));
+            FileUtils.deleteDirectory(new File("lsh.p"));
+            FileUtils.deleteDirectory(new File("lsh.t"));
         } catch (Exception e) {
 
         }

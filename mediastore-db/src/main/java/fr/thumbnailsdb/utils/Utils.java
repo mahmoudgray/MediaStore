@@ -9,6 +9,7 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.BitSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -31,6 +32,58 @@ public class Utils {
     public static boolean isValideImageName(final String image) {
         imageMatcher = imagePattern.matcher(image);
         return imageMatcher.matches();
+    }
+
+    public static int [] bitSetToInts(BitSet bitSet) {
+
+            int hash [] = {0,0,0,0};
+            for (int j = 0; j < 100; j++) {
+                int b = bitSet.get(j)?1:0;
+                if (b == 1) {
+                    if ((j >= 0) && (j <= 30)) {
+                        hash[0] += Math.pow(2, j);
+                    }
+                    if ((j >= 31) && (j <= 61)) {
+                        hash[1] += Math.pow(2, j - 31);
+                    }
+                    if ((j >= 62) && (j <= 92)) {
+                        hash[2] += Math.pow(2, j - 62);
+                    }
+                    if ((j >= 93) && (j <= 99)) {
+                        hash[3] += Math.pow(2, j - 93);
+                    }
+                }
+            }
+        return hash;
+    }
+
+    public static BitSet toBitSet(int hash[]){
+        BitSet bitSet = new BitSet();
+        for(int i=0;i<=2;i++){
+            for(int j=(i*31) ; j<=(i*31+30);j++){
+                //System.out.println(x);
+                if(hash[i]%2==1){
+                    bitSet.set(j,true);
+                }
+                if(hash[i]%2==0){
+                    bitSet.set(j,false);
+                }
+                hash[i] = hash[i]/2;
+            }
+        }
+        for(int j=93 ; j<=99;j++){
+            //System.out.println(x);
+            if(hash[3]%2==1){
+                bitSet.set(j,true);
+            }
+            if(hash[3]%2==0){
+                bitSet.set(j,false);
+            }
+            hash[3] = hash[3]/2;
+        }
+
+        return bitSet;
+
     }
 
 

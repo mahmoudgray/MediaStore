@@ -2,11 +2,11 @@ package fr.thumbnailsdb.lsh;
 
 import fr.thumbnailsdb.candidates.Candidate;
 import fr.thumbnailsdb.lsh.KbitLSH;
+import fr.thumbnailsdb.utils.ComparableBitSet;
 import org.mapdb.DB;
 import org.mapdb.Fun;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.NavigableSet;
+
+import java.util.*;
 
 /**
  * Created by fhuet on 23/04/2014.
@@ -14,7 +14,7 @@ import java.util.NavigableSet;
 public class PersistentLSHTable {
 
     private KbitLSH hashFunction;
-    NavigableSet<Fun.Tuple2<String, Candidate>> multiMap;
+    NavigableSet<Fun.Tuple2<ComparableBitSet, Candidate>> multiMap;
 
     public PersistentLSHTable(int k, int maxExcluded, int index, DB db) {
          hashFunction = new KbitLSH(k, maxExcluded, index);
@@ -24,13 +24,13 @@ public class PersistentLSHTable {
            multiMap = db.createTreeSet("lsh" + index).counterEnable().make();
         }
     }
-    public void add(String hash, int index) {
-        String hv = hashFunction.hash(hash);
-        multiMap.add(Fun.t2(hv,new Candidate(index, hash)));
+    public void add(BitSet hash, int index) {
+        BitSet hv = hashFunction.hash(hash);
+        multiMap.add(Fun.t2(new ComparableBitSet(hv),new Candidate(index, hash)));
     }
-    public List<Candidate> get(String key) {
+    public List<Candidate> get(BitSet key) {
         List<Candidate> list = new ArrayList<>();
-        for(Candidate l: Fun.filter(multiMap, hashFunction.hash(key))){
+        for(Candidate l: Fun.filter(multiMap, new ComparableBitSet(hashFunction.hash(key)))){
             list.add(l);
         }
         return list;
@@ -42,3 +42,5 @@ public class PersistentLSHTable {
         return multiMap.size();
     }
 }
+
+

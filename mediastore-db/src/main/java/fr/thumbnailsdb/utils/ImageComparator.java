@@ -10,6 +10,7 @@ import fr.thumbnailsdb.hash.ImageHash;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.BitSet;
 
 import javax.imageio.ImageIO;
 
@@ -119,34 +120,27 @@ public class ImageComparator {
         }
         return total;
     }
-    public static double compareUsingHammingDistance(String sg1, String sg2) {
-        if (sg1.length() != sg2.length()) {
-            return -1;
-        }
+    public static double compareUsingHammingDistance(BitSet sg1, BitSet sg2) {
+        //if (sg1.length() != sg2.length()) {
+         //  return -1;
+       // }
 
         int distance = 0;
+
+        BitSet temp = (BitSet)sg1.clone();
+        temp.xor(sg2);
+        distance = temp.cardinality();
+        /*
         for (int i = 0; i < sg1.length(); i++) {
-            if (sg1.charAt(i) != sg2.charAt(i)) {
+            if (sg1.get(i) != sg2.get(i)) {
                 distance++;
             }
         }
+        */
         return distance;
     }
-    protected static void testFullScaleImages() throws IOException {
-        System.out.println("ImageComparator.main() ---- similar images");
-        String path = "/user/fhuet/desktop/home/workspaces/rechercheefficaceimagessimilaires/images/original.jpg";
-        BufferedImage img = ImageIO.read(new File(path));
-        String path2 = "/user/fhuet/desktop/home/workspaces/rechercheefficaceimagessimilaires/images/original-modifie.jpg";
-        BufferedImage img2 = ImageIO.read(new File(path2));
-        ImageComparator.compareUsingRMSE(img, img2);
 
-        System.out.println("ImageComparator.main() ---- different images");
-        path = "/user/fhuet/desktop/home/workspaces/rechercheefficaceimagessimilaires/images/original.jpg";
-        img = ImageIO.read(new File(path));
-        path2 = "/user/fhuet/desktop/home/workspaces/rechercheefficaceimagessimilaires/images/original-different.jpg";
-        img2 = ImageIO.read(new File(path2));
-        ImageComparator.compareUsingRMSE(img, img2);
-    }
+    /*
     protected static void testThumbnailImages() throws IOException {
         int x = 10;
         int y = 10;
@@ -193,5 +187,7 @@ public class ImageComparator {
         testThumbnailImages();
 
     }
+
+    */
 
 }

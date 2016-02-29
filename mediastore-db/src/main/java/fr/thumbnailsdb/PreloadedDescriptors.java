@@ -5,6 +5,7 @@ import fr.thumbnailsdb.dbservices.DBManagerIF;
 import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptor;
 import fr.thumbnailsdb.descriptorbuilders.MediaFileDescriptorIF;
 import fr.thumbnailsdb.utils.ProgressBar;
+import fr.thumbnailsdb.utils.Utils;
 
 
 import java.sql.ResultSet;
@@ -58,14 +59,25 @@ public class PreloadedDescriptors {
                     int id = res.getInt("id");
                     String md5 = res.getString("md5");
                     long size = res.getLong("size");
-                    String hash = res.getString("hash");
+
+                    //String hash = res.getString("hash");
+
+                    long hash [] = new long[2];
+                    hash[0] = res.getLong("hash0");
+                    hash[1] = res.getLong("hash1");
+                    //hash[2] = res.getInt("hash2");
+                    //hash[3] = res.getInt("hash3");
+
+
+
+
                     if (path != null && md5 != null) {
                         MediaFileDescriptorIF imd = new MediaFileDescriptor(dbManagerIF);
                         if (useFullPath) {
                             imd.setPath(path);
                         }
                         imd.setId(id);
-                        imd.setHash(hash);
+                        imd.setHash(BitSet.valueOf(hash));
                         imd.setSize(size);
                         imd.setMd5Digest(md5);
                         imd.setConnection(dbManagerIF.getConnection());

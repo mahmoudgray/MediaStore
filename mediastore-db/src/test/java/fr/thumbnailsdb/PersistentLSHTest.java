@@ -2,6 +2,7 @@ package fr.thumbnailsdb;
 
 import fr.thumbnailsdb.candidates.Candidate;
 import fr.thumbnailsdb.lsh.PersistentLSH;
+import fr.thumbnailsdb.lsh.PersistentLSHTable;
 import org.apache.commons.io.FileUtils;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
@@ -9,6 +10,9 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.BitSet;
 import java.util.List;
 
 /**
@@ -79,7 +83,13 @@ public class PersistentLSHTest {
         persistentLSH.clear();
         for (int i = 0; i < input.length; i++) {
             String[] tokens = input[i].split(",");
-            persistentLSH.add(tokens[1], Integer.parseInt(tokens[0]));
+            BitSet bitSet = new BitSet();
+            for(int j=0;j<tokens[1].length();j++){
+                if(tokens[1].charAt(j)=='1'){
+                    bitSet.set(j);
+                }
+            }
+            persistentLSH.add(bitSet, Integer.parseInt(tokens[0]));
         }
         Assert.assertEquals(persistentLSH.size(),input.length);
     }
@@ -90,9 +100,23 @@ public class PersistentLSHTest {
                 "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
         };
 
-        List<Candidate> result = persistentLSH.lookupCandidates(hash[0]);
+        BitSet bitSet = new BitSet();
+        for(int j=0;j<hash[0].length();j++){
+            if(hash[0].charAt(j)=='1'){
+                bitSet.set(j);
+            }
+        }
+
+        List<Candidate> result = persistentLSH.lookupCandidates(bitSet);
         Assert.assertEquals(result.size(),1);
-        result = persistentLSH.lookupCandidates(hash[1]);
+
+        bitSet = new BitSet();
+        for(int j=0;j<hash[1].length();j++){
+            if(hash[1].charAt(j)=='1'){
+                bitSet.set(j);
+            }
+        }
+        result = persistentLSH.lookupCandidates(bitSet);
         Assert.assertEquals(result.size(),0);
 
     }

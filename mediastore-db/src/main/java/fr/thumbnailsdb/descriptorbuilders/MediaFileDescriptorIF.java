@@ -3,6 +3,7 @@ package fr.thumbnailsdb.descriptorbuilders;
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
 import java.sql.Connection;
+import java.util.BitSet;
 
 /**
  * Created by mohannad on 03/01/16.
@@ -26,9 +27,9 @@ public interface MediaFileDescriptorIF extends Serializable, Comparable<MediaFil
 
     void setPath(String path);
 
-    String getHash();
+    BitSet getHash();
 
-    void setHash(String hash);
+    void setHash(BitSet hash);
 
     void setSize(long size);
 

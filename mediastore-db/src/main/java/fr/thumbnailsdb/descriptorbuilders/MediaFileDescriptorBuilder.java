@@ -12,6 +12,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.BitSet;
 
 /**
  * Created by mohannad on 02/12/15.
@@ -57,9 +58,14 @@ public class MediaFileDescriptorBuilder {
             String md5 = res.getString("md5");
             long mtime = res.getLong("mtime");
             long size = res.getLong("size");
-            String hash = res.getString("hash");
+            long hash [] = new long[2];
+            hash[0] = res.getLong("hash0");
+            hash[1] = res.getLong("hash1");
+            //hash[2] = res.getInt("hash2");
+            //hash[3] = res.getInt("hash3");
 
-            id = new MediaFileDescriptor(path, size, mtime, md5, hash,this.dbManagerIF);
+
+            id = new MediaFileDescriptor(path, size, mtime, md5, BitSet.valueOf(hash),this.dbManagerIF);
             id.setId(res.getInt("id"));
         } catch (SQLException e) {
         }
