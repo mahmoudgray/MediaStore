@@ -7,7 +7,7 @@
 			restrict: 'A',
 			link: function(scope, element, attrs){
 
-			};
+			}
 		};
 	}]);
 })();

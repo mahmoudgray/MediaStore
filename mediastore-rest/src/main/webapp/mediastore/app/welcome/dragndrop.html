@@ -1,0 +1,20 @@
+<div class="container">
+    <h2></h2>
+    <br>
+    <!--<button ng-click="hello()">say hello</button>-->
+    <form id="formUpload" name="formUpload" method="post" enctype="multipart/form-data">
+        <input type="hidden" id="namesAllFiles" name="namesAllFiles"/>
+
+        <div id="filedrag"
+             ondragover="return false;" ondrop="dropHandler(event)">
+            <div id="dropText"> Drop files here</div>
+            <ol id="droppedFiles"></ol>
+        </div>
+    </form>
+
+    <!--ondrop="dropHandler(event)"-->
+    <div id="duplicate_upload_source" style="margin:10px 10px"></div>
+    <div id="lshStatus"></div>
+    <div id="duplicate_upload_result"
+         style="margin-left:auto; margin-right:auto ; clear:both; height:80%; width:95%; overflow-x:hidden; overflow-y:auto"></div>
+</div>

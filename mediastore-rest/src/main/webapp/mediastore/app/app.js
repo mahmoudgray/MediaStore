@@ -6,6 +6,7 @@ angular.module('mediastore',  ['ngRoute',
     'folders.directive',
     'dragndrop.ctrl',
     'thumbstore.ctrl',
+    'dragndrop.controller',
     'thumbnail.ctrl',
     'duplicatefolders.ctrl',
     'duplicatemedias.ctrl']).
@@ -16,7 +17,7 @@ config(['$routeProvider', function($routeProvider){
     $routeProvider.when('/thumbnail-gallery', {templateUrl:'mediastore/app/welcome/thumbnail-gallery.html', controller:'ThumbnailCtrl'});
     $routeProvider.when('/duplicate-medias', {templateUrl:'mediastore/app/welcome/duplicate-medias.html', controller:'DuplicateMediasCtrl'});
     $routeProvider.when('/duplicate-folders', {templateUrl:'mediastore/app/welcome/duplicate-folders.html', controller:'DuplicateFoldersCtrl'});
-    $routeProvider.when('/thumbnail-gps', {templateUrl:'mediastore/app/welcome/thumbnail-gps.html', controller:'ThumbnailCtrl'});
+    $routeProvider.when('/dragndrop', {templateUrl:'mediastore/app/welcome/dragndrop.html', controller:'DragndropController'});
     $routeProvider.when('/thumbnail-drag', {templateUrl:'mediastore/app/welcome/thumbnail-drag.html', controller:'DragNdropCtrl'});
     $routeProvider.otherwise({redirectTo : '/'});
 }]);

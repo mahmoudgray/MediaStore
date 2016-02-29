@@ -106,11 +106,14 @@
                 if (xhr.readyState == 4) {
                     //    debugger;
                     // continue only if HTTP status is "OK"
+                    alert("inside first IF "+xhr.status);
+
                     if (xhr.status == 200) {
-                    	console.log(jQuery.parseJSON(xhr.responseText));
+                    	//console.log(jQuery.parseJSON(xhr.responseText));
                         //      debugger;
 //                    alert("finished!");
-                        $scope.result.push(jQuery.parseJSON(xhr.responseText))
+                        alert("Inside Status 200");
+                        //$scope.result.push(jQuery.parseJSON(xhr.responseText))
                         //localFinished(0, 0, jQuery.parseJSON(xhr.responseText));
                     }
                 }

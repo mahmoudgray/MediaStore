@@ -3,32 +3,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="utf-8">
     <title>Media Store</title>
-    <style>
-        .my-drop-zone { border: dotted 3px lightgray; }
-        .nv-file-over { border: dotted 3px red; } /* Default class applied to drop zones on over */
-        .another-file-over-class { border: dotted 3px green; }
-
-        html, body { height: 100%; }
-        /**
-        canvas {
-            background-color: #f3f3f3;
-            -webkit-box-shadow: 3px 3px 3px 0 #e3e3e3;
-            -moz-box-shadow: 3px 3px 3px 0 #e3e3e3;
-            box-shadow: 3px 3px 3px 0 #e3e3e3;
-            border: 1px solid #c3c3c3;
-            height: 100px;
-            margin: 6px 0 0 6px;
-        }**/
-    </style>
 
 
 
-    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" href="lib/css/styles.css">
+    <!-- JQuery-->
+    <script src="lib/jquery/jquery.min.js"></script>
+    <script src="lib/jquery/jquery-ui.js"></script>
+    <link rel="stylesheet" href="lib/jquery/jquery-ui.css">
+    <script src="drag.js"></script>
+
+
     <!-- Bootstrap-->
-    <!--<link rel="stylesheet" href="lib/bootstrap/bootstrap.min.css" />-->
-    <!--<link rel="stylesheet" href="lib/css/bootstrap.min.css"/>-->
+    <script src="lib/bootstrap/bootstrap.min.js"></script>
+    <!--<script src="lib/bootstrap/bootstrap.min.css"></script>-->
+    <!--<script src="http://cdnjs.cloudflare.com/ajax/libs/blueimp-file-upload/9.5.7/jquery.fileupload-image.js"></script>-->
 
     <!--AngularJS-->
     <script src="lib/angular/angular.min.js"></script>
@@ -42,6 +35,19 @@
     <script src="lib/canvas/jquery.canvasjs.min.js"></script>
     <!--<script src="lib/bootstrap/bootstrap.min.js"></script>-->
 
+
+    <!-- File Uploader -->
+    <script src="lib/fileupload/load-image.min.js"></script>
+    <script src="lib/fileupload/customCanvas.js"></script>
+    <script src="lib/fileupload/jquery.iframe-transport.js"></script>
+    <script src="lib/fileupload/jquery.ui.widget.js"></script>
+    <script src="lib/fileupload/main.js"></script>
+    <script src="lib/fileupload/mustache.js"></script>
+    <script src="lib/fileupload/jquery.fileupload.js"></script>
+    <script src="lib/fileupload/jquery.fileupload-fp.js"></script>
+    <link rel="stylesheet" href="lib/fileupload/fileuploader.css">
+    <script src="lib/fileupload/fileuploader.js"></script>
+
     <!--Mediastore-->
     <script src="mediastore/app/app.js"></script>
     <script src="mediastore/common/services/folderService.js"></script>
@@ -50,6 +56,7 @@
     <script src="mediastore/common/directives/ngThumbDirective.js"></script>
     <script src="mediastore/common/controllers/thumbnailCtrl.js"></script>
     <script src="mediastore/common/controllers/thumbstoreCtrl.js"></script>
+    <script src="mediastore/common/controllers/dragndropController.js"></script>
     <script src="mediastore/common/controllers/duplicateFoldersCtrl.js"></script>
     <script src="mediastore/common/controllers/dragNdropCtrl.js"></script>
     <script src="mediastore/common/controllers/duplicateMediasCtrl.js"></script>
@@ -59,16 +66,17 @@
     <iframe src="" height="30"
             style="width:100%; border: 0; padding: 0; overflow-x: hidden; display: block" class="frame"></iframe>
 </div>
-
-<ul class="nav nav-tabs">
-    <li role="presentation" class="active"><a href="#/">ThumbStore Controle</a></li>
-    <li role="presentation"><a href="#/duplicate-medias">Duplicate Medias</a></li>
-    <li role="presentation"><a href="#/duplicate-folders">Duplicate Folders</a></li>
-    <li role="presentation"><a href="#/thumbnail-list">All</a></li>
-    <li role="presentation"><a href="#/thumbnail-drag">Drag'n'Drop</a></li>
-    <li role="presentation"><a href="#/thumbnail-gps">GPS</a></li>
-    <li role="presentation"><a href="#/thumbnail-gallery">Gallery</a></li>
-</ul>
+<div class="container">
+    <ul class="nav nav-tabs">
+        <li role="presentation" class="active"><a href="#/">ThumbStore Controle</a></li>
+        <li role="presentation"><a href="#/duplicate-medias">Duplicate Medias</a></li>
+        <li role="presentation"><a href="#/duplicate-folders">Duplicate Folders</a></li>
+        <li role="presentation"><a href="#/thumbnail-list">All</a></li>
+        <!--<li role="presentation"><a href="#/thumbnail-drag">Drag'n'Drop</a></li>-->
+        <li role="presentation"><a href="#/dragndrop">Drag'n'Drop</a></li>
+        <li role="presentation"><a href="#/thumbnail-gallery">Gallery</a></li>
+    </ul>
+</div>
 
 <div ng-view></div>
 

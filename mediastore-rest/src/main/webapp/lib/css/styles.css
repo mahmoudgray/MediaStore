@@ -1,0 +1,55 @@
+ #filedrag {
+
+    display: block;
+    font-weight: bold;
+    text-align: center;
+    padding: 1em 0;
+    margin: 1em 0;
+    color: #555;
+    border: 2px dashed #555;
+    border-radius: 7px;
+    cursor: default;
+     /**border: dotted 3px lightgray;**/
+}
+
+#filedrag:hover {
+    color: #f00;
+    border-color: #f00;
+    border-style: solid;
+    box-shadow: inset 0 3px 4px #888;
+}
+
+#duplicate_upload_result{
+    margin-left:auto; 
+    margin-right:auto ; 
+    clear:both; height:80%; 
+    width:95%; 
+    overflow-x:hidden; 
+    overflow-y:auto;
+}
+
+.my-drop-zone { 
+    border: dotted 3px lightgray; 
+}
+.nv-file-over { 
+    border: dotted 3px red; 
+} 
+/* Default class applied to drop zones on over */
+.another-file-over-class { 
+    border: dotted 3px green; 
+}
+
+html, body { 
+    height: 100%; 
+}
+ 
+ /**  
+canvas {
+    background-color: #f3f3f3;
+    -webkit-box-shadow: 3px 3px 3px 0 #e3e3e3;
+    -moz-box-shadow: 3px 3px 3px 0 #e3e3e3;
+    box-shadow: 3px 3px 3px 0 #e3e3e3;
+    border: 1px solid #c3c3c3;
+    height: 100px;
+    margin: 6px 0 0 6px;
+}**/
