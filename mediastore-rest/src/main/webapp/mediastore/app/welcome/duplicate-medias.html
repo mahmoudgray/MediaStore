@@ -18,7 +18,7 @@
         </thead>
 
         <tbody>
-        <tr ng-repeat="r in result">
+        <tr ng-repeat="r in result | orderBy:'fileSize'">
             <td>{{r.fileSize}}</td>
             <td>{{r.al.length}}</td>
             <td>

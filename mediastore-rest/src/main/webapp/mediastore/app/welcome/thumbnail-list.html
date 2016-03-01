@@ -18,7 +18,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr ng-repeat="img in images">
+        <tr ng-repeat="img in images | orderBy:'path'">
             <td>{{img.path}}</td>
             <td>{{img.size}}</td>
             <td>

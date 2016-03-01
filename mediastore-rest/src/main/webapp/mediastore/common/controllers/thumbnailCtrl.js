@@ -10,6 +10,7 @@
         var app = this;
         $scope.input = "";
         $scope.showThumbnail = false;
+        $scope.images = [];
        // $scope.gps = false;
         $scope.getAll = function () {
 
