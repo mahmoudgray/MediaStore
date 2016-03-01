@@ -6,10 +6,10 @@
     </form>
 
     <div class="row">
-        <div class="col-lg-3 col-md-4 col-xs-6 thumb" ng-repeat="img in images" ng-if="images.length > 0">
+        <div class="col-lg-3 col-md-4 col-xs-6 thumb" ng-repeat="img in images">
             <a class="thumbnail" href="#">
-                <img ng-if="img.path" class="img-responsive"
-                     src="rest/hello/getThumbnail?path={{img.path}}&w=600&h=600"
+                <img class="img-responsive"
+                     ng-src="rest/hello/getThumbnail?path={{img.path}}&w=600&h=600"
                      title="{{img.path}}">
             </a>
         </div>
