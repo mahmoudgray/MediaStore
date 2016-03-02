@@ -16,11 +16,14 @@
         </tr>
         </thead>
         <tbody>
-        <tr ng-repeat="r in result | orderBy:'totalSize'">
-            <td>{{r.totalSize / 1024.0 / 1024 | number : 4}}</td>
+        <tr ng-repeat="r in result | orderBy:'-totalSize'">
+            <td>{{r.totalSize / 1024.0 / 1024 | number:4}} MB</td>
             <td>{{r.filesInFolder1 + r.filesInFolder2}}</td>
+            <td>{{r.occurences}}/{{r.filesInFolder1}}</td>
+            <!--
             <td>{{r.occurences * 100.0 / r.filesInFolder1 | number : 0}}</td>
-            <td>{{r.occurences * 100.0 / r.filesInFolder2 | number : 0}}</td>
+            -->
+            <td>{{r.occurences}}/{{r.filesInFolder2}}</td>
             <td>{{r.folder1}}<br>{{r.folder2}}</td>
             <td>
                 <a ng-click="generatePathLink(r.folder1, null)" class="btn btn-xs btn-info"><span class="glyphicon glyphicon-folder-open"></span>   folders</a><br>
