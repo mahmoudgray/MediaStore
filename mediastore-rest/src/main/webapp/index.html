@@ -50,6 +50,7 @@
 
     <!--Mediastore-->
     <script src="mediastore/app/app.js"></script>
+    <script src="mediastore/common/controllers/headerController.js"></script>
     <script src="mediastore/common/services/folderService.js"></script>
     <script src="mediastore/common/services/services.js"></script>
     <script src="mediastore/common/directives/folderDirective.js"></script>
@@ -66,17 +67,18 @@
     <iframe src="" height="30"
             style="width:100%; border: 0; padding: 0; overflow-x: hidden; display: block" class="frame"></iframe>
 </div>
-<div class="container">
+<div class="container" ng-controller="HeaderController">
+   
     <ul class="nav nav-tabs">
-        <li role="presentation" class="active"><a href="#/">ThumbStore Controle</a></li>
-        <li role="presentation"><a href="#/duplicate-medias">Duplicate Medias</a></li>
-        <li role="presentation"><a href="#/duplicate-folders">Duplicate Folders</a></li>
-        <li role="presentation"><a href="#/thumbnail-list">All</a></li>
-        <!--<li role="presentation"><a href="#/thumbnail-drag">Drag'n'Drop</a></li>-->
-        <li role="presentation"><a href="#/dragndrop">Drag'n'Drop</a></li>
-        <li role="presentation"><a href="#/thumbnail-gallery">Gallery</a></li>
+        <li role="presentation" ng-class="{ active: isActive('/')}"><a href="#/">ThumbStore Controle</a></li>
+        <li role="presentation" ng-class="{ active: isActive('/duplicate-medias')}"><a href="#/duplicate-medias">Duplicate Medias</a></li>
+        <li role="presentation" ng-class="{ active: isActive('/duplicate-folders')}"><a href="#/duplicate-folders">Duplicate Folders</a></li>            
+        <li role="presentation" ng-class="{ active: isActive('/thumbnail-list')}"><a href="#/thumbnail-list">All</a></li>
+            <!--<li role="presentation"><a href="#/thumbnail-drag">Drag'n'Drop</a></li>-->
+        <li role="presentation" ng-class="{ active: isActive('/dragndrop')}"><a href="#/dragndrop">Drag'n'Drop</a></li>
+        <li role="presentation" ng-class="{ active: isActive('/thumbnail-gallery')}"><a href="#/thumbnail-gallery">Gallery</a></li>
     </ul>
-</div>
+</div> 
 
 <div ng-view></div>
 

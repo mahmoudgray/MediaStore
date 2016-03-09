@@ -39,7 +39,6 @@
         var updateInterval = 1000;
         var dataLength = 50; // number
 
-
         $scope.updateChart = function(){
             var response = $http.get('rest/hello/monitor');
             response.success(function(data, status, headers, config){

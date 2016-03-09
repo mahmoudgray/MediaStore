@@ -1,6 +1,7 @@
 'use strict';
 
 angular.module('mediastore',  ['ngRoute',
+    'header.controller',
     'folders.service',
     'fileupload.directive',
     'folders.directive',
