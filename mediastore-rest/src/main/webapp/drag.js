@@ -71,6 +71,7 @@ function displaySrcImage(image) {
     }(img));
     reader.readAsDataURL(image);
     // display the source image
+    img.className = "smallImage";
     $("#duplicate_upload_source").children().remove();
     $("#duplicate_upload_result").children().remove();
     div_t = document.createElement("div");
