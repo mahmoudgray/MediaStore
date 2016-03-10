@@ -1,16 +1,26 @@
+var dic = {};
+var buttons = [];
+
 function getFolder(par){
-    var n = par.lastIndexOf('/');
+    var folder="";
+    if(par!==undefined){
+        var n = par.lastIndexOf('/');
     if (n == -1) {
         //ok, maybe it's a windows path
         n = par.lastIndexOf('\\');
     }
     //  var file = path.substring(n + 1);
-    var folder = par.substring(0, n);
+    folder = par.substring(0, n);
+    //return folder;    
+    }
     return folder;
+    
 }
 
-function callOpen(para1, para2) {
+function callOpen(para1) {
     //  debugger;
+    //console.log("para1:" + para1);
+    var para2 = null;
     var result = {}
     var folders = [];
     if (para1 != null) {
@@ -23,34 +33,71 @@ function callOpen(para1, para2) {
     result.folders = folders;
     $.getJSON("rest/hello/open", {path:JSON.stringify(result)});
 }
+
+/**
+function toFileLink(path) {
+    return  '<a class="pathlink btn-mini btn-primary" href="#/dragndrop" data-p1="' + path + '">file</a>'
+}
+
 function toFolderLink(path) {
     var a1 = '  <a class="pathlink btn-mini btn-info" href="#/dragndrop"  data-p1="' + path + '">';
     var a2 = 'folder<a>';
     return  a1 + a2;
-}
+}**/
 
 function generatePathLink() {
     $('.pathlink').click(function () {
+        console.log("Open folder !")
+        /**
         var $this = $(this);
         var p1 = $this.data('p1');
         var p2 = $this.data('p2');
         var folders = [];
         folders.push(p1);
         folders.push(p2);
-        callOpen(folders[0], folders[1]);
+        callOpen(folders[0], folders[1]);**/
     });
 }
 
 
-function toFileLink(path) {
-    return  '<a class="pathlink btn-mini btn-primary" href="#/dragndrop" data-p1="' + path + '">file</a>'
+function toFolderLink(path) {
+    var a1 = '  <a class="pathlink btn-mini btn-info" href="#/dragndrop"  data-p1="' + path + '">';
+    var a2 = 'folder<a>';
+    return  a1 + a2;
 }
 
+function toFileLink(path) {
+    return  '<a class="pathlink btn-mini btn-primary" href="#/dragndrop"  data-p1="' + path + '">file</a>'
+}
+
+function hello(msg){
+    var folder = getFolder(msg);
+    console.log("------->"+msg);
+}
+
+function toFileLink_(path){
+    //console.log(path);
+    return '<button onclick="callOpen(\'' + path + '\')">file</button>'
+}
+
+function toFolderLink_(path){
+    var folder = getFolder(path);
+    return '<button onclick="callOpen(\'' + path + '\')">folder</button>'
+
+}
+
+
+function toFolderAndFileLink(path){
+    path = 'C:/Users/mahmo_000/MediaStore/testImages/folder1/cars.jpg';
+    var folder = getFolder(path);
+    return toFileLink_(path) + ' ' + toFolderLink_(folder);
+}
+/**
 function toFolderAndFileLink(path) {
     var folder = getFolder(path);
     return path + '' + toFileLink(path) + '    ' +
         toFolderLink(folder);
-}
+}**/
 function generatePathLink(par){
     var folder = getFolder(par);
     callOpen(folder, null);
@@ -200,7 +247,7 @@ function bytesToSize(bytes) {
 
 function dropHandler(event) {
     //  console.log('drop event');
-    //   debugger;
+    //  debugger;
 
     //clean the text area
     $("#dropText").hide();
@@ -243,6 +290,8 @@ function dropHandler(event) {
         }
         uploadBlobs(tab_files);
     }
+    buttons = $('button');
+    bindAllButtons();
 }
 
 function uploadBlobs(tab_files) {
@@ -278,7 +327,22 @@ function uploadBlobs(tab_files) {
     }
     console.log(tab_files.length + ' file(s) have been dropped:\n' + filenames);
 }
+/**
 
+function equalHeight(group) {
+    tallest = 0;
+    //                      debugger;
+    group.each(function () {
+        thisHeight = $(this).height();
+        if (thisHeight > tallest) {
+            tallest = thisHeight;
+        }
+    });
+    // debugger;
+    group.each(function () {
+        $(this).height(tallest);
+    });
+}**/
 /**
  function displaySimilarImages(sourceSignature, object){
 
@@ -301,7 +365,8 @@ function displaySimilarImages(sourceSignature, object) {
     var ul = document.createElement('ul');
     ul.className = "list-group";
 
-
+    var i = 0;
+    //j = 1;
     for (f in object) {
         //we want to build elements with the following form
 //        <li class="span4">
@@ -368,9 +433,15 @@ function displaySimilarImages(sourceSignature, object) {
         var canv = new customCanvas(sigTag, 100, 100);
         spanSig.appendChild(canv.canvas);
         sourceSigCanvas.addOther(canv);
+        //var path = JSON.stringify(image.path);
+        //console.log(image.path);
 
-        caption.innerHTML = 'Distance:' + distance + ', Files in folder:  ' + image.foldersize + ' <br>  ' + toFolderAndFileLink(image.path)+ '</a><br>';
+        dic[i] = image.path;
+        var folder = getFolder(image.path);
+        dic[i+1] = folder;
+        caption.innerHTML = 'Distance:' + distance + ', Files in folder:  ' + image.foldersize + toFFLink(i)/**toFolderAndFileLink(image.path)**/+ '</a><br>';
 //        $('#duplicate_upload_result').append(li);
+        i +=2;
         ul.appendChild(li)
     }
 
@@ -379,10 +450,43 @@ function displaySimilarImages(sourceSignature, object) {
     $('#duplicate_upload_result').append(ul);
 
 //    $('#duplicate_upload_result').append('</ul>');
+    buttons = $('button');
+    //console.log(buttons);
+    bindAllButtons();
+    //console.log(dic);
     jQuery(document).ready(function () {
         generatePathLink();
+        bindAllButtons();
         jQuery('.nailthumb-container').nailthumb();
         jQuery('.nailthumb-image-titles-animated-onhover').nailthumb();
         equalHeight($(".caption"));
     });
 }
+
+
+
+function toFFLink(i){
+    var btni = "button"+i;
+    i++;
+    var btnj = "button"+i;
+    return '  <button class="btn btn-xs btn-primary" id="' + btni + '">file</button> ' + ' <button class="btn btn-xs btn-info" id="'+ btnj + '">folder</button>';
+}
+
+function bindButton(idBtn){
+    var btn = "#button"+idBtn;
+    $(btn).click(function(){
+        var path = dic[idBtn];
+        console.log(path);
+       callOpen(path,null);
+    });
+}
+
+function bindAllButtons(){
+    //if(buttons)
+    //buttons = $('button');
+    for(var i=0; i<buttons.length; i++){
+       bindButton(i);
+    }
+}
+
+bindAllButtons();
