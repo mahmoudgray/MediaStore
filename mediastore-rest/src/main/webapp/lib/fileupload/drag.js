@@ -34,10 +34,10 @@ function equalHeight(group) {
     });**/
 }
 
-function callOpen(para1) {
+function callOpen(para1, para2) {
     //  debugger;
     //console.log("para1:" + para1);
-    var para2 = null;
+    //var para2 = null;
     var result = {}
     var folders = [];
     if (para1 != null) {
@@ -450,7 +450,7 @@ function displaySimilarImages(sourceSignature, object) {
 //    $('#duplicate_upload_result').append('</ul>');
     buttons = $('button');
     //console.log(buttons);
-    bindAllButtons();
+    //bindAllButtons();
     //console.log(dic);
     jQuery(document).ready(function () {
         generatePathLink();
@@ -475,7 +475,7 @@ function bindButton(idBtn){
     $(btn).click(function(){
         var path = dic[idBtn];
         //console.log(path);
-       callOpen(path,null);
+       callOpen(path, null);
     });
 }
 
